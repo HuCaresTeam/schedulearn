@@ -16,5 +16,15 @@ namespace SchedulearnBackend.DataAccessLayer
 
         public DbSet<User> Users { get; set; }
         public DbSet<JobTitle> JobTitles { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            modelbuilder.Entity<Topic>()
+                .HasMany(e => e.SubTopics)
+                .WithOne(e => e.ParentTopic)
+                .HasForeignKey(e => e.ParentTopicId); //each comment from replies points back to its parent
+                
+        }
+
     }
 }

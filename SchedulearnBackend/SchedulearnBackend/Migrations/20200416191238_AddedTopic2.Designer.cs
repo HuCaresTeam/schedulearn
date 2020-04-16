@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulearnBackend.DataAccessLayer;
 
 namespace SchedulearnBackend.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20200416191238_AddedTopic2")]
+    partial class AddedTopic2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace SchedulearnBackend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Discription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -49,12 +51,12 @@ namespace SchedulearnBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentTopicId")
+                    b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentTopicId");
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Topics");
                 });
@@ -86,9 +88,9 @@ namespace SchedulearnBackend.Migrations
 
             modelBuilder.Entity("SchedulearnBackend.Models.Topic", b =>
                 {
-                    b.HasOne("SchedulearnBackend.Models.Topic", "ParentTopic")
+                    b.HasOne("SchedulearnBackend.Models.Topic", null)
                         .WithMany("SubTopics")
-                        .HasForeignKey("ParentTopicId");
+                        .HasForeignKey("TopicId");
                 });
 
             modelBuilder.Entity("SchedulearnBackend.Models.User", b =>
