@@ -1,0 +1,31 @@
+.title {
+  width: inherit;
+  border-bottom: 1px solid;
+}
+
+.backIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.backIcon:hover {
+  background-color: lightgray;
+}
+
+.titleTable {
+  border-collapse: collapse;
+  width: inherit;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.backIconCell {
+  width: 30px;
+  height: 1px;
+  padding-right: 16px;
+  padding-left: 8px;
+}
+
+.box {
+  width: 250px;
+}
