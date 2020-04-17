@@ -1,73 +1,73 @@
 import React from 'react';
-import NestedList, { Item } from './NestedList';
+import { Item } from './ListItem';
+import NestedList from './NestedList';
 
 export default class NestedListExample extends React.Component {
+  item: Item;
 
-    item: Item;
+  constructor() {
+    super({});
 
-    constructor(props: any) {
-        super(props);
-
-        let list = [
-            {
-                label: "first",
+    const list = [
+      {
+        label: 'first',
+        subItems: [
+          {
+            label: 'first1',
+            subItems: [
+              {
+                label: 'first11',
                 subItems: [
-                    {
-                        label: "first1",
-                        subItems: [
-                            {
-                                label: "first11",
-                                subItems: [
-                                    {
-                                        label: "first111",
-                                        subItems: []
-                                    },
-                                    {
-                                        label: "first111",
-                                        subItems: []
-                                    },
-                                    {
-                                        label: "first111",
-                                        subItems: []
-                                    },
-                                ]
-                            },
-                        ]
-                    },
-                    {
-                        label: "first2",
-                        subItems: []
-                    },
-                    {
-                        label: "first111",
-                        subItems: []
-                    },
-                    {
-                        label: "first1117",
-                        subItems: []
-                    },
-                ]
-            },
-            {
-                label: "second",
-                subItems: []
-            },
-            {
-                label: "third",
-                subItems: [],
-            }
-        ]
-        this.item = {
-            label: "title",
-            subItems: list,
-        }
-    }
+                  {
+                    label: 'first111',
+                    subItems: [],
+                  },
+                  {
+                    label: 'first111',
+                    subItems: [],
+                  },
+                  {
+                    label: 'first111',
+                    subItems: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: 'first2',
+            subItems: [],
+          },
+          {
+            label: 'first111',
+            subItems: [],
+          },
+          {
+            label: 'first1117',
+            subItems: [],
+          },
+        ],
+      },
+      {
+        label: 'second',
+        subItems: [],
+      },
+      {
+        label: 'third',
+        subItems: [],
+      },
+    ];
+    this.item = {
+      label: 'title',
+      subItems: list,
+    };
+  }
 
-    callback = (item: Item) => {
-        alert(item.label);
-    }
+  callback = (item: Item): void => {
+    alert(item.label);
+  };
 
-    render() {
-        return <NestedList item={this.item} onItemClick={this.callback} />
-    }
+  render(): JSX.Element {
+    return <NestedList item={this.item} onItemClick={this.callback} />;
+  }
 }
