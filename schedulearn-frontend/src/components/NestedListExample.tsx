@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item } from './ListItem';
+import { Item } from './NestedListItem';
 import NestedList from './NestedList';
 
 export default class NestedListExample extends React.Component {
@@ -68,6 +68,6 @@ export default class NestedListExample extends React.Component {
   };
 
   render(): JSX.Element {
-    return <NestedList item={this.item} onItemClick={this.callback} />;
+    return <NestedList item={this.item} onItemClick={this.callback} width={400} />;
   }
 }

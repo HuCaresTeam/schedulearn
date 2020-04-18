@@ -1,98 +1,72 @@
 import React from 'react';
-import ListItem from './ListItem';
+import { NestedListItem, Item } from './NestedListItem';
 import './NestedList.css';
 import arrow from './back.svg';
 
-export interface Item {
-  index?: number;
-  label: string;
-  subItems: Item[];
-}
-
-interface Props {
+interface NestedListProps {
   item: Item;
   onItemClick?(item: Item): void;
+  width?: number;
 }
 
-interface State {
-  original?: Item;
-  item?: Item;
-  history: number[];
+interface NestedListState {
+  item: Item;
 }
 
-export default class NestedList extends React.Component<Props, State> {
-  constructor(props: Props) {
+export default class NestedList extends React.Component<NestedListProps, NestedListState> {
+  private history: number[] = [];
+
+  constructor(props: NestedListProps) {
     super(props);
-    const item = this.props.item;
-    this.giveIndexes(item);
 
     this.state = {
-      original: item,
-      item: item,
-      history: [],
+      item: this.props.item,
     };
   }
 
-  giveIndexes(item: Item): void {
-    const items = item.subItems;
-    for (let i = 0; i < items.length; i++) {
-      const item: Item = items[i];
-      item.index = i;
-      if (item.subItems.length) {
-        this.giveIndexes(item);
-      }
-    }
-  }
-
-  onItemClick = (item: Item): void => {
+  onItemClick = (item: Item, index: number): void => {
     if (item.subItems.length) {
-      if (item.index !== undefined) {
-        this.state.history.push(item.index);
-      }
+      this.history.push(index);
       this.setState({ item: item });
-    } else {
-      if (this.props.onItemClick != null) {
-        this.props.onItemClick(item);
-      }
+      return;
+    }
+
+    if (this.props.onItemClick != null) {
+      this.props.onItemClick(item);
     }
   };
 
   onBackClick = (): void => {
-    const history = this.state.history;
-    let item = this.state.original;
-
-    if (item === undefined) return;
-
-    for (let i = 0; i < history.length - 1; i++) {
-      const index = history[i];
+    let item = this.props.item;
+    for (let i = 0; i < this.history.length - 1; i++) {
+      const index = this.history[i];
       item = item.subItems[index];
     }
-    history.pop();
-    this.setState({
-      item: item,
-      history: history,
-    });
+
+    this.history.pop();
+    this.setState({ item: item });
   };
 
+  componentDidUpdate(prevProps: NestedListProps): void {
+    if (prevProps.item !== this.props.item) {
+      this.history = [];
+      this.setState({ item: this.props.item });
+    }
+  }
+
   render(): JSX.Element {
-    const showButton = this.state.history.length;
-
-    const button = <img className="backIcon" src={arrow} onClick={this.onBackClick} alt="arrow" />;
-
-    const table = (
-      <table className="titleTable">
-        <tr>
-          <td className="backIconCell">{showButton ? button : null}</td>
-          <td>{this.state.item?.label}</td>
-        </tr>
-      </table>
-    );
+    const showButton = !!this.history.length;
+    const button = <img className="nested-list-back-icon" src={arrow} onClick={this.onBackClick} alt="arrow" />;
+    const historyPrefix = this.history.join('_');
 
     return (
-      <div className="box">
-        <div className="title">{table}</div>
-        {this.state.item?.subItems.map((item: Item) => (
-          <ListItem item={item} callback={this.onItemClick}></ListItem>
+      <div className="nested-list" style={{ width: this.props.width || 250 }}>
+        <div className="nested-list-title">
+          <div className="nested-list-back-icon-cell">{showButton ? button : undefined}</div>
+          <div className="nested-list-label-cell">{this.state.item.label}</div>
+        </div>
+        {this.state.item.subItems.map((item: Item, index: number) => (
+          <NestedListItem key={`${historyPrefix}_${index}`} item={item} index={index} callback={this.onItemClick} />
         ))}
       </div>
     );
