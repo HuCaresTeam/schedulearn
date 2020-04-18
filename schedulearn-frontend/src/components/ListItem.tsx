@@ -14,9 +14,6 @@ interface Props {
 }
 
 export default class ListItem extends React.Component<Props, {}> {
-  constructor(props: Props) {
-    super(props);
-  }
   handler = (): void => {
     this.props.callback(this.props.item);
   };

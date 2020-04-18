@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import HelloWorld from './HelloWorld';
+import NestedListExample from './components/NestedListExample';
 
 ReactDOM.render(
   <React.StrictMode>
     <HelloWorld />
+    <NestedListExample />
   </React.StrictMode>,
   document.getElementById('root'),
 );
