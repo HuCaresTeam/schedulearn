@@ -1,0 +1,18 @@
+.nested-list-item {
+  padding: 8px;
+  display: grid;
+  grid-template-columns: 1fr 30px;
+  border-bottom: 1px solid;
+  border-color: lightgray;
+}
+
+.nested-list-item:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.nested-list-forward-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
