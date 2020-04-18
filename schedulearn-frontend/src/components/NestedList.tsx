@@ -3,7 +3,7 @@ import { NestedListItem, Item } from './NestedListItem';
 import './NestedList.css';
 import arrow from './back.svg';
 
-interface NestedListProps {
+export interface NestedListProps {
   item: Item;
   onItemClick?(item: Item): void;
   width?: number;

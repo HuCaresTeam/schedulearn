@@ -7,17 +7,13 @@ export interface Item {
   subItems: Item[];
 }
 
-interface Props {
+export interface NestedListItemProps {
   item: Item;
   index: number;
   callback(item: Item, index: number): void;
 }
 
-export class NestedListItem extends React.PureComponent<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
-
+export class NestedListItem extends React.PureComponent<NestedListItemProps> {
   handler = (): void => {
     this.props.callback(this.props.item, this.props.index);
   };

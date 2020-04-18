@@ -3,12 +3,9 @@ import { Item } from './NestedListItem';
 import NestedList from './NestedList';
 
 export default class NestedListExample extends React.Component {
-  item: Item;
-
-  constructor() {
-    super({});
-
-    const list = [
+  item: Item = {
+    label: 'title',
+    subItems: [
       {
         label: 'first',
         subItems: [
@@ -56,12 +53,8 @@ export default class NestedListExample extends React.Component {
         label: 'third',
         subItems: [],
       },
-    ];
-    this.item = {
-      label: 'title',
-      subItems: list,
-    };
-  }
+    ],
+  };
 
   callback = (item: Item): void => {
     alert(item.label);
