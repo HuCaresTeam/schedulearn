@@ -27,7 +27,13 @@ namespace SchedulearnBackend
               .AllowCredentials());
 
             app.UseWebSockets();
-            app.UseSignalR(routes => routes.MapDotNetifyHub());
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DotNetifyHub>("/dotnetify");
+            });
+
             app.UseDotNetify();
 
             app.Run(async (context) =>
