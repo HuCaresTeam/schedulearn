@@ -2,12 +2,11 @@
   padding: 8px;
   display: grid;
   grid-template-columns: 1fr 30px;
-  border-bottom: 1px solid;
-  border-color: lightgray;
+  border-top: 1px solid #dddddd;
 }
 
 .nested-list-item:hover {
-  background-color: lightgray;
+  background-color: #dddddd;
   cursor: pointer;
 }
 

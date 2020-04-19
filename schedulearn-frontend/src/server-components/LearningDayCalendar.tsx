@@ -3,6 +3,11 @@ import { WeekViewCalendar, SlotInfo } from '../components/Calendar/WeekViewCalen
 import { Event } from 'react-big-calendar';
 
 export class LearningDayCalendar extends React.Component {
+  // TODO: Make complete interface for learning event
+  // TODO: Fetch learning day data
+  // TODO: Handle making new events (Post to server, fetch)
+  // TODO: Figure out how getting single user/all user data is going to look like
+
   handleSelectSlot = (slotInfo: SlotInfo): void => {
     window.prompt(`Event clicked at: ${slotInfo.start} ${slotInfo.end}`);
   }

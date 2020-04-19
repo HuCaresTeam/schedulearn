@@ -1,9 +1,9 @@
 import React from 'react';
 import { Calendar, momentLocalizer, Event } from 'react-big-calendar';
 import './WeekViewCalendar.scss';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import 'moment/locale/en-gb';
+
 const localizer = momentLocalizer(moment);
 
 export interface WeekViewCalendarProps<TEvent extends Event> {
