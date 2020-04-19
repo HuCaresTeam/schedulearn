@@ -1,31 +1,33 @@
-.title {
-  width: inherit;
+.nested-list-title {
   border-bottom: 1px solid;
-}
-
-.backIcon {
-  width: 20px;
-  height: 20px;
-}
-
-.backIcon:hover {
-  background-color: lightgray;
-}
-
-.titleTable {
   border-collapse: collapse;
   width: inherit;
   font-size: 20px;
   font-weight: bold;
+  display: grid;
+  grid-template-columns: max-content 1fr;
 }
 
-.backIconCell {
-  width: 30px;
-  height: 1px;
-  padding-right: 16px;
-  padding-left: 8px;
+.nested-list-back-icon {
+  width: 20px;
+  height: 20px;
+  margin: 5px 10px;
 }
 
-.box {
-  width: 250px;
+.nested-list-back-icon-cell:hover {
+  background-color: lightgray;
+}
+
+.nested-list-back-icon-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nested-list-label-cell {
+  margin-left: 8px;
+}
+
+.nested-list {
+  border: 1px solid;
 }
