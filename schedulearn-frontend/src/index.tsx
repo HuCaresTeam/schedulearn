@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import * as serviceWorker from './serviceWorker';
-import HelloWorld from './HelloWorld';
+// import HelloWorld from './HelloWorld';
 import NestedListExample from './components/NestedList/NestedListExample';
+import { LearningDayCalendar } from './server-components/LearningDayCalendar';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HelloWorld />
+    {/* <HelloWorld /> */}
     <NestedListExample />
+    <LearningDayCalendar />
   </React.StrictMode>,
   document.getElementById('root'),
 );

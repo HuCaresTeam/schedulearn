@@ -1,5 +1,5 @@
 import React from 'react';
-import './NestedListItem.css';
+import './NestedListItem.scss';
 import arrow from './next.svg';
 
 export interface Item {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NestedListItem, Item } from './NestedListItem';
-import './NestedList.css';
+import './NestedList.scss';
 import arrow from './back.svg';
 
 export interface NestedListProps {
