@@ -12,7 +12,7 @@ export default class HelloWorld extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     dotnetify.react.connect('HelloWorld', this);
-    this.state = { Greetings: '', ServerTime: '' };
+    this.state = { Greetings: 'The server might be currently offline', ServerTime: '' };
   }
 
   render(): React.ReactNode {
