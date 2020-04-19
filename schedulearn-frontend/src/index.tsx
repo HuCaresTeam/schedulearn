@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import HelloWorld from './HelloWorld';
-import NestedListExample from './components/NestedListExample';
+import NestedListExample from './components/NestedList/NestedListExample';
 
 ReactDOM.render(
   <React.StrictMode>
