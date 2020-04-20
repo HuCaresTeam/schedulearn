@@ -31,9 +31,8 @@ export default class NestedList extends React.Component<NestedListProps, NestedL
       return;
     }
 
-    if (this.props.onItemClick != null) {
+    if (this.props.onItemClick)
       this.props.onItemClick(item);
-    }
   };
 
   onBackClick = (): void => {

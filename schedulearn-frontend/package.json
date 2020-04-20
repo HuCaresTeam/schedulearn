@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.32",
-    "@types/react-big-calendar": "^0.24.0",
+    "@types/react-modal": "^3.10.5",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "dotnetify": "^3.6.2",
@@ -22,6 +22,7 @@
     "react": "^16.13.1",
     "react-big-calendar": "^0.24.4",
     "react-dom": "^16.13.1",
+    "react-modal": "^3.11.2",
     "react-scripts": "3.4.1",
     "typescript": "^3.7.5"
   },

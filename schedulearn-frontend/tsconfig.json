@@ -23,7 +23,12 @@
     "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ],
+    "baseUrl": "."
   },
   "include": [
     "src/**/*"

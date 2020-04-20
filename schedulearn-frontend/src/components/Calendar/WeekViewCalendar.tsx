@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, momentLocalizer, Event } from 'react-big-calendar';
+import { Calendar, momentLocalizer, Event, SlotInfo } from 'react-big-calendar';
 import './WeekViewCalendar.scss';
 import moment from 'moment';
 import 'moment/locale/en-gb';
@@ -9,15 +9,8 @@ const localizer = momentLocalizer(moment);
 export interface WeekViewCalendarProps<TEvent extends Event> {
   events: TEvent[];
   onSelectSlot: (slotInfo: SlotInfo) => void;
-  onSelectEvent: (event: TEvent) => void;
+  onSelectEvent: (event: TEvent, e?: React.SyntheticEvent<HTMLElement>) => void;
   mergeEveryHalfHour: number;
-}
-
-export interface SlotInfo {
-  start: string | Date;
-  end: string | Date;
-  slots: Date[] | string[];
-  action: 'select' | 'click' | 'doubleClick';
 }
 
 export class WeekViewCalendar<TEvent extends Event>
@@ -35,7 +28,8 @@ export class WeekViewCalendar<TEvent extends Event>
   render(): JSX.Element {
     return (
       <div>
-        <Calendar selectable={true}
+        <Calendar
+          selectable={true}
           localizer={localizer}
           culture='en-gb'
           defaultView={'week'}

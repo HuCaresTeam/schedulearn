@@ -19,8 +19,9 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     indent: ['error', 2],
-    'max-len': ['error', { code: 120 }],
+    'max-len': ['warn', { code: 120 }],
     'linebreak-style': 0,
+    eqeqeq: ['error', 'always'],
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
