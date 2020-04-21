@@ -1,30 +1,41 @@
-import React from 'react';
-import { Item } from './NestedListItem';
-import NestedList from './NestedList';
+import React from "react";
+import { Item } from "./NestedListItem";
+import { NestedList } from "./NestedList";
+
+export interface Topic extends Item<Topic> {
+  topicId: number;
+}
 
 export default class NestedListExample extends React.Component {
-  item: Item = {
-    label: 'title',
+  item: Topic = {
+    topicId: 5,
+    label: "title",
     subItems: [
       {
-        label: 'first',
+        topicId: 57,
+        label: "first",
         subItems: [
           {
-            label: 'first1',
+            topicId: 100,
+            label: "first1",
             subItems: [
               {
-                label: 'first11',
+                topicId: 5400,
+                label: "first11",
                 subItems: [
                   {
-                    label: 'first111',
+                    topicId: 5700,
+                    label: "first111",
                     subItems: [],
                   },
                   {
-                    label: 'first111',
+                    topicId: 5800,
+                    label: "first111",
                     subItems: [],
                   },
                   {
-                    label: 'first111',
+                    topicId: 5900,
+                    label: "first111",
                     subItems: [],
                   },
                 ],
@@ -32,35 +43,40 @@ export default class NestedListExample extends React.Component {
             ],
           },
           {
-            label: 'first2',
+            topicId: 101,
+            label: "first2",
             subItems: [],
           },
           {
-            label: 'first111',
+            topicId: 102,
+            label: "first111",
             subItems: [],
           },
           {
-            label: 'first1117',
+            topicId: 103,
+            label: "first1117",
             subItems: [],
           },
         ],
       },
       {
-        label: 'second',
+        topicId: 6,
+        label: "second",
         subItems: [],
       },
       {
-        label: 'third',
+        topicId: 7,
+        label: "third",
         subItems: [],
       },
     ],
   };
 
-  callback = (item: Item): void => {
+  callback = (item: Topic): void => {
     alert(item.label);
   };
 
   render(): JSX.Element {
-    return <NestedList item={this.item} onItemClick={this.callback} width={400} />;
+    return <NestedList item={this.item} onItemClick={this.callback} width={400} selectedItemIndex={"0_0"} />;
   }
 }

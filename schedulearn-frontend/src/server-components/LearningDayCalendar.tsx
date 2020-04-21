@@ -1,8 +1,8 @@
-import React from 'react';
-import { WeekViewCalendar } from '../components/Calendar/WeekViewCalendar';
-import { SlotInfo } from 'react-big-calendar';
-import { EventAddModal } from '../components/Calendar/EventAddModal';
-import { LearningDayEvent } from '../components/Calendar/LearningDayEvent';
+import React from "react";
+import { WeekViewCalendar } from "../components/Calendar/WeekViewCalendar";
+import { SlotInfo } from "react-big-calendar";
+import { EventAddModal } from "../components/Calendar/EventAddModal";
+import { LearningDayEvent } from "../components/Calendar/LearningDayEvent";
 
 interface LearningDayCalendarState {
   learningDayEvents: LearningDayEvent[];
@@ -11,7 +11,7 @@ interface LearningDayCalendarState {
     start: Date;
     end: Date;
     slots: Date[] | string[];
-    action: 'select' | 'click' | 'doubleClick';
+    action: "select" | "click" | "doubleClick";
   };
 }
 
@@ -27,13 +27,13 @@ export class LearningDayCalendar extends React.Component<{}, LearningDayCalendar
         learningDayId: 1,
         start: new Date(2020, 3, 20, 10),
         end: new Date(2020, 3, 20, 12, 30),
-        title: 'Event 1',
+        title: "Event 1",
       },
       {
         learningDayId: 2,
         start: new Date(2020, 3, 20, 15),
         end: new Date(2020, 3, 20, 20, 30),
-        title: 'Event 2',
+        title: "Event 2",
       },
     ],
     isEventModalOpen: false,
@@ -41,10 +41,10 @@ export class LearningDayCalendar extends React.Component<{}, LearningDayCalendar
 
   handleSelectSlot = (slotInfo: SlotInfo): void => {
     console.log(JSON.stringify(slotInfo));
-    if (typeof slotInfo.start === 'string')
+    if (typeof slotInfo.start === "string")
       slotInfo.start = new Date(slotInfo.start);
 
-    if (typeof slotInfo.end === 'string')
+    if (typeof slotInfo.end === "string")
       slotInfo.end = new Date(slotInfo.end);
 
     this.setState(

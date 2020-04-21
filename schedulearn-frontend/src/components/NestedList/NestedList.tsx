@@ -1,71 +1,96 @@
-import React from 'react';
-import { NestedListItem, Item } from './NestedListItem';
-import './NestedList.scss';
-import arrow from './back.svg';
+import React from "react";
+import { NestedListItem, Item } from "./NestedListItem";
+import "./NestedList.scss";
+import arrow from "./back.svg";
 
-export interface NestedListProps {
-  item: Item;
-  onItemClick?(item: Item): void;
+export interface NestedListProps<TItem extends Item<TItem>> {
+  item: TItem;
+  onItemClick?(item: TItem, itemIndex: string): void;
   width?: number;
+  selectedItemIndex?: string;
 }
 
-interface NestedListState {
-  item: Item;
+interface NestedListState<TItem extends Item<TItem>> {
+  item: TItem;
 }
 
-export default class NestedList extends React.Component<NestedListProps, NestedListState> {
+export class NestedList<TItem extends Item<TItem>>
+  extends React.Component<NestedListProps<TItem>, NestedListState<TItem>> {
   private history: number[] = [];
 
-  constructor(props: NestedListProps) {
+  constructor(props: NestedListProps<TItem>) {
     super(props);
 
+    this.history = this.convertIndexToHistory(this.props.selectedItemIndex);
     this.state = {
-      item: this.props.item,
+      item: this.currentItem,
     };
   }
 
-  onItemClick = (item: Item, index: number): void => {
+  private convertIndexToHistory(selectedIndex?: string): number[] {
+    if (selectedIndex === undefined)
+      return [];
+
+    return selectedIndex.split("_")
+      .map((value) => parseInt(value));
+  }
+
+  private get currentItem(): TItem {
+    let item = this.props.item;
+    for (let i = 0; i < this.history.length; i++) {
+      const index = this.history[i];
+      item = item.subItems[index];
+    }
+
+    return item;
+  }
+
+  onItemClick = (item: TItem, index: number): void => {
     if (item.subItems.length) {
       this.history.push(index);
       this.setState({ item: item });
       return;
     }
 
+    const itemIndex = this.history.join("_");
     if (this.props.onItemClick)
-      this.props.onItemClick(item);
+      this.props.onItemClick(item, itemIndex);
   };
 
   onBackClick = (): void => {
-    let item = this.props.item;
-    for (let i = 0; i < this.history.length - 1; i++) {
-      const index = this.history[i];
-      item = item.subItems[index];
-    }
-
     this.history.pop();
+    const item = this.currentItem;
     this.setState({ item: item });
   };
 
-  componentDidUpdate(prevProps: NestedListProps): void {
-    if (prevProps.item !== this.props.item) {
-      this.history = [];
-      this.setState({ item: this.props.item });
+  componentDidUpdate(prevProps: NestedListProps<TItem>): void {
+    if (prevProps.item !== this.props.item ||
+      prevProps.selectedItemIndex !== this.props.selectedItemIndex) {
+      this.history = this.convertIndexToHistory(this.props.selectedItemIndex);
+      const item = this.currentItem;
+      this.setState({ item });
     }
   }
 
   render(): JSX.Element {
     const showButton = !!this.history.length;
     const button = <img className="nested-list-back-icon" src={arrow} onClick={this.onBackClick} alt="arrow" />;
-    const historyPrefix = this.history.join('_');
+    const historyPrefix = this.history.join("_");
 
     return (
-      <div className="nested-list" style={{ width: this.props.width || 250 }}>
+      <div className="nested-list" style={{ width: this.props.width }}>
         <div className="nested-list-title">
           <div className="nested-list-back-icon-cell">{showButton ? button : undefined}</div>
           <div className="nested-list-label-cell">{this.state.item.label}</div>
         </div>
-        {this.state.item.subItems.map((item: Item, index: number) => (
-          <NestedListItem key={`${historyPrefix}_${index}`} item={item} index={index} callback={this.onItemClick} />
+        {this.state.item.subItems.map((item: TItem, index: number) => (
+          <NestedListItem
+            key={`${historyPrefix}_${index}`}
+            history={this.history}
+            item={item}
+            index={index}
+            callback={this.onItemClick}
+          />
         ))}
       </div>
     );

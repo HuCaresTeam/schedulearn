@@ -1,4 +1,4 @@
-import { Event } from 'react-big-calendar';
+import { Event } from "react-big-calendar";
 
 export interface LearningDayEvent extends Event {
   learningDayId: number;

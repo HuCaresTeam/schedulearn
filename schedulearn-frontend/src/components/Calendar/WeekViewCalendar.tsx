@@ -1,8 +1,8 @@
-import React from 'react';
-import { Calendar, momentLocalizer, Event, SlotInfo } from 'react-big-calendar';
-import './WeekViewCalendar.scss';
-import moment from 'moment';
-import 'moment/locale/en-gb';
+import React from "react";
+import { Calendar, momentLocalizer, Event, SlotInfo } from "react-big-calendar";
+import "./WeekViewCalendar.scss";
+import moment from "moment";
+import "moment/locale/en-gb";
 
 const localizer = momentLocalizer(moment);
 
@@ -21,7 +21,7 @@ export class WeekViewCalendar<TEvent extends Event>
     super(props);
 
     if (props.mergeEveryHalfHour < 1 || this.halfHoursInHour % props.mergeEveryHalfHour !== 0) {
-      throw new Error('mergeEveryHalfHour must be a common diviser of 48 (number of half hours in hour)');
+      throw new Error("mergeEveryHalfHour must be a common diviser of 48 (number of half hours in hour)");
     }
   }
 
@@ -32,7 +32,7 @@ export class WeekViewCalendar<TEvent extends Event>
           selectable={true}
           localizer={localizer}
           culture='en-gb'
-          defaultView={'week'}
+          defaultView={"week"}
           timeslots={this.props.mergeEveryHalfHour}
           views={{ week: true }}
           events={this.props.events}

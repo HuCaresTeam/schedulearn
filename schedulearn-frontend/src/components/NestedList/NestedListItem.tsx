@@ -1,21 +1,22 @@
-import React from 'react';
-import './NestedListItem.scss';
-import arrow from './next.svg';
+import React from "react";
+import "./NestedListItem.scss";
+import arrow from "./next.svg";
 
-export interface Item {
+export interface Item<TItem> {
   label: string;
-  subItems: Item[];
+  subItems: TItem[];
 }
 
-export interface NestedListItemProps {
-  item: Item;
+export interface NestedListItemProps<TItem extends Item<TItem>> {
+  history: number[];
+  item: TItem;
   index: number;
-  callback(item: Item, index: number): void;
+  callback(item: TItem, index: number, history: number[]): void;
 }
 
-export class NestedListItem extends React.PureComponent<NestedListItemProps> {
+export class NestedListItem<TItem extends Item<TItem>> extends React.PureComponent<NestedListItemProps<TItem>> {
   handler = (): void => {
-    this.props.callback(this.props.item, this.props.index);
+    this.props.callback(this.props.item, this.props.index, this.props.history);
   };
 
   render(): JSX.Element {

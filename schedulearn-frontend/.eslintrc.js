@@ -16,7 +16,7 @@ module.exports = {
     'arrow-parens': ['error', 'always'],
     'react/jsx-closing-bracket-location': [1, 'line-aligned'],
     'comma-dangle': ['error', 'always-multiline'],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'double'],
     semi: ['error', 'always'],
     indent: ['error', 2],
     'max-len': ['warn', { code: 120 }],
