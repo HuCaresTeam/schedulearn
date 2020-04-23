@@ -29,7 +29,6 @@ namespace SchedulearnBackend
             services.AddDotNetify();
 
             services.AddDbContext<UserContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("UserContext")));
-            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,28 +48,26 @@ namespace SchedulearnBackend
             }
 
 
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
             app.UseCors(builder => builder
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .WithOrigins("http://localhost:3000")
-              .AllowCredentials());
+             .AllowAnyMethod()
+             .AllowAnyHeader()
+             .WithOrigins("http://localhost:3000")
+             .AllowCredentials());
 
             app.UseWebSockets();
-            app.UseSignalR(routes => routes.MapDotNetifyHub());
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DotNetifyHub>("/dotnetify");
+            });
+
             app.UseDotNetify();
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
         }
     }
 }
