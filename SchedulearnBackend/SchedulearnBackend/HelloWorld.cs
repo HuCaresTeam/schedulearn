@@ -26,7 +26,6 @@ namespace SchedulearnBackend
         private Timer _timer;
         public string Greetings => "Hello World!";
         public DateTime ServerTime => DateTime.Now;
-        private readonly UserContext _userContext;
         public Topic NewTopic { get { return _userContext.Topics.Find(1); } }
         public HelloWorld(UserContext userContext)
         {
