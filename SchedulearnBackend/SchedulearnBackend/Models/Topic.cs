@@ -16,10 +16,6 @@ namespace SchedulearnBackend.Models
         [Required]
         public string Description { get; set; }
         public int? ParentTopicId { get; set; }
-        [ForeignKey("ParentTopicId")]
-        public virtual Topic ParentTopic { get; set; }
-
-        [JsonIgnoreAttribute]
         public virtual ICollection<Topic> SubTopics { get; set; }
     }
 }

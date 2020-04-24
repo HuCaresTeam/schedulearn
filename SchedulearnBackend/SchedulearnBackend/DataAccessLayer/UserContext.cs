@@ -21,9 +21,9 @@ namespace SchedulearnBackend.DataAccessLayer
         {
             modelbuilder.Entity<Topic>()
                 .HasMany(e => e.SubTopics)
-                .WithOne(e => e.ParentTopic)
+                .WithOne()
                 .HasForeignKey(e => e.ParentTopicId); //each comment from replies points back to its parent
-                
+            
         }
 
     }
