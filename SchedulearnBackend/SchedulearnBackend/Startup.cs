@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace SchedulearnBackend
 {
@@ -27,7 +29,6 @@ namespace SchedulearnBackend
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddDotNetify();
-
             services.AddDbContext<UserContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("UserContext")));
         }
 
@@ -62,7 +63,13 @@ namespace SchedulearnBackend
                 endpoints.MapHub<DotNetifyHub>("/dotnetify");
             });
 
-            app.UseDotNetify();
+            app.UseDotNetify(config =>
+            {
+                config.UseJsonSerializerSettings(ignoredPropertyNames => new JsonSerializerSettings
+                {
+                    
+                });
+            });
 
             app.Run(async (context) =>
             {
