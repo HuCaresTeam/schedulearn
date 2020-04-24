@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SchedulearnBackend
 {
@@ -27,8 +28,9 @@ namespace SchedulearnBackend
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddDotNetify();
-
             services.AddDbContext<UserContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("UserContext")));
+            
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
