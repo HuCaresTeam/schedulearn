@@ -1,0 +1,21 @@
+.eventField {
+  margin-bottom: 19px;
+  grid-template-columns: 20% 1fr;
+  display: grid;
+}
+
+.eventLabel {
+  margin-right: 15px;
+}
+
+.eventForm {
+  display: grid;
+}
+
+.eventForm input {
+  width: 100%;
+}
+
+.eventForm .nested-list {
+  width: 100%;
+}

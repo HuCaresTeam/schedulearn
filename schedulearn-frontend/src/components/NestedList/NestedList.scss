@@ -1,0 +1,33 @@
+.nested-list-title {
+  border-bottom: 1px solid #95a5a6;
+  border-collapse: collapse;
+  width: inherit;
+  font-size: 20px;
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+}
+
+.nested-list-back-icon {
+  width: 20px;
+  height: 20px;
+  margin: 5px 10px;
+}
+
+.nested-list-back-icon-cell:hover {
+  background-color: lightgray;
+}
+
+.nested-list-back-icon-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nested-list-label-cell {
+  margin-left: 8px;
+}
+
+.nested-list {
+  border: 1px solid #95a5a6;
+}
