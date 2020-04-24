@@ -17,6 +17,7 @@ namespace SchedulearnBackend.DataAccessLayer
         public DbSet<User> Users { get; set; }
         public DbSet<JobTitle> JobTitles { get; set; }
         public DbSet<Topic> Topics { get; set; }
+        public DbSet<LearningDay> LearningDays { get; set; }
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             modelbuilder.Entity<Topic>()

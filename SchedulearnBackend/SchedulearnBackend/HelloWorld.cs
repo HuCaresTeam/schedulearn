@@ -3,11 +3,6 @@ using DotNetify;
 using System.Threading;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using SchedulearnBackend.Models;
-using SchedulearnBackend.DataAccessLayer;
 
 namespace SchedulearnBackend
 {
