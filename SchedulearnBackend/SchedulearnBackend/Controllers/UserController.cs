@@ -14,11 +14,11 @@ namespace SchedulearnBackend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserContext _userContext;
+        private readonly SchedulearnContext _schedulearnContext;
 
-        public UserController(UserContext userContext)
+        public UserController(SchedulearnContext schedulearnContext)
         {
-            _userContext = userContext;
+            _schedulearnContext = schedulearnContext;
         }
 
         // GET: api/User
@@ -27,7 +27,7 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("GetUsers");
 
-            return await _userContext.Users.ToListAsync();
+            return await _schedulearnContext.Users.ToListAsync();
         }
 
         // GET: api/User/5
@@ -36,7 +36,7 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("GetUser " + id);
 
-            var user = await _userContext.Users.FindAsync(id);
+            var user = await _schedulearnContext.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -57,11 +57,11 @@ namespace SchedulearnBackend.Controllers
                 return BadRequest();
             }
 
-            _userContext.Entry(user).State = EntityState.Modified;
+            _schedulearnContext.Entry(user).State = EntityState.Modified;
 
             try
             {
-                await _userContext.SaveChangesAsync();
+                await _schedulearnContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -84,8 +84,8 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("PostUser " + user.Id + " " + user.Name);
 
-            _userContext.Users.Add(user);
-            await _userContext.SaveChangesAsync();
+            _schedulearnContext.Users.Add(user);
+            await _schedulearnContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
@@ -96,21 +96,21 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("DeleteUser " + id);
 
-            var user = await _userContext.Users.FindAsync(id);
+            var user = await _schedulearnContext.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _userContext.Users.Remove(user);
-            await _userContext.SaveChangesAsync();
+            _schedulearnContext.Users.Remove(user);
+            await _schedulearnContext.SaveChangesAsync();
 
             return user;
         }
 
         private bool UserExists(int id)
         {
-            return _userContext.Users.Any(e => e.Id == id);
+            return _schedulearnContext.Users.Any(e => e.Id == id);
         }
     }
 }

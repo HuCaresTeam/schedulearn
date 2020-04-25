@@ -13,11 +13,11 @@ namespace SchedulearnBackend.Controllers
     [ApiController]
     public class TopicController : ControllerBase
     {
-        private readonly UserContext _userContext;
+        private readonly SchedulearnContext _schedulearnContext;
 
-        public TopicController(UserContext userContext)
+        public TopicController(SchedulearnContext schedulearnContext)
         {
-            _userContext = userContext;
+            _schedulearnContext = schedulearnContext;
         }
 
         // GET: api/Topic
@@ -26,7 +26,7 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("GetTopics");
 
-            return await _userContext.Topics.ToListAsync();
+            return await _schedulearnContext.Topics.ToListAsync();
         }
 
         // GET: api/Topic/5
@@ -36,7 +36,7 @@ namespace SchedulearnBackend.Controllers
             System.Diagnostics.Debug.WriteLine("GetTopic " + id);
 
 
-            var topic = await _userContext.Topics.FindAsync(id);
+            var topic = await _schedulearnContext.Topics.FindAsync(id);
 
             if (topic == null)
             {
@@ -57,11 +57,11 @@ namespace SchedulearnBackend.Controllers
                 return BadRequest();
             }
 
-            _userContext.Entry(topic).State = EntityState.Modified;
+            _schedulearnContext.Entry(topic).State = EntityState.Modified;
 
             try
             {
-                await _userContext.SaveChangesAsync();
+                await _schedulearnContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -84,8 +84,8 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("PostTopic " + topic.Id + " " + topic.Name);
 
-            _userContext.Topics.Add(topic);
-            await _userContext.SaveChangesAsync();
+            _schedulearnContext.Topics.Add(topic);
+            await _schedulearnContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTopic), new { id = topic.Id }, topic);
         }
@@ -96,21 +96,21 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("DeleteTopic " + id);
 
-            var topic = await _userContext.Topics.FindAsync(id);
+            var topic = await _schedulearnContext.Topics.FindAsync(id);
             if (topic == null)
             {
                 return NotFound();
             }
 
-            _userContext.Topics.Remove(topic);
-            await _userContext.SaveChangesAsync();
+            _schedulearnContext.Topics.Remove(topic);
+            await _schedulearnContext.SaveChangesAsync();
 
             return topic;
         }
 
         private bool TopicExists(int id)
         {
-            return _userContext.Topics.Any(e => e.Id == id);
+            return _schedulearnContext.Topics.Any(e => e.Id == id);
         }
     }
 

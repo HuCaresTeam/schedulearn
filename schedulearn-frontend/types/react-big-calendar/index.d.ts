@@ -19,17 +19,17 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.8
 
-declare module 'react-big-calendar' {
-    import { Validator, number, number } from 'prop-types';
-    import * as React from 'react';
+declare module "react-big-calendar" {
+    import { Validator, number, number } from "prop-types";
+    import * as React from "react";
 
     export type DayPropGetter = (date: Date, resourceId?: number | string) => React.HTMLAttributes<HTMLDivElement>;
     export type EventPropGetter<T> = (event: T, start: stringOrDate, end: stringOrDate, isSelected: boolean) => React.HTMLAttributes<HTMLDivElement>;
     export type SlotPropGetter = (date: Date, resourceId?: number | string) => React.HTMLAttributes<HTMLDivElement>;
     export type SlotGroupPropGetter = () => React.HTMLAttributes<HTMLDivElement>;
     export type stringOrDate = string | Date;
-    export type ViewKey = 'MONTH' | 'WEEK' | 'WORK_WEEK' | 'DAY' | 'AGENDA';
-    export type View = 'month' | 'week' | 'work_week' | 'day' | 'agenda';
+    export type ViewKey = "MONTH" | "WEEK" | "WORK_WEEK" | "DAY" | "AGENDA";
+    export type View = "month" | "week" | "work_week" | "day" | "agenda";
     export type ViewsProps = View[] | {
         work_week?: boolean | React.ComponentType<any> & ViewStatic;
         day?: boolean | React.ComponentType<any> & ViewStatic;
@@ -37,8 +37,8 @@ declare module 'react-big-calendar' {
         month?: boolean | React.ComponentType<any> & ViewStatic;
         week?: boolean | React.ComponentType<any> & ViewStatic;
     };
-    export type DayLayoutAlgorithm = 'overlap' | 'no-overlap';
-    export type NavigateAction = 'PREV' | 'NEXT' | 'TODAY' | 'DATE';
+    export type DayLayoutAlgorithm = "overlap" | "no-overlap";
+    export type NavigateAction = "PREV" | "NEXT" | "TODAY" | "DATE";
     export interface Event {
         allDay?: boolean;
         title?: string;
@@ -54,7 +54,7 @@ declare module 'react-big-calendar' {
         start: stringOrDate;
         end: stringOrDate;
         slots: Date[] | string[];
-        action: 'select' | 'click' | 'doubleClick';
+        action: "select" | "click" | "doubleClick";
         bounds?: {
             x: number;
             y: number;
@@ -297,7 +297,7 @@ declare module 'react-big-calendar' {
         toolbar?: boolean;
         popup?: boolean;
         popupOffset?: number | { x: number; y: number };
-        selectable?: boolean | 'ignoreEvents';
+        selectable?: boolean | "ignoreEvents";
         longPressThreshold?: number;
         step?: number;
         timeslots?: number;
@@ -361,17 +361,17 @@ declare module 'react-big-calendar' {
     export function momentLocalizer(momentInstance: object): DateLocalizer;
     export function dateFnsLocalizer(config: object): DateLocalizer;
     export interface Navigate {
-        PREVIOUS: 'PREV';
-        NEXT: 'NEXT';
-        TODAY: 'TODAY';
-        DATE: 'DATE';
+        PREVIOUS: "PREV";
+        NEXT: "NEXT";
+        TODAY: "TODAY";
+        DATE: "DATE";
     }
     export interface Views {
-        MONTH: 'month';
-        WEEK: 'week';
-        WORK_WEEK: 'work_week';
-        DAY: 'day';
-        AGENDA: 'agenda';
+        MONTH: "month";
+        WEEK: "week";
+        WORK_WEEK: "work_week";
+        DAY: "day";
+        AGENDA: "agenda";
     }
     export function move(View: ViewStatic | ViewKey, options: MoveOptions): Date;
 }

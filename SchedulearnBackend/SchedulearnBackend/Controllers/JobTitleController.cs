@@ -14,11 +14,11 @@ namespace SchedulearnBackend.Controllers
     [ApiController]
     public class JobTitleController : ControllerBase
     {
-        private readonly UserContext _userContext;
+        private readonly SchedulearnContext _schedulearnContext;
 
-        public JobTitleController(UserContext userContext)
+        public JobTitleController(SchedulearnContext schedulearnContext)
         {
-            _userContext = userContext;
+            _schedulearnContext = schedulearnContext;
         }
 
         // GET: api/JobTitle
@@ -27,7 +27,7 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("GetJobTitles");
 
-            return await _userContext.JobTitles.ToListAsync();
+            return await _schedulearnContext.JobTitles.ToListAsync();
         }
 
         // GET: api/JobTitle/5
@@ -36,7 +36,7 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("GetJobTitle " + id);
 
-            var jobTitle = await _userContext.JobTitles.FindAsync(id);
+            var jobTitle = await _schedulearnContext.JobTitles.FindAsync(id);
 
             if (jobTitle == null)
             {
@@ -57,11 +57,11 @@ namespace SchedulearnBackend.Controllers
                 return BadRequest();
             }
 
-            _userContext.Entry(jobTitle).State = EntityState.Modified;
+            _schedulearnContext.Entry(jobTitle).State = EntityState.Modified;
 
             try
             {
-                await _userContext.SaveChangesAsync();
+                await _schedulearnContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -84,8 +84,8 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("PostJobTitle " + jobTitle.Id + " " + jobTitle.Title);
 
-            _userContext.JobTitles.Add(jobTitle);
-            await _userContext.SaveChangesAsync();
+            _schedulearnContext.JobTitles.Add(jobTitle);
+            await _schedulearnContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetJobTitle), new { id = jobTitle.Id }, jobTitle);
         }
@@ -96,21 +96,21 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("DeleteJobTitle " + id);
 
-            var jobTitle = await _userContext.JobTitles.FindAsync(id);
+            var jobTitle = await _schedulearnContext.JobTitles.FindAsync(id);
             if (jobTitle == null)
             {
                 return NotFound();
             }
 
-            _userContext.JobTitles.Remove(jobTitle);
-            await _userContext.SaveChangesAsync();
+            _schedulearnContext.JobTitles.Remove(jobTitle);
+            await _schedulearnContext.SaveChangesAsync();
 
             return jobTitle;
         }
 
         private bool JobTitleExists(int id)
         {
-            return _userContext.JobTitles.Any(e => e.Id == id);
+            return _schedulearnContext.JobTitles.Any(e => e.Id == id);
         }
     }
 }
