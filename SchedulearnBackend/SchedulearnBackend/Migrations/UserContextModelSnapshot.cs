@@ -32,6 +32,18 @@ namespace SchedulearnBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobTitles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Title = "Software developer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Title = "Accountant"
+                        });
                 });
 
             modelBuilder.Entity("SchedulearnBackend.Models.LearningDay", b =>
@@ -63,6 +75,17 @@ namespace SchedulearnBackend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("LearningDays");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateFrom = new DateTime(2020, 4, 25, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateTo = new DateTime(2020, 4, 25, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Mokausi",
+                            TopicId = 3,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("SchedulearnBackend.Models.Topic", b =>
@@ -88,6 +111,35 @@ namespace SchedulearnBackend.Migrations
                     b.HasIndex("ParentTopicId");
 
                     b.ToTable("Topics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "aaaa",
+                            Name = "AAAA"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "bbbb",
+                            Name = "BBBB",
+                            ParentTopicId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "cccc",
+                            Name = "CCCC",
+                            ParentTopicId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "dddd",
+                            Name = "DDDD",
+                            ParentTopicId = 3
+                        });
                 });
 
             modelBuilder.Entity("SchedulearnBackend.Models.User", b =>
@@ -113,6 +165,22 @@ namespace SchedulearnBackend.Migrations
                     b.HasIndex("JobTitleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            JobTitleId = 1,
+                            Name = "Vardenis",
+                            Surname = "Pavardenis"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            JobTitleId = 2,
+                            Name = "John",
+                            Surname = "Cena"
+                        });
                 });
 
             modelBuilder.Entity("SchedulearnBackend.Models.LearningDay", b =>
