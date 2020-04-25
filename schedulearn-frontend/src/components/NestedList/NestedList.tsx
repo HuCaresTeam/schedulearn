@@ -39,14 +39,14 @@ export class NestedList<TItem extends Item<TItem>>
     let item = this.props.item;
     for (let i = 0; i < this.history.length; i++) {
       const index = this.history[i];
-      item = item.subItems[index];
+      item = item.SubItems[index];
     }
 
     return item;
   }
 
   onItemClick = (item: TItem, index: number): void => {
-    if (item.subItems.length) {
+    if (item.SubItems.length) {
       this.history.push(index);
       this.setState({ item: item });
       return;
@@ -81,9 +81,9 @@ export class NestedList<TItem extends Item<TItem>>
       <div className="nested-list" style={{ width: this.props.width }}>
         <div className="nested-list-title">
           <div className="nested-list-back-icon-cell">{showButton ? button : undefined}</div>
-          <div className="nested-list-label-cell">{this.state.item.label}</div>
+          <div className="nested-list-label-cell">{this.state.item.Label}</div>
         </div>
-        {this.state.item.subItems.map((item: TItem, index: number) => (
+        {this.state.item.SubItems.map((item: TItem, index: number) => (
           <NestedListItem
             key={`${historyPrefix}_${index}`}
             history={this.history}

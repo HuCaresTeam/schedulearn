@@ -19,11 +19,14 @@ namespace SchedulearnBackend.DataAccessLayer
         public DbSet<Topic> Topics { get; set; }
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
-            modelbuilder.Entity<Topic>()
+            /*modelbuilder.Entity<Topic>()
                 .HasMany(e => e.SubTopics)
                 .WithOne()
-                .HasForeignKey(e => e.ParentTopicId); //each comment from replies points back to its parent
-            
+                .HasForeignKey(e => e.ParentTopicId);*/ //each comment from replies points back to its parent
+            modelbuilder.Entity<Topic>()
+                .HasMany(e => e.SubTopics)
+                .WithOne(e => e.ParentTopic)
+                .HasForeignKey(e => e.ParentTopicId);
         }
 
     }

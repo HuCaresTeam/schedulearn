@@ -3,8 +3,8 @@ import "./NestedListItem.scss";
 import arrow from "./next.svg";
 
 export interface Item<TItem> {
-  label: string;
-  subItems: TItem[];
+  Label: string;
+  SubItems: TItem[];
 }
 
 export interface NestedListItemProps<TItem extends Item<TItem>> {
@@ -21,13 +21,13 @@ export class NestedListItem<TItem extends Item<TItem>> extends React.PureCompone
 
   render(): JSX.Element {
     let icon;
-    if (this.props.item.subItems.length) {
+    if (this.props.item.SubItems.length) {
       icon = <img className="nested-list-forward-icon" src={arrow} alt="arrow" />;
     }
 
     return (
       <div className="nested-list-item" onClick={this.handler}>
-        {this.props.item.label}
+        {this.props.item.Label}
         {icon}
       </div>
     );
