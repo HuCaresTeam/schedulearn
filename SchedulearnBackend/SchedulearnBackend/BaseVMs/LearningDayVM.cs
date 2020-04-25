@@ -20,6 +20,11 @@ namespace SchedulearnBackend.BaseVMs
             get { return _schedulearnContext.LearningDays.ToList(); }
         }
 
+        public LearningDayVM(SchedulearnContext schedulearnContext)
+        {
+            _schedulearnContext = schedulearnContext;
+        }
+
         public Action<User> GetUserLearningDays => user =>
         {
             CurrentUser = _schedulearnContext.Users.Where(u => u.Name == user.Name).First();
