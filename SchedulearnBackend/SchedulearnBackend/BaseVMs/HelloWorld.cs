@@ -4,7 +4,7 @@ using System.Threading;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 
-namespace SchedulearnBackend
+namespace SchedulearnBackend.BaseVMs
 {
     public class HelloWorld : BaseVM
     {
