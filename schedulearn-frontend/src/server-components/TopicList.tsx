@@ -14,9 +14,9 @@ interface TopicListProps {
 }
 
 export interface FullTopic extends Item<FullTopic>{
-  Id?: number;
+  Id: number;
   Description: string;
-  ParentTopicId: number;
+  ParentTopicId?: number;
 }
 
 export default class TopicList extends React.Component<TopicListProps, TopicListState> {

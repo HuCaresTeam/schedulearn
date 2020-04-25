@@ -9,7 +9,6 @@ ReactDOM.render(
   <React.StrictMode>
     {/* <HelloWorld /> */}
     <TopicList />
-    {/* <NestedListExample /> */}
     <LearningDayCalendar />
   </React.StrictMode>,
   document.getElementById("root"),
