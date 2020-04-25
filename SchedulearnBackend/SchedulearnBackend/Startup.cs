@@ -29,7 +29,7 @@ namespace SchedulearnBackend
             services.AddMemoryCache();
             services.AddSignalR();
             services.AddDotNetify();
-            services.AddDbContext<UserContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("UserContext")));
+            services.AddDbContext<SchedulearnContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SchedulearnDatabase")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,7 +40,7 @@ namespace SchedulearnBackend
 
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    serviceScope.ServiceProvider.GetService<UserContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<SchedulearnContext>().Database.Migrate();
                 }
             }
             else

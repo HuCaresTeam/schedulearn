@@ -8,8 +8,8 @@ using SchedulearnBackend.DataAccessLayer;
 
 namespace SchedulearnBackend.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SchedulearnContext))]
+    partial class SchedulearnContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

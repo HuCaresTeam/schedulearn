@@ -10,30 +10,30 @@ namespace SchedulearnBackend.BaseVMs
 {
     public class UserBaseVM : BaseVM
     {
-        private readonly UserContext _userContext;
+        private readonly SchedulearnContext _schedulearnContext;
         private User CurrentUser { get; set; }
 
         private IEnumerable<User> AllUsers
         {
-            get { return _userContext.Users.ToList(); }
+            get { return _schedulearnContext.Users.ToList(); }
         }
 
-        public UserBaseVM(UserContext userContext)
+        public UserBaseVM(SchedulearnContext schedulearnContext)
         {
-            _userContext = userContext;
+            _schedulearnContext = schedulearnContext;
         }
 
         public Action<User> SetCurrentUser => user =>
         {
-            CurrentUser = _userContext.Users.Where(u => u.Name == user.Name).First();
+            CurrentUser = _schedulearnContext.Users.Where(u => u.Name == user.Name).First();
             if (CurrentUser == null)
             {
                 CurrentUser = new User()
                 {
                     Name = user.Name
                 };
-                _userContext.Users.Add(CurrentUser);
-                _userContext.SaveChanges();
+                _schedulearnContext.Users.Add(CurrentUser);
+                _schedulearnContext.SaveChanges();
             }
 
             Changed(nameof(CurrentUser));

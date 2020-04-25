@@ -9,8 +9,8 @@ using SchedulearnBackend.DataAccessLayer;
 
 namespace SchedulearnBackend.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20200425132120_InitialDatabase")]
+    [DbContext(typeof(SchedulearnContext))]
+    [Migration("20200425133613_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

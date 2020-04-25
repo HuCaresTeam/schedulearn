@@ -10,20 +10,20 @@ namespace SchedulearnBackend.BaseVMs
 {
     public class LearningDayVM : BaseVM
     {
-        private readonly UserContext _userContext;
+        private readonly SchedulearnContext _schedulearnContext;
         private User CurrentUser { get; set; }
 
         private IEnumerable<LearningDay> UserLearningDays { get; set; }
 
         private IEnumerable<LearningDay> AllLearningDays
         {
-            get { return _userContext.LearningDays.ToList(); }
+            get { return _schedulearnContext.LearningDays.ToList(); }
         }
 
         public Action<User> GetUserLearningDays => user =>
         {
-            CurrentUser = _userContext.Users.Where(u => u.Name == user.Name).First();
-            UserLearningDays = _userContext.LearningDays.Where(l => l.UserId == user.Id);
+            CurrentUser = _schedulearnContext.Users.Where(u => u.Name == user.Name).First();
+            UserLearningDays = _schedulearnContext.LearningDays.Where(l => l.UserId == user.Id);
 
             Changed(nameof(CurrentUser));
             Changed(nameof(UserLearningDays));

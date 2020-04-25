@@ -7,9 +7,9 @@ using SchedulearnBackend.Models;
 
 namespace SchedulearnBackend.DataAccessLayer
 {
-    public class UserContext : DbContext
+    public class SchedulearnContext : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options) : base(options)
+        public SchedulearnContext(DbContextOptions<SchedulearnContext> options) : base(options)
         {
 
         }
