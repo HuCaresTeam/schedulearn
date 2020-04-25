@@ -27,34 +27,34 @@ export interface Topic extends Item<Topic> {
 
 const tempItem: Topic = {
   topicId: 5,
-  label: "title",
-  subItems: [
+  Label: "title",
+  SubItems: [
     {
       topicId: 57,
-      label: "first",
-      subItems: [
+      Label: "first",
+      SubItems: [
         {
           topicId: 100,
-          label: "first1",
-          subItems: [
+          Label: "first1",
+          SubItems: [
             {
               topicId: 5400,
-              label: "first11",
-              subItems: [
+              Label: "first11",
+              SubItems: [
                 {
                   topicId: 5700,
-                  label: "first111",
-                  subItems: [],
+                  Label: "first111",
+                  SubItems: [],
                 },
                 {
                   topicId: 5800,
-                  label: "first111",
-                  subItems: [],
+                  Label: "first111",
+                  SubItems: [],
                 },
                 {
                   topicId: 5900,
-                  label: "first111",
-                  subItems: [],
+                  Label: "first111",
+                  SubItems: [],
                 },
               ],
             },
@@ -62,30 +62,30 @@ const tempItem: Topic = {
         },
         {
           topicId: 101,
-          label: "first2",
-          subItems: [],
+          Label: "first2",
+          SubItems: [],
         },
         {
           topicId: 102,
-          label: "first111",
-          subItems: [],
+          Label: "first111",
+          SubItems: [],
         },
         {
           topicId: 103,
-          label: "first1117",
-          subItems: [],
+          Label: "first1117",
+          SubItems: [],
         },
       ],
     },
     {
       topicId: 6,
-      label: "second",
-      subItems: [],
+      Label: "second",
+      SubItems: [],
     },
     {
       topicId: 7,
-      label: "third",
-      subItems: [],
+      Label: "third",
+      SubItems: [],
     },
   ],
 };
