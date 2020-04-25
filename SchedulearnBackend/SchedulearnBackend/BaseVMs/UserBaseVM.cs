@@ -25,7 +25,7 @@ namespace SchedulearnBackend.BaseVMs
 
         public Action<User> SetCurrentUser => user =>
         {
-            CurrentUser = _schedulearnContext.Users.Where(u => u.Name == user.Name).First();
+            CurrentUser = _schedulearnContext.Users.Where(u => u.Name == user.Name).FirstOrDefault(null);
             if (CurrentUser == null)
             {
                 CurrentUser = new User()

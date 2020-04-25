@@ -67,7 +67,7 @@ namespace SchedulearnBackend
             {
                 config.UseJsonSerializerSettings(ignoredPropertyNames => new JsonSerializerSettings
                 {
-                    
+                    NullValueHandling = NullValueHandling.Ignore
                 });
             });
 
