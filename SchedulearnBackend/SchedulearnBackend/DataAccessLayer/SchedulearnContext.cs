@@ -22,7 +22,7 @@ namespace SchedulearnBackend.DataAccessLayer
         {
             modelbuilder.Entity<Topic>()
                 .HasMany(e => e.SubTopics)
-                .WithOne()
+                .WithOne(e => e.ParentTopic)
                 .HasForeignKey(e => e.ParentTopicId); //each comment from replies points back to its parent
 
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 1, Title = "Software developer" });

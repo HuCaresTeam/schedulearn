@@ -26,21 +26,21 @@ namespace SchedulearnBackend
             public int? ParentTopicId { get; set; }      
             public virtual IEnumerable<NestedListTopic> SubItems { get; set; }
         }
-        private readonly UserContext _userContext;
+        private readonly SchedulearnContext _schedulearnContext;
         public NestedListTopic RootTopic 
         { 
             get 
             { 
-                return _userContext.Topics
+                return _schedulearnContext.Topics
                     .Where(t => t.ParentTopicId == null)
                     .ToList()
                     .Select(t => new NestedListTopic(t))
                     .First(); 
             } 
         }
-        public TopicList(UserContext userContext)
+        public TopicList(SchedulearnContext schedulearnContext)
         {
-            _userContext = userContext;
+            _schedulearnContext = schedulearnContext;
         }
     }
 }
