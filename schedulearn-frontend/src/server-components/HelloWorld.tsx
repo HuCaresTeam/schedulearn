@@ -1,7 +1,7 @@
-import React from 'react';
-import dotnetify from 'dotnetify';
+import React from "react";
+import dotnetify from "dotnetify";
 
-dotnetify.hubServerUrl = 'http://localhost:5000';
+dotnetify.hubServerUrl = "http://localhost:5000";
 
 interface State {
   Greetings: string;
@@ -11,8 +11,8 @@ interface State {
 export default class HelloWorld extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
-    dotnetify.react.connect('HelloWorld', this);
-    this.state = { Greetings: 'The server might be currently offline', ServerTime: '' };
+    dotnetify.react.connect("HelloWorld", this);
+    this.state = { Greetings: "The server might be currently offline", ServerTime: "" };
   }
 
   render(): React.ReactNode {
