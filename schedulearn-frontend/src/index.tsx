@@ -2,9 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
-//import HelloWorld from "./server-components/HelloWorld";
 import TopicList from "./server-components/TopicList";
-//import NestedListExample from "./components/NestedList/NestedListExample";
 import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
 
 ReactDOM.render(

@@ -14,7 +14,7 @@ interface TopicListProps {
 }
 
 export interface FullTopic extends Item<FullTopic>{
-  Id: number;
+  Id?: number;
   Description: string;
   ParentTopicId: number;
 }
@@ -29,8 +29,8 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
   render(): React.ReactNode {
     if(this.state.RootTopic === undefined)
     {
-      return(
-        <div>Loading stuff</div>      
+      return (
+        <NestedList item={{Label: "Loading...", SubItems: []}}/>
       );
     }
     return (
