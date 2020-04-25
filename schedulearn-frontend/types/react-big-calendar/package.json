@@ -1,0 +1,117 @@
+{
+  "_from": "@types/react-big-calendar",
+  "_id": "@types/react-big-calendar@0.24.0",
+  "_inBundle": false,
+  "_integrity": "sha512-SxuVDKy54pvVy2Ncoc7YpfO7R03QDTJeKqxxeFYXaBEE0x8Xqjr/bMgQHage7SVYfwiQPehSAaLGh3Pds60C/Q==",
+  "_location": "/@types/react-big-calendar",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@types/react-big-calendar",
+    "name": "@types/react-big-calendar",
+    "escapedName": "@types%2freact-big-calendar",
+    "scope": "@types",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@types/react-big-calendar/-/react-big-calendar-0.24.0.tgz",
+  "_shasum": "f339e73177dccb8007a4ead8e687d66c4ccf310b",
+  "_spec": "@types/react-big-calendar",
+  "_where": "D:\\University\\schedulearn\\schedulearn-frontend",
+  "bugs": {
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Piotr Witek",
+      "url": "https://github.com/piotrwitek"
+    },
+    {
+      "name": "Austin Turner",
+      "url": "https://github.com/paustint"
+    },
+    {
+      "name": "Krzysztof Bezrąk",
+      "url": "https://github.com/pikpok"
+    },
+    {
+      "name": "Sebastian Silbermann",
+      "url": "https://github.com/eps1lon"
+    },
+    {
+      "name": "Paul Potsides",
+      "url": "https://github.com/strongpauly"
+    },
+    {
+      "name": "janb87",
+      "url": "https://github.com/janb87"
+    },
+    {
+      "name": "Daniel Thorne",
+      "url": "https://github.com/ldthorne"
+    },
+    {
+      "name": "Panagiotis Rikarnto Siavelis",
+      "url": "https://github.com/siavelis"
+    },
+    {
+      "name": "Tomas Hubelbauer",
+      "url": "https://github.com/TomasHubelbauer"
+    },
+    {
+      "name": "Lucas Silva Souza",
+      "url": "https://github.com/lksilva"
+    },
+    {
+      "name": "Siarhey Belofost",
+      "url": "https://github.com/SergeyBelofost"
+    },
+    {
+      "name": "Mark Nelissen",
+      "url": "https://github.com/marknelissen"
+    },
+    {
+      "name": "Eric Kenney",
+      "url": "https://github.com/KenneyE"
+    },
+    {
+      "name": "Paito Anderson",
+      "url": "https://github.com/PaitoAnderson"
+    },
+    {
+      "name": "Jan Michalak",
+      "url": "https://github.com/michalak111"
+    },
+    {
+      "name": "Felix Hessenberger",
+      "url": "https://github.com/fhessenberger"
+    }
+  ],
+  "dependencies": {
+    "@types/prop-types": "*",
+    "@types/react": "*"
+  },
+  "deprecated": false,
+  "description": "TypeScript definitions for react-big-calendar",
+  "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme",
+  "license": "MIT",
+  "main": "",
+  "name": "@types/react-big-calendar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+    "directory": "types/react-big-calendar"
+  },
+  "scripts": {},
+  "typeScriptVersion": "2.8",
+  "types": "index.d.ts",
+  "typesPublisherContentHash": "296d560ce3895581746f1666658683e6aae4ed3f2632e192241b32643442edd6",
+  "version": "0.24.0"
+}
