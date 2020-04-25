@@ -4,8 +4,13 @@ import { Item } from "src/components/NestedList/NestedListItem";
 import { NestedList } from "src/components/NestedList/NestedList";
 dotnetify.hubServerUrl = "http://localhost:5000";
 
-interface State {
+interface TopicListState {
   RootTopic?: FullTopic;
+}
+interface TopicListProps {
+  onItemClick?(item: FullTopic, itemIndex: string): void;
+  width?: number;
+  selectedItemIndex?: string;
 }
 
 export interface FullTopic extends Item<FullTopic>{
@@ -14,8 +19,8 @@ export interface FullTopic extends Item<FullTopic>{
   ParentTopicId: number;
 }
 
-export default class TopicList extends React.Component<{}, State> {
-  constructor(props: {}) {
+export default class TopicList extends React.Component<TopicListProps, TopicListState> {
+  constructor(props: TopicListProps) {
     super(props);
     dotnetify.react.connect("TopicList", this);
     this.state = { };
@@ -29,7 +34,7 @@ export default class TopicList extends React.Component<{}, State> {
       );
     }
     return (
-      <NestedList item={this.state.RootTopic} />
+      <NestedList item={this.state.RootTopic} onItemClick={this.props.onItemClick}/>
     );
   }
 }
