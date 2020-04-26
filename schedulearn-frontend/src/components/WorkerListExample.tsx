@@ -5,25 +5,25 @@ import WorkerList from './WorkerList';
 export default class WorkerListExample extends React.Component {
   list: Item[] = [
     {
-      userId: 1,
-      fullName: 'Jonas',
-      jobTitle: 'boss',
-      dateFrom: '2020-04-20',
-      dateTo: '2020-04-20',
+      UserId: 1,
+      FullName: 'Jonas',
+      JobTitle: 'boss',
+      DateFrom: '2020-04-20',
+      DateTo: '2020-04-20',
     },
     {
-      userId: 2,
-      fullName: 'Petras',
-      jobTitle: 'boss',
-      dateFrom: '2020-04-20',
-      dateTo: '2020-04-20',
+      UserId: 2,
+      FullName: 'Petras',
+      JobTitle: 'boss',
+      DateFrom: '2020-04-20',
+      DateTo: '2020-04-20',
     },
     {
-      userId: 3,
-      fullName: 'Kestutis',
-      jobTitle: 'boss',
-      dateFrom: '2020-04-20',
-      dateTo: '2020-04-20',
+      UserId: 3,
+      FullName: 'Kestutis',
+      JobTitle: 'boss',
+      DateFrom: '2020-04-20',
+      DateTo: '2020-04-20',
     },
   ];
   render(): JSX.Element {
