@@ -53,28 +53,6 @@ ReactDOM.render(
   document.getElementById("root"),
 );
 
-// function Home() {
-//   return <h2>Home</h2>;
-// }
-
-// function About() {
-//   return <h2>About</h2>;
-// }
-
-// function Users() {
-//   return <h2>Users</h2>;
-// }
-
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     {/* <HelloWorld /> */}
-//     <NestedListExample />
-//     <LearningDayCalendar />
-//   </React.StrictMode>,
-//   document.getElementById("root"),
-// );
-
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
