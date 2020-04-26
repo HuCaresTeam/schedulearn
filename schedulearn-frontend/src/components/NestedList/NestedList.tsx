@@ -43,7 +43,7 @@ export class NestedList<TItem extends Item<TItem>>
 
     const result = this.findHistoryById(selectedId, this.props.rootItem, []);
     if (result === undefined)
-      throw new Error("Id does not exist on ty");
+      throw new Error("Id does not exist on root topic.");
 
     return result;
   }

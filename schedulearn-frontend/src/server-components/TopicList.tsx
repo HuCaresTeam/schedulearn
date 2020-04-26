@@ -15,10 +15,6 @@ export interface FullTopic extends Item<FullTopic> {
 }
 
 export default class TopicList extends React.Component<TopicListProps> {
-  constructor(props: TopicListProps) {
-    super(props);
-  }
-
   renderWithinContext = (topicContext: TopicListProviderState): React.ReactNode => {
     if (!topicContext.RootTopic) {
       return (
@@ -27,7 +23,7 @@ export default class TopicList extends React.Component<TopicListProps> {
     }
 
     return (
-      <NestedList rootItem={topicContext.RootTopic} onItemClick={this.props.onItemClick} selectedItemId={3} selectable={true} />
+      <NestedList rootItem={topicContext.RootTopic} onItemClick={this.props.onItemClick} selectable={true} />
     );
   }
 
