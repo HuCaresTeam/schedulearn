@@ -1,0 +1,11 @@
+.worker-table {
+  border-collapse: collapse;
+  margin: 5px;
+}
+
+.worker-table,
+.worker-table td,
+.worker-table th {
+  border: 1px solid black;
+  padding: 5px;
+}
