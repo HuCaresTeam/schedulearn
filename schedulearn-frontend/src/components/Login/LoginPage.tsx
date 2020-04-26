@@ -1,5 +1,7 @@
 import React from "react";
 import dotnetify, { dotnetifyVM } from "dotnetify";
+import { UsernameContext } from "../Contexts/UsernameContext";
+import { UsernameState } from "../Contexts/UsernameContext";
 
 dotnetify.hubServerUrl = "http://localhost:5000";
 
@@ -42,6 +44,11 @@ export default class LoginPage extends React.Component<{}, State> {
     this.setState({ UserName: event.target.value });
   }
 
+  handleSetUsername = (context: UsernameState): void => {
+    this.$dispatch({ SetCurrentUser: { Name: this.state.UserName } });
+    context.setUsername(this.state.UserName);
+  }
+
   render(): React.ReactNode {
     if (this.state.CurrentUser === undefined)
       return (<div>Fetching data from database</div>);
@@ -49,10 +56,18 @@ export default class LoginPage extends React.Component<{}, State> {
     return (
       <div>
         <span>Add:</span>
+        
         <input type="text" value={this.state.UserName} onChange={this.handleUsername} />
-        <button onClick={(): void => this.$dispatch({ SetCurrentUser: { Name: this.state.UserName } })}>
-          Send user
-        </button>
+
+        <UsernameContext.Consumer>
+          {(context): React.ReactNode => (
+            <React.Fragment>
+              <button onClick={(): void => {this.handleSetUsername(context);}}>Send user</button>  
+              <p>Data from context: {context.username}</p>
+            </React.Fragment>
+          )}
+        </UsernameContext.Consumer>
+        
         <p>Current user name: {this.state.CurrentUser.Name}</p>
       </div>
     );

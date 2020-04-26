@@ -6,6 +6,8 @@ import * as serviceWorker from "./serviceWorker";
 import NestedListExample from "./components/NestedList/NestedListExample";
 import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
 import LoginPage from "./components/Login/LoginPage";
+import { UsernameProvider } from "./components/Contexts/UsernameContext";
+
 
 import {
   BrowserRouter as Router,
@@ -17,37 +19,37 @@ import {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/list_example">Nested List</Link>
-            </li>
-            <li>
-              <Link to="/calendar">Calendar</Link>
-            </li>
-          </ul>
-        </nav>
+    <UsernameProvider>
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/list_example">Nested List</Link>
+              </li>
+              <li>
+                <Link to="/calendar">Calendar</Link>
+              </li>
+            </ul>
+          </nav>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/list_example">
-            <NestedListExample />
-          </Route>
-          <Route path="/calendar">
-            <LearningDayCalendar />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <Route path="/list_example">
+              <NestedListExample />
+            </Route>
+            <Route path="/calendar">
+              <LearningDayCalendar />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </UsernameProvider> 
   </React.StrictMode>,
   document.getElementById("root"),
 );
