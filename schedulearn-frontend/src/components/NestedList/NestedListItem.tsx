@@ -3,6 +3,7 @@ import "./NestedListItem.scss";
 import arrow from "./next.svg";
 
 export interface Item<TItem> {
+  Id: number;
   Label: string;
   SubItems: TItem[];
 }

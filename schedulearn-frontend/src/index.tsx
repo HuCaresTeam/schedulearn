@@ -4,12 +4,14 @@ import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
 import TopicList from "./server-components/TopicList";
 import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
+import TopicListProvider from "./server-components/TopicListProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <HelloWorld /> */}
-    <TopicList />
-    <LearningDayCalendar />
+    <TopicListProvider>
+      <TopicList />
+      <LearningDayCalendar />
+    </TopicListProvider>
   </React.StrictMode>,
   document.getElementById("root"),
 );
