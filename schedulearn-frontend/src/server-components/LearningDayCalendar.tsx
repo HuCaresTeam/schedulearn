@@ -24,13 +24,13 @@ export class LearningDayCalendar extends React.Component<{}, LearningDayCalendar
   public state: LearningDayCalendarState = {
     learningDayEvents: [
       {
-        learningDayId: 1,
+        topicId: 1,
         start: new Date(2020, 3, 20, 10),
         end: new Date(2020, 3, 20, 12, 30),
         title: "Event 1",
       },
       {
-        learningDayId: 2,
+        topicId: 2,
         start: new Date(2020, 3, 20, 15),
         end: new Date(2020, 3, 20, 20, 30),
         title: "Event 2",

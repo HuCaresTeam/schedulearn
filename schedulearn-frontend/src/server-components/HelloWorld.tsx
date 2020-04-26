@@ -5,7 +5,6 @@ dotnetify.hubServerUrl = "http://localhost:5000";
 
 interface State {
   CurrentUser?: User;
-  VM?: dotnetifyVM;
   UserName: string;
 }
 
@@ -17,25 +16,26 @@ interface User {
 }
 
 export default class HelloWorld extends React.Component<{}, State> {
+  private vm?: dotnetifyVM;
+
   constructor(props: {}) {
     super(props);
     this.state = { CurrentUser: { Id: 0, Name: "name", Surname: "surname", JobTitleId: 0 }, UserName: "User name" };
   }
 
   componentDidMount(): void {
-    const vm = dotnetify.react.connect("UserBaseVM", this);
-    this.setState({ VM: vm });
+    this.vm = dotnetify.react.connect("UserBaseVM", this);
   }
 
   componentWillUnmount(): void {
-    if (this.state.VM !== undefined)
-      this.state.VM.$destroy();
+    if (this.vm !== undefined)
+      this.vm.$destroy();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   $dispatch = (iValue: any): void => {
-    if (this.state.VM !== undefined)
-      this.state.VM.$dispatch(iValue);
+    if (this.vm !== undefined)
+      this.vm.$dispatch(iValue);
   };
 
   handleUsername = (event: React.ChangeEvent<HTMLInputElement>): void => {
