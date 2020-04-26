@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
-// import HelloWorld from './HelloWorld';
-import NestedListExample from "./components/NestedList/NestedListExample";
+import TopicList from "./server-components/TopicList";
 import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
 import LoginPage from "./components/Login/LoginPage";
 import { UsernameProvider } from "./components/Contexts/UsernameContext";
@@ -41,7 +40,7 @@ ReactDOM.render(
               <LoginPage />
             </Route>
             <Route path="/list_example">
-              <NestedListExample />
+              <TopicList />
             </Route>
             <Route path="/calendar">
               <LearningDayCalendar />

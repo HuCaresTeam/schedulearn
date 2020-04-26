@@ -200,7 +200,7 @@ namespace SchedulearnBackend.Migrations
 
             modelBuilder.Entity("SchedulearnBackend.Models.Topic", b =>
                 {
-                    b.HasOne("SchedulearnBackend.Models.Topic", null)
+                    b.HasOne("SchedulearnBackend.Models.Topic", "ParentTopic")
                         .WithMany("SubTopics")
                         .HasForeignKey("ParentTopicId");
                 });

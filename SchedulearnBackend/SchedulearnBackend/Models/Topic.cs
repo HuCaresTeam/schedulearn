@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetify;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,8 @@ namespace SchedulearnBackend.Models
         [Required]
         public string Description { get; set; }
         public int? ParentTopicId { get; set; }
+        [Ignore]
+        public virtual Topic ParentTopic { get; set; }
         public virtual ICollection<Topic> SubTopics { get; set; }
     }
 }

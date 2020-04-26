@@ -10,7 +10,7 @@ using SchedulearnBackend.DataAccessLayer;
 namespace SchedulearnBackend.Migrations
 {
     [DbContext(typeof(SchedulearnContext))]
-    [Migration("20200425133613_InitialDatabase")]
+    [Migration("20200425203428_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,7 +202,7 @@ namespace SchedulearnBackend.Migrations
 
             modelBuilder.Entity("SchedulearnBackend.Models.Topic", b =>
                 {
-                    b.HasOne("SchedulearnBackend.Models.Topic", null)
+                    b.HasOne("SchedulearnBackend.Models.Topic", "ParentTopic")
                         .WithMany("SubTopics")
                         .HasForeignKey("ParentTopicId");
                 });
