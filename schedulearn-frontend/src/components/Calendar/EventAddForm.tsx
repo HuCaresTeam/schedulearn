@@ -29,6 +29,7 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       start: this.props.start || startEndRange.start,
       end: this.props.end || startEndRange.end,
       topicId: 0,
+      description: "",
     };
   }
 
@@ -39,6 +40,7 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       end: this.state.end,
       title: this.state.title,
       topicId: this.state.topicId,
+      description: this.state.description,
     });
   }
 
@@ -48,10 +50,6 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       this.props.end !== prevProps.end) {
       this.setState(this.getDefaultState());
     }
-  }
-
-  onTitleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ title: event.target.value });
   }
 
   onStartDateChange = (date: Date): void => {
@@ -68,7 +66,11 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
   }
 
   onTopicSelectChange = (topic: FullTopic): void => {
-    this.setState({ topicId: topic.Id });
+    this.setState({ topicId: topic.Id, title: topic.Label });
+  }
+
+  onDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    this.setState({ description: event.target.value });
   }
 
   render(): JSX.Element {
@@ -78,7 +80,13 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
           <label className="eventLabel">
             Title:
           </label>
-          <input type="text" placeholder="Event title" value={this.state.title} onChange={this.onTitleChange} />
+          <input type="text" disabled={true} placeholder="Event title" value={this.state.title} />
+        </div>
+        <div className="event-field event-topic-selector">
+          <label className="event-label">
+            Learning topic:
+          </label>
+          <TopicList onItemClick={this.onTopicSelectChange} />
         </div>
         <div className="event-field event-start-time">
           <label className="event-label">
@@ -102,11 +110,11 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
             dateFormat="Pp"
           />
         </div>
-        <div className="event-field event-topic-selector">
+        <div className="event-field event-description">
           <label className="event-label">
-            Learning topic:
+            Description:
           </label>
-          <TopicList onItemClick={this.onTopicSelectChange} />
+          <textarea value={this.state.description} onChange={this.onDescriptionChange} />
         </div>
         <input type="submit" value="Submit" />
       </form>
