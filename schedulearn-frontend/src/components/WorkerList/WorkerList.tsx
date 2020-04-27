@@ -28,8 +28,8 @@ export default class WorkerList extends React.Component<WorkerListProps, {}> {
           <tr key={index}>
             <td>{item.FullName}</td>
             <td>{item.JobTitle}</td>
-            <td>{item.DateFrom}</td>
-            <td>{item.DateTo}</td>
+            <td>{item.DateFrom.replace("T", " ")}</td>
+            <td>{item.DateTo.replace("T", " ")}</td>
           </tr>
         ))}
       </table>

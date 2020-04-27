@@ -12,6 +12,7 @@ ReactDOM.render(
     <TopicListProvider>
       <TopicList />
       <LearningDayCalendar />
+      <AnalyzeData/>
     </TopicListProvider>
   </React.StrictMode>,
   document.getElementById("root"),
