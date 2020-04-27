@@ -10,6 +10,10 @@ namespace SchedulearnBackend.BaseVMs
 {
     public class AnalyzeDataVM : BaseVM
     {
+        public class TopicIdWorker
+        {
+            public int TopicId { get; set; }
+        }
         public class WorkerByTopicEntry
         {
             public WorkerByTopicEntry(LearningDay learningDay)
@@ -32,16 +36,19 @@ namespace SchedulearnBackend.BaseVMs
 
         private readonly SchedulearnContext _schedulearnContext;
 
-        private IEnumerable<WorkerByTopicEntry> WorkersByTopic { get; set; }
+        public IEnumerable<WorkerByTopicEntry> WorkersByTopic { get; set; }
 
         public AnalyzeDataVM(SchedulearnContext schedulearnContext)
         {
             _schedulearnContext = schedulearnContext;
         }
 
-        public Action<int> GetWorkersByTopic => topicId =>
+        public Action<TopicIdWorker> GetWorkersByTopic => workerByTopic =>
         {
-            WorkersByTopic = _schedulearnContext.LearningDays.Where(d => d.TopicId == topicId).ToList().Select(u => new WorkerByTopicEntry(u));
+            WorkersByTopic = _schedulearnContext.LearningDays
+                .Where(d => d.TopicId == workerByTopic.TopicId)
+                .ToList()
+                .Select(u => new WorkerByTopicEntry(u)).ToList();
             Changed(nameof(WorkersByTopic));
             PushUpdates();
         };

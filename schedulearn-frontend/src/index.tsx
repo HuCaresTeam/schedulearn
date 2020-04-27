@@ -5,12 +5,14 @@ import * as serviceWorker from "./serviceWorker";
 import TopicList from "./server-components/TopicList";
 import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
 import TopicListProvider from "./server-components/TopicListProvider";
+import AnalyzeData from "./server-components/AnalyzeData";
 
 ReactDOM.render(
   <React.StrictMode>
     <TopicListProvider>
       <TopicList />
       <LearningDayCalendar />
+      <AnalyzeData/>
     </TopicListProvider>
   </React.StrictMode>,
   document.getElementById("root"),

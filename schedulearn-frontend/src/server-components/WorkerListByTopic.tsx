@@ -40,7 +40,7 @@ export default class WorkerListByTopic extends React.Component<WorkerListByTopic
   };
 
   render(): JSX.Element {
-    if(this.state.WorkersByTopic === undefined) {
+    if(!this.state.WorkersByTopic) {
       return (
         <div>
           <p>Loading workers</p>
