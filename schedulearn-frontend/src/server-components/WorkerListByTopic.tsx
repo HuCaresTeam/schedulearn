@@ -19,7 +19,7 @@ export default class WorkerListByTopic extends React.Component<WorkerListByTopic
   }
 
   componentDidMount(): void {
-    const vm = dotnetify.react.connect("AnalyzeDataVM", this);
+    const vm = dotnetify.react.connect("AnalyzeDataVM", this, {vmArg: {GetWorkersByTopic: {topicId: this.props.topicId}}});
     this.setState({ VM: vm });
   }
 
