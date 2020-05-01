@@ -3,15 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
 import TopicList from "./server-components/TopicList";
-import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
 import TopicListProvider from "./server-components/TopicListProvider";
+import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
+import LearningDayProvider from "./server-components/LearningDayCalendarProvider";
 import AnalyzeData from "./server-components/AnalyzeData";
 
 ReactDOM.render(
   <React.StrictMode>
     <TopicListProvider>
       <TopicList />
-      <LearningDayCalendar />
+      <LearningDayProvider>
+        <UserLearningDayCalendar />
+      </LearningDayProvider>
       <AnalyzeData/>
     </TopicListProvider>
   </React.StrictMode>,

@@ -23,8 +23,8 @@ namespace SchedulearnBackend.BaseVMs
                 Name = learningDay.User.Name;
                 Surname = learningDay.User.Surname;
                 JobTitle = learningDay.User.JobTitle.Title;
-                DateFrom = learningDay.DateFrom;
-                DateTo = learningDay.DateTo;
+                DateFrom = DateTime.SpecifyKind(learningDay.DateFrom, DateTimeKind.Utc);
+                DateTo = DateTime.SpecifyKind(learningDay.DateTo, DateTimeKind.Utc);
             }
 
             public int UserId { get; set; }
