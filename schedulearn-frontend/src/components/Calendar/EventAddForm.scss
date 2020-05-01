@@ -1,21 +1,28 @@
-.eventField {
+.event-field {
   margin-bottom: 19px;
   grid-template-columns: 20% 1fr;
   display: grid;
 }
 
-.eventLabel {
+.event-label {
   margin-right: 15px;
 }
 
-.eventForm {
+.event-form {
   display: grid;
 }
 
-.eventForm input {
+.event-form input {
   width: 100%;
 }
 
-.eventForm .nested-list {
+.event-form .nested-list {
   width: 100%;
+}
+
+.event-form .event-description textarea {
+  resize: vertical;
+  max-height: 300px;
+  min-height: 100px;
+  overflow-y: scroll;
 }

@@ -1,8 +1,21 @@
 import React from "react";
-import { WeekViewCalendar } from "../components/Calendar/WeekViewCalendar";
+import { WeekViewCalendar } from "./Calendar/WeekViewCalendar";
 import { SlotInfo } from "react-big-calendar";
-import { EventAddModal } from "../components/Calendar/EventAddModal";
-import { LearningDayEvent } from "../components/Calendar/LearningDayEvent";
+import { EventAddModal } from "./Calendar/EventAddModal";
+import { LearningDayEvent } from "./Calendar/LearningDayEvent";
+
+export interface LearningDay {
+  Title: string;
+  DateFrom: string;
+  DateTo: string;
+  Description: string;
+  TopicId: number;
+}
+
+export interface LearningDayCalendarProps {
+  learningDayEvents: LearningDay[];
+  handleEventSubmit: (learningDay: LearningDay) => void;
+}
 
 interface LearningDayCalendarState {
   learningDayEvents: LearningDayEvent[];
@@ -15,32 +28,13 @@ interface LearningDayCalendarState {
   };
 }
 
-export class LearningDayCalendar extends React.Component<{}, LearningDayCalendarState> {
-  // TODO: Make complete interface for learning event
-  // TODO: Fetch learning day data
-  // TODO: Handle making new events (Post to server, fetch)
-  // TODO: Figure out how getting single user/all user data is going to look like
-
+export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
   public state: LearningDayCalendarState = {
-    learningDayEvents: [
-      {
-        learningDayId: 1,
-        start: new Date(2020, 3, 20, 10),
-        end: new Date(2020, 3, 20, 12, 30),
-        title: "Event 1",
-      },
-      {
-        learningDayId: 2,
-        start: new Date(2020, 3, 20, 15),
-        end: new Date(2020, 3, 20, 20, 30),
-        title: "Event 2",
-      },
-    ],
+    learningDayEvents: [],
     isEventModalOpen: false,
   }
 
   handleSelectSlot = (slotInfo: SlotInfo): void => {
-    console.log(JSON.stringify(slotInfo));
     if (typeof slotInfo.start === "string")
       slotInfo.start = new Date(slotInfo.start);
 
@@ -60,9 +54,8 @@ export class LearningDayCalendar extends React.Component<{}, LearningDayCalendar
   }
 
   handleEventSubmit = (event: LearningDayEvent): void => {
-    console.log(JSON.stringify(event));
-    const events = [...this.state.learningDayEvents, event];
-    this.setState({ isEventModalOpen: false, learningDayEvents: events });
+    this.props.handleEventSubmit(this.eventToLearningDay(event));
+    this.setState({ isEventModalOpen: false });
   }
 
   handleModalClose = (): void => {
@@ -71,6 +64,33 @@ export class LearningDayCalendar extends React.Component<{}, LearningDayCalendar
 
   handleSelectEvent = (event: LearningDayEvent): void => {
     alert(`Event clicked: ${event.title}`);
+  }
+
+  learningDayToEvent = (learningDay: LearningDay): LearningDayEvent => {
+    return {
+      title: learningDay.Title,
+      start: new Date(Date.parse(learningDay.DateFrom)),
+      end: new Date(Date.parse(learningDay.DateTo)),
+      topicId: learningDay.TopicId,
+      description: learningDay.Description,
+    };
+  }
+
+  eventToLearningDay = (learningDay: LearningDayEvent): LearningDay => {
+    return {
+      Title: learningDay.title,
+      DateFrom: learningDay.start.toISOString(),
+      DateTo: learningDay.end.toISOString(),
+      TopicId: learningDay.topicId,
+      Description: learningDay.description,
+    };
+  }
+
+  componentDidUpdate(prevProps: LearningDayCalendarProps): void {
+    if (prevProps.learningDayEvents !== this.props.learningDayEvents) {
+      const learningDayEvents = this.props.learningDayEvents.map(this.learningDayToEvent);
+      this.setState({ learningDayEvents });
+    }
   }
 
   render(): React.ReactNode {

@@ -3,9 +3,8 @@ import { LearningDayEvent } from "./LearningDayEvent";
 import TimeManipulator from "./TimeManipulator";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Item } from "../NestedList/NestedListItem";
-import { NestedList } from "../NestedList/NestedList";
 import "./EventAddForm.scss";
+import TopicList, { FullTopic } from "src/server-components/TopicList";
 
 export interface EventAddFormProps {
   isOpen: boolean;
@@ -14,81 +13,7 @@ export interface EventAddFormProps {
   onEventSubmit: (event: LearningDayEvent) => void;
 }
 
-export interface EventAddFormState {
-  title: string;
-  start: Date;
-  end: Date;
-  learningDayId: number;
-}
-
-export interface Topic extends Item<Topic> {
-  topicId: number;
-}
-
-const tempItem: Topic = {
-  topicId: 5,
-  Label: "title",
-  SubItems: [
-    {
-      topicId: 57,
-      Label: "first",
-      SubItems: [
-        {
-          topicId: 100,
-          Label: "first1",
-          SubItems: [
-            {
-              topicId: 5400,
-              Label: "first11",
-              SubItems: [
-                {
-                  topicId: 5700,
-                  Label: "first111",
-                  SubItems: [],
-                },
-                {
-                  topicId: 5800,
-                  Label: "first111",
-                  SubItems: [],
-                },
-                {
-                  topicId: 5900,
-                  Label: "first111",
-                  SubItems: [],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          topicId: 101,
-          Label: "first2",
-          SubItems: [],
-        },
-        {
-          topicId: 102,
-          Label: "first111",
-          SubItems: [],
-        },
-        {
-          topicId: 103,
-          Label: "first1117",
-          SubItems: [],
-        },
-      ],
-    },
-    {
-      topicId: 6,
-      Label: "second",
-      SubItems: [],
-    },
-    {
-      topicId: 7,
-      Label: "third",
-      SubItems: [],
-    },
-  ],
-};
+export type EventAddFormState = LearningDayEvent
 
 export class EventAddForm extends React.Component<EventAddFormProps, EventAddFormState> {
   public constructor(props: EventAddFormProps) {
@@ -103,7 +28,8 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       title: "",
       start: this.props.start || startEndRange.start,
       end: this.props.end || startEndRange.end,
-      learningDayId: 0,
+      topicId: 0,
+      description: "",
     };
   }
 
@@ -113,7 +39,8 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       start: this.state.start,
       end: this.state.end,
       title: this.state.title,
-      learningDayId: this.state.learningDayId,
+      topicId: this.state.topicId,
+      description: this.state.description,
     });
   }
 
@@ -123,10 +50,6 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       this.props.end !== prevProps.end) {
       this.setState(this.getDefaultState());
     }
-  }
-
-  onTitleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ title: event.target.value });
   }
 
   onStartDateChange = (date: Date): void => {
@@ -142,46 +65,56 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
     this.setState({ end: date });
   }
 
-  onTopicSelectChange = (topic: Topic): void => {
-    this.setState({ learningDayId: topic.topicId });
+  onTopicSelectChange = (topic: FullTopic): void => {
+    this.setState({ topicId: topic.Id, title: topic.Label });
+  }
+
+  onDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    this.setState({ description: event.target.value });
   }
 
   render(): JSX.Element {
     return (
-      <form className="eventForm" onSubmit={this.handleSubmit}>
-        <div className="eventField eventTitle">
+      <form className="event-form" onSubmit={this.handleSubmit}>
+        <div className="event-field event-title">
           <label className="eventLabel">
-            Name:
+            Title:
           </label>
-          <input type="text" value={this.state.title} onChange={this.onTitleChange} />
+          <input type="text" disabled={true} placeholder="Event title" value={this.state.title} />
         </div>
-        <div className="eventField eventStartTime">
-          <label className="eventLabel">
+        <div className="event-field event-topic-selector">
+          <label className="event-label">
+            Learning topic:
+          </label>
+          <TopicList onItemClick={this.onTopicSelectChange} />
+        </div>
+        <div className="event-field event-start-time">
+          <label className="event-label">
             Start Time:
           </label>
-          <DatePicker className="eventStartTimerPicker"
+          <DatePicker className="event-start-timer-picker"
             selected={this.state.start}
             onChange={this.onStartDateChange}
             showTimeSelect
             dateFormat="Pp"
           />
         </div>
-        <div className="eventField eventEndTime">
-          <label className="eventLabel">
+        <div className="event-field event-end-time">
+          <label className="event-label">
             End Time:
           </label>
-          <DatePicker className="eventStartTimerPicker"
+          <DatePicker className="event-start-timer-picker"
             selected={this.state.end}
             onChange={this.onEndDateChange}
             showTimeSelect
             dateFormat="Pp"
           />
         </div>
-        <div className="eventField eventTopicSelector">
-          <label className="eventLabel">
-            Learning topic:
+        <div className="event-field event-description">
+          <label className="event-label">
+            Description:
           </label>
-          <NestedList item={tempItem} onItemClick={this.onTopicSelectChange} />
+          <textarea value={this.state.description} onChange={this.onDescriptionChange} />
         </div>
         <input type="submit" value="Submit" />
       </form>

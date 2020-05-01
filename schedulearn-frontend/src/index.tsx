@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
 import TopicList from "./server-components/TopicList";
-import { LearningDayCalendar } from "./server-components/LearningDayCalendar";
+
+import TopicListProvider from "./server-components/TopicListProvider";
+import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
+import LearningDayProvider from "./server-components/LearningDayCalendarProvider";
+import AnalyzeData from "./server-components/AnalyzeData";
 import LoginPage from "./components/Login/LoginPage";
 import { UsernameProvider } from "./components/Contexts/UsernameContext";
 
@@ -40,10 +44,15 @@ ReactDOM.render(
               <LoginPage />
             </Route>
             <Route path="/list_example">
-              <TopicList />
+              <TopicListProvider>
+                <TopicList />
+                <AnalyzeData/>
+              </TopicListProvider>
             </Route>
             <Route path="/calendar">
-              <LearningDayCalendar />
+              <LearningDayProvider>
+                <UserLearningDayCalendar />
+              </LearningDayProvider>
             </Route>
           </Switch>
         </div>
