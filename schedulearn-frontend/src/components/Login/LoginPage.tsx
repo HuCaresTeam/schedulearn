@@ -11,7 +11,7 @@ interface State {
   UserName: string;
 }
 
-interface User {
+export interface User {
   Id: number;
   Name: string;
   Surname: string;
@@ -63,7 +63,7 @@ export default class LoginPage extends React.Component<{}, State> {
           {(context): React.ReactNode => (
             <React.Fragment>
               <button onClick={(): void => {this.handleSetUsername(context);}}>Send user</button>  
-              <p>Data from context: {context.username}</p>
+              <p>Data from context: {context.user?.Name}</p>
             </React.Fragment>
           )}
         </UsernameContext.Consumer>
