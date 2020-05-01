@@ -6,6 +6,7 @@ import TopicList from "./server-components/TopicList";
 import TopicListProvider from "./server-components/TopicListProvider";
 import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
 import LearningDayProvider from "./server-components/LearningDayCalendarProvider";
+import AnalyzeData from "./server-components/AnalyzeData";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.render(
       <LearningDayProvider>
         <UserLearningDayCalendar />
       </LearningDayProvider>
+      <AnalyzeData/>
     </TopicListProvider>
   </React.StrictMode>,
   document.getElementById("root"),
