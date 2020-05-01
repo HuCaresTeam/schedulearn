@@ -42,15 +42,11 @@ export default class WorkerListByTopic extends React.Component<WorkerListByTopic
   render(): JSX.Element {
     if(!this.state.WorkersByTopic) {
       return (
-        <div>
-          <p>Loading workers</p>
-        </div>
+        <p>Loading workers</p>
       );
     }
     return (
-      <div>
-        <WorkerList items={this.state.WorkersByTopic}></WorkerList>
-      </div>
+      <WorkerList items={this.state.WorkersByTopic}></WorkerList>
     );
   }
 }

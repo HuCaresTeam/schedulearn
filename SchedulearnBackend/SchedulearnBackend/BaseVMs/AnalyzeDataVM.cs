@@ -20,7 +20,8 @@ namespace SchedulearnBackend.BaseVMs
             {
                 UserId = learningDay.User.Id;
                 TopicId = learningDay.Topic.Id;
-                FullName = learningDay.User.Name + " " + learningDay.User.Surname;
+                Name = learningDay.User.Name;
+                Surname = learningDay.User.Surname;
                 JobTitle = learningDay.User.JobTitle.Title;
                 DateFrom = learningDay.DateFrom;
                 DateTo = learningDay.DateTo;
@@ -28,7 +29,8 @@ namespace SchedulearnBackend.BaseVMs
 
             public int UserId { get; set; }
             public int TopicId { get; set; }
-            public string FullName { get; set; }
+            public string Name { get; set; }
+            public string Surname { get; set; }
             public string JobTitle { get; set; }
             public DateTime DateFrom { get; set; }
             public DateTime DateTo { get; set; }
