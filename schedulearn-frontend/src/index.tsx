@@ -9,7 +9,7 @@ import { UserLearningDayCalendar } from "./server-components/UserLearningDayCale
 import LearningDayProvider from "./server-components/LearningDayCalendarProvider";
 import AnalyzeData from "./server-components/AnalyzeData";
 import LoginPage from "./components/Login/LoginPage";
-import { UsernameProvider } from "./components/Contexts/UsernameContext";
+import { UserProvider } from "./components/Contexts/UserContext";
 
 
 import {
@@ -22,7 +22,7 @@ import {
 
 ReactDOM.render(
   <React.StrictMode>
-    <UsernameProvider>
+    <UserProvider>
       <Router>
         <div>
           <nav>
@@ -57,7 +57,7 @@ ReactDOM.render(
           </Switch>
         </div>
       </Router>
-    </UsernameProvider> 
+    </UserProvider> 
   </React.StrictMode>,
   document.getElementById("root"),
 );

@@ -2,17 +2,17 @@ import React from "react";
 import { Component } from "react";
 import { User } from "../Login/LoginPage";
 
-interface UsernameProps {
+interface UserProps {
   children: React.ReactNode;
 }
 
-export interface UsernameState {
+export interface UserState {
   user?: User;
   setUsername: (username: string) => void;
   setUser: (user: User) => void;
 }
 
-export const UsernameContext = React.createContext<UsernameState>({
+export const UserContext = React.createContext<UserState>({
   user: { Id: 0, Name: "name", Surname: "surname", JobTitleId: 0 },
   setUsername: (username: string) => {
     throw ReferenceError("setUsername should be defined in UsernameContext. Provided username: " + username);
@@ -22,7 +22,7 @@ export const UsernameContext = React.createContext<UsernameState>({
   },
 });
 
-export class UsernameProvider extends Component<UsernameProps> {
+export class UserProvider extends Component<UserProps> {
   state = {
     user: { Id: 0, Name: "name", Surname: "surname", JobTitleId: 0 },
   }
@@ -43,14 +43,14 @@ export class UsernameProvider extends Component<UsernameProps> {
 
   render(): React.ReactNode{
     return (
-      <UsernameContext.Provider value={{
+      <UserContext.Provider value={{
         user: this.state.user,
         setUsername: this.setUsername,
         setUser: this.setUser,
       }}
       >
         {this.props.children}
-      </UsernameContext.Provider>
+      </UserContext.Provider>
     );
   }
 }

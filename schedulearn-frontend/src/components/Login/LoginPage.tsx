@@ -1,9 +1,13 @@
 import React from "react";
 import dotnetify, { dotnetifyVM } from "dotnetify";
-import { UsernameContext } from "../Contexts/UsernameContext";
-import { UsernameState } from "../Contexts/UsernameContext";
+import { UserContext } from "../Contexts/UserContext";
+import { UserState } from "../Contexts/UserContext";
 
 dotnetify.hubServerUrl = "http://localhost:5000";
+
+interface LoginPageProps {
+  user: User;
+}
 
 interface State {
   CurrentUser?: User;
@@ -19,10 +23,12 @@ export interface User {
 }
 
 export default class LoginPage extends React.Component<{}, State> {
-  constructor(props: {}) {
+  constructor(props: LoginPageProps) {
     super(props);
     this.state = { CurrentUser: { Id: 0, Name: "name", Surname: "surname", JobTitleId: 0 }, UserName: "User name" };
   }
+
+  private userContext?: UserState;
 
   componentDidMount(): void {
     const vm = dotnetify.react.connect("UserBaseVM", this);
@@ -44,10 +50,34 @@ export default class LoginPage extends React.Component<{}, State> {
     this.setState({ UserName: event.target.value });
   }
 
-  handleSetUsername = (context: UsernameState): void => {
+  handleSetUsername = (): void => {
     this.$dispatch({ SetCurrentUser: { Name: this.state.UserName } });
-    context.setUsername(this.state.UserName);
   }
+
+  componentDidUpdate(_: LoginPageProps, prevState: State): void {
+    if(this.state.CurrentUser === undefined) 
+      return;
+    if(prevState.CurrentUser === undefined)
+      return;
+    if(this.userContext === undefined)
+      return;
+
+    if(prevState.CurrentUser.Id !== this.state.CurrentUser.Id) {
+      this.userContext.setUser(this.state.CurrentUser);
+    }
+  }
+
+  renderWithContext = (context: UserState): React.ReactNode => {
+    this.userContext = context;
+
+    return (
+      <React.Fragment>
+        <button onClick={(): void => {this.handleSetUsername();}}>Send user</button>  
+        <p>Data from context: {context.user?.Name}</p>
+      </React.Fragment>
+    );
+  }
+  
 
   render(): React.ReactNode {
     if (this.state.CurrentUser === undefined)
@@ -59,14 +89,9 @@ export default class LoginPage extends React.Component<{}, State> {
         
         <input type="text" value={this.state.UserName} onChange={this.handleUsername} />
 
-        <UsernameContext.Consumer>
-          {(context): React.ReactNode => (
-            <React.Fragment>
-              <button onClick={(): void => {this.handleSetUsername(context);}}>Send user</button>  
-              <p>Data from context: {context.user?.Name}</p>
-            </React.Fragment>
-          )}
-        </UsernameContext.Consumer>
+        <UserContext.Consumer>
+          {this.renderWithContext}
+        </UserContext.Consumer>
         
         <p>Current user name: {this.state.CurrentUser.Name}</p>
       </div>
