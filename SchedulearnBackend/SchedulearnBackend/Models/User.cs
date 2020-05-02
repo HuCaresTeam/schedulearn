@@ -17,5 +17,9 @@ namespace SchedulearnBackend.Models
 
         public int JobTitleId { get; set; }
         public virtual JobTitle JobTitle { get; set; }
+        public int? TeamId { get; set; }
+        public virtual Team Team { get; set; }
+        [ForeignKey("ManagerId")]
+        public virtual Team ManagedTeam { get; set; }
     }
 }

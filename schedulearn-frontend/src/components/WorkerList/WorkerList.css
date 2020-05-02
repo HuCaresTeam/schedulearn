@@ -1,6 +1,7 @@
 .worker-table {
   border-collapse: collapse;
-  margin: 5px;
+  margin: 10px 0px;
+  width: 100%;
 }
 
 .worker-table,
