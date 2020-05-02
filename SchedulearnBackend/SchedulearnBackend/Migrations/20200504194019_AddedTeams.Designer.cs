@@ -10,7 +10,7 @@ using SchedulearnBackend.DataAccessLayer;
 namespace SchedulearnBackend.Migrations
 {
     [DbContext(typeof(SchedulearnContext))]
-    [Migration("20200502150552_AddedTeams")]
+    [Migration("20200504194019_AddedTeams")]
     partial class AddedTeams
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -187,7 +187,7 @@ namespace SchedulearnBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SchedulearnBackend.Models.Team", b =>
+            modelBuilder.Entity("SchedulearnBackend.Models.Limit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -206,15 +206,9 @@ namespace SchedulearnBackend.Migrations
                     b.Property<int>("LimitOfLearningDaysPerYear")
                         .HasColumnType("int");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId")
-                        .IsUnique();
-
-                    b.ToTable("Team");
+                    b.ToTable("Limits");
 
                     b.HasData(
                         new
@@ -223,8 +217,7 @@ namespace SchedulearnBackend.Migrations
                             LimitOfConsecutiveLearningDays = 3,
                             LimitOfLearningDaysPerMonth = 2,
                             LimitOfLearningDaysPerQuarter = 3,
-                            LimitOfLearningDaysPerYear = 4,
-                            ManagerId = 1
+                            LimitOfLearningDaysPerYear = 4
                         },
                         new
                         {
@@ -232,8 +225,7 @@ namespace SchedulearnBackend.Migrations
                             LimitOfConsecutiveLearningDays = 2,
                             LimitOfLearningDaysPerMonth = 1,
                             LimitOfLearningDaysPerQuarter = 3,
-                            LimitOfLearningDaysPerYear = 3,
-                            ManagerId = 2
+                            LimitOfLearningDaysPerYear = 3
                         },
                         new
                         {
@@ -241,7 +233,49 @@ namespace SchedulearnBackend.Migrations
                             LimitOfConsecutiveLearningDays = 1,
                             LimitOfLearningDaysPerMonth = 2,
                             LimitOfLearningDaysPerQuarter = 2,
-                            LimitOfLearningDaysPerYear = 2,
+                            LimitOfLearningDaysPerYear = 2
+                        });
+                });
+
+            modelBuilder.Entity("SchedulearnBackend.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LimitId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LimitId");
+
+                    b.HasIndex("ManagerId")
+                        .IsUnique();
+
+                    b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LimitId = 1,
+                            ManagerId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LimitId = 2,
+                            ManagerId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LimitId = 3,
                             ManagerId = 3
                         });
                 });
@@ -433,11 +467,21 @@ namespace SchedulearnBackend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JobTitleId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LimitId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
@@ -451,6 +495,8 @@ namespace SchedulearnBackend.Migrations
 
                     b.HasIndex("JobTitleId");
 
+                    b.HasIndex("LimitId");
+
                     b.HasIndex("TeamId");
 
                     b.ToTable("Users");
@@ -459,6 +505,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 1,
+                            Email = "Vadovu.Vadovas@schedulearn.com",
                             JobTitleId = 1,
                             Name = "Vadovu",
                             Surname = "Vadovas"
@@ -466,6 +513,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 2,
+                            Email = "Technologiju.Vadovas@schedulearn.com",
                             JobTitleId = 2,
                             Name = "Technologiju",
                             Surname = "Vadovas",
@@ -474,6 +522,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 3,
+                            Email = "Finansu.Vadovas@schedulearn.com",
                             JobTitleId = 3,
                             Name = "Finansu",
                             Surname = "Vadovas",
@@ -482,6 +531,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 4,
+                            Email = "Vardenis.Pavardenis@schedulearn.com",
                             JobTitleId = 4,
                             Name = "Vardenis",
                             Surname = "Pavardenis",
@@ -490,6 +540,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 5,
+                            Email = "Petras.Petrauskas@schedulearn.com",
                             JobTitleId = 4,
                             Name = "Petras",
                             Surname = "Petrauskas",
@@ -498,7 +549,9 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 6,
+                            Email = "Jonas.Jonauskas@schedulearn.com",
                             JobTitleId = 5,
+                            LimitId = 3,
                             Name = "Jonas",
                             Surname = "Jonauskas",
                             TeamId = 2
@@ -506,6 +559,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 7,
+                            Email = "Tomas.Tomauskas@schedulearn.com",
                             JobTitleId = 6,
                             Name = "Tomas",
                             Surname = "Tomauskas",
@@ -514,6 +568,7 @@ namespace SchedulearnBackend.Migrations
                         new
                         {
                             Id = 8,
+                            Email = "John.Cena@schedulearn.com",
                             JobTitleId = 7,
                             Name = "John",
                             Surname = "Cena",
@@ -538,6 +593,12 @@ namespace SchedulearnBackend.Migrations
 
             modelBuilder.Entity("SchedulearnBackend.Models.Team", b =>
                 {
+                    b.HasOne("SchedulearnBackend.Models.Limit", "Limit")
+                        .WithMany()
+                        .HasForeignKey("LimitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SchedulearnBackend.Models.User", "Manager")
                         .WithOne("ManagedTeam")
                         .HasForeignKey("SchedulearnBackend.Models.Team", "ManagerId")
@@ -559,6 +620,10 @@ namespace SchedulearnBackend.Migrations
                         .HasForeignKey("JobTitleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SchedulearnBackend.Models.Limit", "Limit")
+                        .WithMany()
+                        .HasForeignKey("LimitId");
 
                     b.HasOne("SchedulearnBackend.Models.Team", "Team")
                         .WithMany("Members")

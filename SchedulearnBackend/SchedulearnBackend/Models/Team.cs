@@ -11,10 +11,10 @@ namespace SchedulearnBackend.Models
     public class Team
     {
         public int Id { get; set; }
-        public int LimitOfConsecutiveLearningDays { get; set; }
-        public int LimitOfLearningDaysPerMonth { get; set; }
-        public int LimitOfLearningDaysPerQuarter { get; set; }
-        public int LimitOfLearningDaysPerYear { get; set; }
+
+        public int LimitId { get; set; }
+        public virtual Limit Limit { get; set; }
+
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
         [Ignore]

@@ -36,7 +36,7 @@ namespace SchedulearnBackend.BaseVMs
         }
 
         private readonly SchedulearnContext _schedulearnContext;
-        private User CurrentUser { get; set; }
+        public User CurrentUser { get; set; }
 
         public IEnumerable<FlatLearningDay> UserLearningDays 
         { 

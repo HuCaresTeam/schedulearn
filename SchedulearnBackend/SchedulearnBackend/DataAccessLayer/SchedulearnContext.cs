@@ -18,6 +18,9 @@ namespace SchedulearnBackend.DataAccessLayer
         public DbSet<JobTitle> JobTitles { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<LearningDay> LearningDays { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Limit> Limits { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             modelbuilder.Entity<Topic>()
@@ -40,23 +43,27 @@ namespace SchedulearnBackend.DataAccessLayer
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 6, Title = "Accountant" });
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 7, Title = "Financial analyst" });
 
+            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 1, LimitOfConsecutiveLearningDays = 3, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 4 });
+            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 2, LimitOfConsecutiveLearningDays = 2, LimitOfLearningDaysPerMonth = 1, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 3 });
+            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 3, LimitOfConsecutiveLearningDays = 1, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 2, LimitOfLearningDaysPerYear = 2 });
+
 
             //CEO team
-            modelbuilder.Entity<User>().HasData(new User() { Id = 1, Name = "Vadovu", Surname = "Vadovas", JobTitleId = 1 });
-            modelbuilder.Entity<Team>().HasData(new Team() { Id = 1, LimitOfConsecutiveLearningDays = 3, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 4, ManagerId = 1 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 2, Name = "Technologiju", Surname = "Vadovas", JobTitleId = 2, TeamId = 1 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 3, Name = "Finansu", Surname = "Vadovas", JobTitleId = 3, TeamId = 1 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 1, Name = "Vadovu", Surname = "Vadovas", Email = "Vadovu.Vadovas@schedulearn.com", JobTitleId = 1 });
+            modelbuilder.Entity<Team>().HasData(new Team() { Id = 1, LimitId = 1, ManagerId = 1 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 2, Name = "Technologiju", Surname = "Vadovas", Email = "Technologiju.Vadovas@schedulearn.com", JobTitleId = 2, TeamId = 1 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 3, Name = "Finansu", Surname = "Vadovas", Email = "Finansu.Vadovas@schedulearn.com", JobTitleId = 3, TeamId = 1 });
 
             //CTO team
-            modelbuilder.Entity<Team>().HasData(new Team() { Id = 2, LimitOfConsecutiveLearningDays = 2, LimitOfLearningDaysPerMonth = 1, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 3, ManagerId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 4, Name = "Vardenis", Surname = "Pavardenis", JobTitleId = 4, TeamId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 5, Name = "Petras", Surname = "Petrauskas", JobTitleId = 4, TeamId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 6, Name = "Jonas", Surname = "Jonauskas", JobTitleId = 5, TeamId = 2 });
+            modelbuilder.Entity<Team>().HasData(new Team() { Id = 2, LimitId = 2, ManagerId = 2 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 4, Name = "Vardenis", Surname = "Pavardenis", Email = "Vardenis.Pavardenis@schedulearn.com", JobTitleId = 4, TeamId = 2 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 5, Name = "Petras", Surname = "Petrauskas", Email = "Petras.Petrauskas@schedulearn.com", JobTitleId = 4, TeamId = 2 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 6, Name = "Jonas", Surname = "Jonauskas", Email = "Jonas.Jonauskas@schedulearn.com", JobTitleId = 5, TeamId = 2, LimitId = 3 });
 
             //CFO team
-            modelbuilder.Entity<Team>().HasData(new Team() { Id = 3, LimitOfConsecutiveLearningDays = 1, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 2, LimitOfLearningDaysPerYear = 2, ManagerId = 3 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 7, Name = "Tomas", Surname = "Tomauskas", JobTitleId = 6, TeamId = 3 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 8, Name = "John", Surname = "Cena", JobTitleId = 7, TeamId = 3 });
+            modelbuilder.Entity<Team>().HasData(new Team() { Id = 3, LimitId = 3, ManagerId = 3 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 7, Name = "Tomas", Surname = "Tomauskas", Email = "Tomas.Tomauskas@schedulearn.com", JobTitleId = 6, TeamId = 3 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 8, Name = "John", Surname = "Cena", Email = "John.Cena@schedulearn.com", JobTitleId = 7, TeamId = 3 });
 
 
             modelbuilder.Entity<Topic>().HasData(new Topic() { Id = 1, Name = "Learning", Description = "Learning description" });
