@@ -50,7 +50,7 @@ export default class LoginPage extends React.Component<{}, State> {
     this.setState({ UserName: event.target.value });
   }
 
-  handleSetUsername = (): void => {
+  handleSetUser = (): void => {
     this.$dispatch({ SetCurrentUser: { Name: this.state.UserName } });
   }
 
@@ -72,12 +72,11 @@ export default class LoginPage extends React.Component<{}, State> {
 
     return (
       <React.Fragment>
-        <button onClick={(): void => {this.handleSetUsername();}}>Send user</button>  
+        <button onClick={(): void => {this.handleSetUser();}}>Send user</button>  
         <p>Data from context: {context.user?.Name}</p>
       </React.Fragment>
     );
   }
-  
 
   render(): React.ReactNode {
     if (this.state.CurrentUser === undefined)
