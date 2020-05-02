@@ -8,43 +8,42 @@ interface WorkerListByTopicProps {
 }
 
 interface WorkerListByTopicState {
-  WorkersByTopic?: WorkerListItem[];
-  VM?: dotnetifyVM;
+  WorkersByTopic: WorkerListItem[];
+  vm?: dotnetifyVM;
 }
 
 export default class WorkerListByTopic extends React.Component<WorkerListByTopicProps, WorkerListByTopicState> {
   constructor(props: WorkerListByTopicProps) {
     super(props);
-    this.state = { };
+    this.state = {
+      WorkersByTopic: [],
+    };
   }
 
   componentDidMount(): void {
-    const vm = dotnetify.react.connect("AnalyzeDataVM", this, {vmArg: {GetWorkersByTopic: {topicId: this.props.topicId}}});
-    this.setState({ VM: vm });
+    const vmArg = { GetWorkersByTopic: { topicId: this.props.topicId } };
+    const vm = dotnetify.react.connect("AnalyzeDataVM", this, { vmArg });
+    this.setState({ vm });
   }
 
   componentWillUnmount(): void {
-    if (this.state.VM !== undefined)
-      this.state.VM.$destroy();
+    if (this.state.vm !== undefined)
+      this.state.vm.$destroy();
   }
 
   componentDidUpdate(prevProps: WorkerListByTopicProps): void {
-    if(prevProps.topicId !== this.props.topicId) {
-      this.$dispatch({GetWorkersByTopic: {topicId: this.props.topicId}});
+    if (prevProps.topicId !== this.props.topicId) {
+      this.$dispatch({ GetWorkersByTopic: { topicId: this.props.topicId } });
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   $dispatch = (iValue: any): void => {
-    if (this.state.VM !== undefined)
-      this.state.VM.$dispatch(iValue);
+    if (this.state.vm !== undefined)
+      this.state.vm.$dispatch(iValue);
   };
 
   render(): JSX.Element {
-    if(!this.state.WorkersByTopic) {
-      return (
-        <p>Loading workers</p>
-      );
-    }
     return (
       <WorkerList items={this.state.WorkersByTopic}></WorkerList>
     );

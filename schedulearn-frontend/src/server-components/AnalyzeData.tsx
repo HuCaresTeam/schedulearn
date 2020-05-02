@@ -15,11 +15,12 @@ export default class AnalyzeData extends React.Component<{}, AnalyzeDataState> {
   }
 
   render(): React.ReactNode {
-    const workerList = this.state.topicId !== undefined ? (<WorkerListByTopic topicId={this.state.topicId}/>) : undefined;
+    const workerList = this.state.topicId !== undefined ?
+      (<WorkerListByTopic topicId={this.state.topicId} />) : undefined;
 
     return (
       <React.Fragment>
-        <TopicList onItemClick={this.handleItemClick}/>
+        <TopicList onItemClick={this.handleItemClick} />
         {workerList}
       </React.Fragment>
     );
