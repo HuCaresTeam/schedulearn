@@ -55,10 +55,7 @@ namespace SchedulearnBackend.BaseVMs
                 throw new Exception("Current team not set");
 
             Limit wantedLimit = _schedulearnContext.Limits
-                .Where(l => l.LimitOfConsecutiveLearningDays == teamLimits.LimitOfConsecutiveLearningDays)
-                .Where(l => l.LimitOfLearningDaysPerMonth == teamLimits.LimitOfLearningDaysPerMonth)
-                .Where(l => l.LimitOfLearningDaysPerQuarter == teamLimits.LimitOfLearningDaysPerQuarter)
-                .Where(l => l.LimitOfLearningDaysPerYear == teamLimits.LimitOfLearningDaysPerYear)
+                .Where(l => l.Id == teamLimits.Id)
                 .FirstOrDefault();
 
             if (wantedLimit == null)

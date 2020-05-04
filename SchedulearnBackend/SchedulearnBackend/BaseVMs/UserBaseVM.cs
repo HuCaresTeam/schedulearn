@@ -13,10 +13,7 @@ namespace SchedulearnBackend.BaseVMs
         public class LimitsForUser
         {
             public int UserId { get; set; }
-            public int LimitOfConsecutiveLearningDays { get; set; }
-            public int LimitOfLearningDaysPerMonth { get; set; }
-            public int LimitOfLearningDaysPerQuarter { get; set; }
-            public int LimitOfLearningDaysPerYear { get; set; }
+            public int LimitId { get; set; }
         }
 
         private readonly SchedulearnContext _schedulearnContext;
@@ -60,6 +57,14 @@ namespace SchedulearnBackend.BaseVMs
             if (CurrentUser == null)
                 throw new Exception("Current user not set");
 
+            User newUser = new User()
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                JobTitleId = user.JobTitleId,
+            };
+
             if (CurrentUser.ManagedTeam == null)
             {
                 Team newTeam = new Team()
@@ -68,42 +73,24 @@ namespace SchedulearnBackend.BaseVMs
                     ManagerId = CurrentUser.Id
                 };
                 _schedulearnContext.Teams.Add(newTeam);
-                User newUser = new User()
-                {
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    Email = user.Email,
-                    JobTitleId = user.JobTitleId,
-                    TeamId = newTeam.Id
-                };
-                _schedulearnContext.Users.Add(newUser);
-                _schedulearnContext.SaveChanges();
+                newUser.TeamId = newTeam.Id;
             }
             else
             {
-                User newUser = new User()
-                {
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    Email = user.Email,
-                    JobTitleId = user.JobTitleId,
-                    TeamId = CurrentUser.ManagedTeam.Id
-                };
-                _schedulearnContext.Users.Add(newUser);
-                _schedulearnContext.SaveChanges();
-
-                Changed(nameof(CurrentUser));
-                PushUpdates();
+                newUser.TeamId = CurrentUser.ManagedTeam.Id;
             }
+
+            _schedulearnContext.Users.Add(newUser);
+            _schedulearnContext.SaveChanges();
+
+            Changed(nameof(CurrentUser));
+            PushUpdates();
         };
 
         public Action<LimitsForUser> ChangeLimitsForUser => teamLimits =>
         {
             Limit wantedLimit = _schedulearnContext.Limits
-                .Where(l => l.LimitOfConsecutiveLearningDays == teamLimits.LimitOfConsecutiveLearningDays)
-                .Where(l => l.LimitOfLearningDaysPerMonth == teamLimits.LimitOfLearningDaysPerMonth)
-                .Where(l => l.LimitOfLearningDaysPerQuarter == teamLimits.LimitOfLearningDaysPerQuarter)
-                .Where(l => l.LimitOfLearningDaysPerYear == teamLimits.LimitOfLearningDaysPerYear)
+                .Where(l => l.Id == teamLimits.LimitId)
                 .FirstOrDefault();
 
             if (wantedLimit == null)
