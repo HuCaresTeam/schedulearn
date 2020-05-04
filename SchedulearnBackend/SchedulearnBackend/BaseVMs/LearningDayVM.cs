@@ -17,6 +17,7 @@ namespace SchedulearnBackend.BaseVMs
             public DateTime DateTo { get; set; }
             public string Description { get; set; }
             public string Title { get; set; }
+            public int UserId { get; set; }
 
             public FlatLearningDay() { 
             }
@@ -28,6 +29,7 @@ namespace SchedulearnBackend.BaseVMs
                 DateTo = DateTime.SpecifyKind(learningDay.DateTo, DateTimeKind.Utc);
                 Description = learningDay.Description;
                 Title = learningDay.Topic.Name;
+                UserId = learningDay.User.Id;
             }
         }
 

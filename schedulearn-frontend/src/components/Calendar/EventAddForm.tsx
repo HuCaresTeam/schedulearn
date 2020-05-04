@@ -1,19 +1,28 @@
 import React from "react";
-import { LearningDayEvent } from "./LearningDayEvent";
 import TimeManipulator from "./TimeManipulator";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./EventAddForm.scss";
 import TopicList, { FullTopic } from "src/server-components/TopicList";
+import AtLeast from "src/util-types/AtLeast";
 
 export interface EventAddFormProps {
   isOpen: boolean;
-  start?: Date;
-  end?: Date;
-  onEventSubmit: (event: LearningDayEvent) => void;
+  disabled: boolean;
+  learningDayEvent?: AtLeast<LearningDayEventInfo, "userId">;
+  onEventSubmit: (event: LearningDayEventInfo) => void;
 }
 
-export type EventAddFormState = LearningDayEvent
+export interface LearningDayEventInfo {
+  start: Date;
+  end: Date;
+  title: string;
+  description: string;
+  topicId: number;
+  userId: number;
+}
+
+export type EventAddFormState = LearningDayEventInfo;
 
 export class EventAddForm extends React.Component<EventAddFormProps, EventAddFormState> {
   public constructor(props: EventAddFormProps) {
@@ -25,11 +34,12 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
     const currentDate = new Date(Date.now());
     const startEndRange = TimeManipulator.getNearestThirtyMinuteInterval(currentDate);
     return {
-      title: "",
-      start: this.props.start || startEndRange.start,
-      end: this.props.end || startEndRange.end,
-      topicId: 0,
-      description: "",
+      title: this.props.learningDayEvent?.title ?? "",
+      start: this.props.learningDayEvent?.start ?? startEndRange.start,
+      end: this.props.learningDayEvent?.end ?? startEndRange.end,
+      topicId: this.props.learningDayEvent?.topicId ?? 0,
+      description: this.props.learningDayEvent?.description ?? "",
+      userId: this.props.learningDayEvent?.userId ?? 0,
     };
   }
 
@@ -41,13 +51,15 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
       title: this.state.title,
       topicId: this.state.topicId,
       description: this.state.description,
+      userId: this.state.userId,
     });
   }
 
   componentDidUpdate(prevProps: EventAddFormProps): void {
     if ((this.props.isOpen !== prevProps.isOpen && this.props.isOpen === true) ||
-      this.props.start !== prevProps.start ||
-      this.props.end !== prevProps.end) {
+      this.props.learningDayEvent?.start !== this.props.learningDayEvent?.start ||
+      this.props.learningDayEvent?.end !== this.props.learningDayEvent?.end ||
+      this.props.learningDayEvent?.userId !== this.props.learningDayEvent?.userId) {
       this.setState(this.getDefaultState());
     }
   }
@@ -86,7 +98,10 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
           <label className="event-label">
             Learning topic:
           </label>
-          <TopicList onItemClick={this.onTopicSelectChange} />
+          <TopicList
+            onItemClick={this.onTopicSelectChange}
+            disabled={this.props.disabled}
+          />
         </div>
         <div className="event-field event-start-time">
           <label className="event-label">
@@ -97,6 +112,7 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
             onChange={this.onStartDateChange}
             showTimeSelect
             dateFormat="Pp"
+            disabled={this.props.disabled}
           />
         </div>
         <div className="event-field event-end-time">
@@ -108,13 +124,18 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
             onChange={this.onEndDateChange}
             showTimeSelect
             dateFormat="Pp"
+            disabled={this.props.disabled}
           />
         </div>
         <div className="event-field event-description">
           <label className="event-label">
             Description:
           </label>
-          <textarea value={this.state.description} onChange={this.onDescriptionChange} />
+          <textarea
+            value={this.state.description}
+            onChange={this.onDescriptionChange}
+            disabled={this.props.disabled}
+          />
         </div>
         <input type="submit" value="Submit" />
       </form>

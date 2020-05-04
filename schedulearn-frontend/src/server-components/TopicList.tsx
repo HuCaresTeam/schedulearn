@@ -6,6 +6,7 @@ import { TopicListContext, TopicListProviderState } from "./TopicListProvider";
 interface TopicListProps {
   onItemClick?(item: FullTopic): void;
   width?: number;
+  disabled?: boolean;
   selectedItemIndex?: string;
 }
 
@@ -23,7 +24,7 @@ export default class TopicList extends React.Component<TopicListProps> {
     }
 
     return (
-      <NestedList rootItem={topicContext.RootTopic} onItemClick={this.props.onItemClick} selectable={true} />
+      <NestedList rootItem={topicContext.RootTopic} onItemClick={this.props.onItemClick} disabled={this.props.disabled} />
     );
   }
 

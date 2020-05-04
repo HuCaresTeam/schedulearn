@@ -1,22 +1,28 @@
 import React from "react";
 import dotnetify, { dotnetifyVM } from "dotnetify";
 import { LearningDay } from "src/components/LearningDayCalendar";
+import { UserContext, UserState, User } from "src/components/Contexts/UserContext";
 dotnetify.hubServerUrl = "http://localhost:5000";
 
 export interface LearningDayProviderState {
   UserLearningDays?: LearningDay[] | null;
   AllLearningDays?: LearningDay[] | null;
   vm?: dotnetifyVM;
+  user?: User;
 }
 
 interface LearningDayProviderProps {
   children: React.ReactNode;
 }
 
-export const LearningDayContext = React.createContext<LearningDayProviderState>({});
+export interface LearningDayContextValue extends LearningDayProviderState {
+  user?: User;
+}
 
-export default class LearningDayProvider extends
-  React.Component<LearningDayProviderProps, LearningDayProviderState> {
+export const LearningDayContext = React.createContext<LearningDayContextValue>({});
+
+export default class LearningDayProvider extends React.Component<LearningDayProviderProps, LearningDayProviderState> {
+  private currentUser?: User;
 
   constructor(props: LearningDayProviderProps) {
     super(props);
@@ -30,8 +36,15 @@ export default class LearningDayProvider extends
   };
 
   componentDidMount(): void {
-    const vm = dotnetify.react.connect("LearningDayVM", this, { vmArg: { GetUserLearningDays: { Id: 1 } } });
+    const vm = dotnetify.react.connect("LearningDayVM", this);
     this.setState({ vm });
+  }
+
+  getUserCalendar(): void {
+    if (!this.currentUser)
+      return;
+
+    this.$dispatch({ GetUserLearningDays: { Id: this.currentUser.Id } });
   }
 
   componentWillUnmount(): void {
@@ -39,11 +52,24 @@ export default class LearningDayProvider extends
       this.state.vm.$destroy();
   }
 
-  render(): React.ReactNode {
+  renderWithContext = (context: UserState): React.ReactNode => {
+    if (this.currentUser?.Id !== context.user?.Id) {
+      this.currentUser = context.user;
+      this.getUserCalendar();
+    }
+
     return (
-      <LearningDayContext.Provider value={this.state}>
+      <LearningDayContext.Provider value={{ user: this.state.user, ...this.state }}>
         {this.props.children}
       </LearningDayContext.Provider>
+    );
+  }
+
+  render(): React.ReactNode {
+    return (
+      <UserContext.Consumer>
+        {this.renderWithContext}
+      </UserContext.Consumer>
     );
   }
 }
