@@ -1,7 +1,7 @@
 import React from "react";
 import { dotnetifyVM } from "dotnetify";
 import { LearningDayContext, LearningDayContextValue } from "./LearningDayCalendarProvider";
-import { LearningDayCalendar, LearningDay } from "src/components/LearningDayCalendar";
+import { LearningDayCalendar, LearningDay } from "src/components/Calendar/LearningDayCalendar";
 
 export class UserLearningDayCalendar extends React.Component {
   $dispatch = (iValue: unknown, vm?: dotnetifyVM): void => {

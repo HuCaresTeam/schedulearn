@@ -57,9 +57,11 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
 
   componentDidUpdate(prevProps: EventAddFormProps): void {
     if ((this.props.isOpen !== prevProps.isOpen && this.props.isOpen === true) ||
-      this.props.learningDayEvent?.start !== this.props.learningDayEvent?.start ||
-      this.props.learningDayEvent?.end !== this.props.learningDayEvent?.end ||
-      this.props.learningDayEvent?.userId !== this.props.learningDayEvent?.userId) {
+      this.props.learningDayEvent?.start !== prevProps.learningDayEvent?.start ||
+      this.props.learningDayEvent?.end !== prevProps.learningDayEvent?.end ||
+      this.props.learningDayEvent?.userId !== prevProps.learningDayEvent?.userId ||
+      this.props.learningDayEvent?.description !== prevProps.learningDayEvent?.description ||
+      this.props.learningDayEvent?.topicId !== prevProps.learningDayEvent?.topicId) {
       this.setState(this.getDefaultState());
     }
   }

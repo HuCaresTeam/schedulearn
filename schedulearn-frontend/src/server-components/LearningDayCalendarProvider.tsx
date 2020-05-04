@@ -1,6 +1,6 @@
 import React from "react";
 import dotnetify, { dotnetifyVM } from "dotnetify";
-import { LearningDay } from "src/components/LearningDayCalendar";
+import { LearningDay } from "src/components/Calendar/LearningDayCalendar";
 import { UserContext, UserState, User } from "src/components/Contexts/UserContext";
 dotnetify.hubServerUrl = "http://localhost:5000";
 

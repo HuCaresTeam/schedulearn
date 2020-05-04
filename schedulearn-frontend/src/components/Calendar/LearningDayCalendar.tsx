@@ -1,8 +1,8 @@
 import React from "react";
-import { WeekViewCalendar } from "./Calendar/WeekViewCalendar";
+import { WeekViewCalendar } from "./WeekViewCalendar";
 import { SlotInfo } from "react-big-calendar";
-import { EventAddModal } from "./Calendar/EventAddModal";
-import { LearningDayEventInfo } from "./Calendar/EventAddForm";
+import { EventAddModal } from "./EventAddModal";
+import { LearningDayEventInfo } from "./EventAddForm";
 import AtLeast from "src/util-types/AtLeast";
 
 export interface LearningDay {
