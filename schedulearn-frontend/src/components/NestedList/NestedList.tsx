@@ -8,7 +8,7 @@ export interface NestedListProps<TItem extends Item<TItem>> {
   onItemClick?(item: TItem): void;
   width?: number;
   selectedItemId?: number;
-  selectable?: boolean;
+  disabled?: boolean;
 }
 
 interface NestedListState<TItem extends Item<TItem>> {

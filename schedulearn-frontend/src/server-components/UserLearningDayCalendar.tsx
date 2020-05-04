@@ -1,7 +1,7 @@
 import React from "react";
 import { dotnetifyVM } from "dotnetify";
-import { LearningDayContext, LearningDayProviderState } from "./LearningDayCalendarProvider";
-import { LearningDayCalendar, LearningDay } from "src/components/LearningDayCalendar";
+import { LearningDayContext, LearningDayContextValue } from "./LearningDayCalendarProvider";
+import { LearningDayCalendar, LearningDay } from "src/components/Calendar/LearningDayCalendar";
 
 export class UserLearningDayCalendar extends React.Component {
   $dispatch = (iValue: unknown, vm?: dotnetifyVM): void => {
@@ -13,11 +13,21 @@ export class UserLearningDayCalendar extends React.Component {
     this.$dispatch({ CreateLearningDay: learningDay }, vm);
   }
 
-  renderWithinContext = (context: LearningDayProviderState): React.ReactNode => {
+  renderWithinContext = (context: LearningDayContextValue): React.ReactNode => {
+    if (!context.user) {
+      return (
+        <LearningDayCalendar
+          learningDayEvents={context.UserLearningDays || []}
+          disabled={true}
+        />
+      );
+    }
+
     return (
       <LearningDayCalendar
         learningDayEvents={context.UserLearningDays || []}
         handleEventSubmit={(event): void => this.handleEventSubmit(event, context.vm)}
+        currentUserId={context.user.Id}
       />
     );
   }

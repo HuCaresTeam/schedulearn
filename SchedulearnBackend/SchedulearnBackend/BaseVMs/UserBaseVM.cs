@@ -11,9 +11,9 @@ namespace SchedulearnBackend.BaseVMs
     public class UserBaseVM : BaseVM
     {
         private readonly SchedulearnContext _schedulearnContext;
-        private User CurrentUser { get; set; }
+        public User CurrentUser { get; set; }
 
-        private IEnumerable<User> AllUsers
+        public IEnumerable<User> AllUsers
         {
             get { return _schedulearnContext.Users.ToList(); }
         }
@@ -25,7 +25,7 @@ namespace SchedulearnBackend.BaseVMs
 
         public Action<User> SetCurrentUser => user =>
         {
-            CurrentUser = _schedulearnContext.Users.Where(u => u.Name == user.Name).FirstOrDefault(null);
+            CurrentUser = _schedulearnContext.Users.FirstOrDefault(u => u.Name == user.Name);
             if (CurrentUser == null)
             {
                 CurrentUser = new User()

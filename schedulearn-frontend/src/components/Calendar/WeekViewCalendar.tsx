@@ -11,6 +11,7 @@ export interface WeekViewCalendarProps<TEvent extends Event> {
   onSelectSlot: (slotInfo: SlotInfo) => void;
   onSelectEvent: (event: TEvent, e?: React.SyntheticEvent<HTMLElement>) => void;
   mergeEveryHalfHour: number;
+  disabled?: boolean;
 }
 
 export class WeekViewCalendar<TEvent extends Event>
@@ -29,7 +30,7 @@ export class WeekViewCalendar<TEvent extends Event>
     return (
       <div>
         <Calendar
-          selectable={true}
+          selectable={!this.props.disabled}
           localizer={localizer}
           culture='en-gb'
           defaultView={"week"}
