@@ -94,8 +94,8 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
   private static learningDayToEvent = (learningDay: LearningDay): LearningDayEventInfo => {
     return {
       title: learningDay.Title,
-      start: new Date(Date.parse(learningDay.DateFrom)),
-      end: new Date(Date.parse(learningDay.DateTo)),
+      start: new Date(learningDay.DateFrom),
+      end: new Date(learningDay.DateTo),
       topicId: learningDay.TopicId,
       description: learningDay.Description,
       userId: learningDay.UserId,

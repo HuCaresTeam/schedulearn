@@ -1,14 +1,13 @@
 import React from "react";
 import dotnetify, { dotnetifyVM } from "dotnetify";
-import { LearningDay } from "src/components/Calendar/LearningDayCalendar";
 import { UserContext, UserState, User } from "src/components/Contexts/UserContext";
+import { LearningDay } from "src/components/Calendar/LearningDayCalendar";
 dotnetify.hubServerUrl = "http://localhost:5000";
 
 export interface LearningDayProviderState {
   UserLearningDays?: LearningDay[] | null;
   AllLearningDays?: LearningDay[] | null;
   vm?: dotnetifyVM;
-  user?: User;
 }
 
 interface LearningDayProviderProps {
@@ -59,7 +58,7 @@ export default class LearningDayProvider extends React.Component<LearningDayProv
     }
 
     return (
-      <LearningDayContext.Provider value={{ user: this.state.user, ...this.state }}>
+      <LearningDayContext.Provider value={{ user: this.currentUser, ...this.state }}>
         {this.props.children}
       </LearningDayContext.Provider>
     );
