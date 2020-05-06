@@ -7,7 +7,6 @@ namespace SchedulearnBackend.Controllers.DTOs
 {
     public class LimitsToApply
     {
-        public int UserId { get; set; }
         public int LimitId { get; set; }
     }
 }
