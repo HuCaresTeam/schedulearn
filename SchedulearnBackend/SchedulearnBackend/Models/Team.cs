@@ -1,10 +1,7 @@
 ﻿using DotNetify;
-using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SchedulearnBackend.Models
 {
@@ -18,6 +15,7 @@ namespace SchedulearnBackend.Models
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
         [Ignore]
+        [JsonIgnore]
         public virtual User Manager { get; set; }
 
         public virtual ICollection<User> Members { get; set; }
