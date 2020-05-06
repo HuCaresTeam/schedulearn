@@ -40,7 +40,7 @@ namespace SchedulearnBackend.Controllers
         [HttpGet("{id}/parent")]
         public async Task<ActionResult<Topic>> GetParentTopic(int id)
         {
-            System.Diagnostics.Debug.WriteLine($"GetTopic {id}");
+            System.Diagnostics.Debug.WriteLine($"GetParentTopic {id}");
             return await _topicService.GetParentTopicAsync(id);
         }
 

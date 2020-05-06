@@ -20,11 +20,7 @@ namespace SchedulearnBackend.Services
         public async Task<Topic> GetFullRootTopicAsync() 
         {
             var rootTopic = await _schedulearnContext.Topics
-                .Where(t => t.ParentTopicId == null)
-                .SingleOrDefaultAsync();
-
-            if (rootTopic == null)
-                throw new NotFoundException("Root topic does not exist");
+                .SingleOrDefaultAsync(t => t.ParentTopicId == null);
 
             return rootTopic ?? throw new NotFoundException("Root topic does not exist");
         }
@@ -32,10 +28,7 @@ namespace SchedulearnBackend.Services
         public async Task<Topic> GetTopicAsync(int id)
         {
             var topic = await _schedulearnContext.Topics.FindAsync(id);
-            if (topic == null)
-                throw new NotFoundException($"Topic with id ({id}) does not exist");
-
-            return topic;
+            return topic ?? throw new NotFoundException($"Topic with id ({id}) does not exist"); ;
         }
 
         public async Task<Topic> GetParentTopicAsync(int id)
@@ -44,10 +37,7 @@ namespace SchedulearnBackend.Services
             if (topic == null)
                 throw new NotFoundException($"Topic with id ({id}) does not exist");
 
-            if (topic.ParentTopic == null)
-                throw new NotFoundException("Parent topic does not exist on root topic");
-
-            return topic.ParentTopic;
+            return topic.ParentTopic ?? throw new NotFoundException("Parent topic does not exist on root topic"); ;
         }
 
         public async Task<Topic> UpdateNameAndDescriptionAsync(int id, ModifiedTopic modifiedTopic) 
