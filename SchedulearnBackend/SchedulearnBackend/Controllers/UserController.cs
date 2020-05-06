@@ -37,7 +37,7 @@ namespace SchedulearnBackend.Controllers
 
         // PUT: api/User/5/limits
         [HttpPut("{id}/limits")]
-        public async Task<ActionResult<User>> PutUserLimits(int id, LimitsToApplyToUser limits)
+        public async Task<ActionResult<User>> PutUserLimits(int id, LimitsToApply limits)
         {
             System.Diagnostics.Debug.WriteLine($"PutUserLimits: UserId: {id}, LimitId: {limits.LimitId}");
             await _userService.ChangeLimitsForUserAsync(id, limits);

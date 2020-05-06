@@ -49,7 +49,7 @@ namespace SchedulearnBackend.Controllers
 
         // PUT: api/Team/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeamLimits(int id, LimitsToApplyToTeam limits)
+        public async Task<IActionResult> PutTeamLimits(int id, LimitsToApply limits)
         {
             System.Diagnostics.Debug.WriteLine($"PutTeamLimits: TeamId: {id}, LimitId: {limits.LimitId}");
             await _teamService.ChangeLimitsForTeamAsync(id, limits);

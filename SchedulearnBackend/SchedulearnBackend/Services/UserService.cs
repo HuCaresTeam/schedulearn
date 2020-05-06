@@ -56,7 +56,7 @@ namespace SchedulearnBackend.Services
             return newUser;
         }
 
-        public async Task<User> ChangeLimitsForUserAsync(int userId, LimitsToApplyToUser limits)
+        public async Task<User> ChangeLimitsForUserAsync(int userId, LimitsToApply limits)
         {
             var limit = await _limitService.GetLimitAsync(limits.LimitId);
             var user = await GetUserAsync(userId);

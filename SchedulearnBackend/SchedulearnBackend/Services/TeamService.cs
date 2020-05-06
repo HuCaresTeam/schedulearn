@@ -40,7 +40,7 @@ namespace SchedulearnBackend.Services
             return newTeam;
         }
 
-        public async Task<Team> ChangeLimitsForTeamAsync(int teamId, LimitsToApplyToTeam limits)
+        public async Task<Team> ChangeLimitsForTeamAsync(int teamId, LimitsToApply limits)
         {
             var team = await GetTeamAsync(teamId);
             var wantedLimit = await _limitService.GetLimitAsync(limits.LimitId);
