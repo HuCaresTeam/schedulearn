@@ -28,9 +28,12 @@ namespace SchedulearnBackend
             services.AddSignalR();
             services.AddDotNetify();
             services.AddDbContext<SchedulearnContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SchedulearnDatabase")));
+            
             services.AddScoped<UserService>();
             services.AddScoped<LimitService>();
             services.AddScoped<TeamService>();
+            services.AddScoped<TopicService>();
+            
             services.AddControllers().AddNewtonsoftJson();
         }
 

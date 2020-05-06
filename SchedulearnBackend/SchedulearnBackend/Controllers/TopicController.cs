@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
+using SchedulearnBackend.Services;
 
 namespace SchedulearnBackend.Controllers
 {
@@ -13,105 +11,55 @@ namespace SchedulearnBackend.Controllers
     [ApiController]
     public class TopicController : ControllerBase
     {
+        private readonly TopicService _topicService;
         private readonly SchedulearnContext _schedulearnContext;
 
-        public TopicController(SchedulearnContext schedulearnContext)
+        public TopicController(TopicService topicService, SchedulearnContext schedulearnContext)
         {
+            _topicService = topicService;
             _schedulearnContext = schedulearnContext;
         }
 
         // GET: api/Topic
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Topic>>> GetTopics()
+        public async Task<ActionResult<Topic>> GetRootTopic()
         {
-            System.Diagnostics.Debug.WriteLine("GetTopics");
-
-            return await _schedulearnContext.Topics.ToListAsync();
+            System.Diagnostics.Debug.WriteLine("GetRootTopic");
+            return await _topicService.GetFullRootTopicAsync();
         }
 
         // GET: api/Topic/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Topic>> GetTopic(int id)
         {
-            System.Diagnostics.Debug.WriteLine("GetTopic " + id);
-
-
-            var topic = await _schedulearnContext.Topics.FindAsync(id);
-
-            if (topic == null)
-            {
-                return NotFound();
-            }
-
-            return topic;
+            System.Diagnostics.Debug.WriteLine($"GetTopic {id}");
+            return await _topicService.GetTopicAsync(id);
         }
 
-        // PUT: api/Topic/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTopic(int id, Topic topic)
+        // GET: api/Topic/5/parent
+        [HttpGet("{id}/parent")]
+        public async Task<ActionResult<Topic>> GetParentTopic(int id)
         {
-            System.Diagnostics.Debug.WriteLine("PutTopic " + id);
-
-            if (id != topic.Id)
-            {
-                return BadRequest();
-            }
-
-            _schedulearnContext.Entry(topic).State = EntityState.Modified;
-
-            try
-            {
-                await _schedulearnContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TopicExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            System.Diagnostics.Debug.WriteLine($"GetParentTopic {id}");
+            return await _topicService.GetParentTopicAsync(id);
         }
 
         // POST: api/Topic
         [HttpPost]
-        public async Task<ActionResult<Topic>> PostTopic(Topic topic)
+        public async Task<ActionResult<Topic>> PostTopic(CreateNewTopic topic)
         {
-            System.Diagnostics.Debug.WriteLine("PostTopic " + topic.Id + " " + topic.Name);
+            System.Diagnostics.Debug.WriteLine($"PostTopic {topic.Name} with parent {topic.ParentTopicId}");
+            var newTopic = await _topicService.CreateTopicAsync(topic);
 
-            _schedulearnContext.Topics.Add(topic);
-            await _schedulearnContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetTopic), new { id = topic.Id }, topic);
+            return CreatedAtAction(nameof(GetTopic), new { id = newTopic.Id }, newTopic);
         }
 
-        // DELETE: api/Topic/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Topic>> DeleteTopic(int id)
+        // PUT: api/Topic/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Topic>> PutTopic(int id, ModifiedTopic modifiedTopic)
         {
-            System.Diagnostics.Debug.WriteLine("DeleteTopic " + id);
-
-            var topic = await _schedulearnContext.Topics.FindAsync(id);
-            if (topic == null)
-            {
-                return NotFound();
-            }
-
-            _schedulearnContext.Topics.Remove(topic);
-            await _schedulearnContext.SaveChangesAsync();
-
-            return topic;
-        }
-
-        private bool TopicExists(int id)
-        {
-            return _schedulearnContext.Topics.Any(e => e.Id == id);
+            System.Diagnostics.Debug.WriteLine($"PutTopic {id}");
+            return await _topicService.UpdateNameAndDescriptionAsync(id, modifiedTopic);
         }
     }
-
 }
