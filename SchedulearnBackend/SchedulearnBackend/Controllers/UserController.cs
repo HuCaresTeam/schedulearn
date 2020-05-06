@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.Models;
@@ -8,6 +11,7 @@ using SchedulearnBackend.Services;
 
 namespace SchedulearnBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -19,11 +23,24 @@ namespace SchedulearnBackend.Controllers
             _userService = userService;
         }
 
+        // POST: api/User/authenticate
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public async Task<ActionResult<string>> Authenticate(AuthenticateModel model)
+        {
+            var token = await _userService.Authenticate(model.Email, model.Password);
+            if (token == null)
+                throw new Exception("Failed to create security token");
+
+            return token;
+        }
+
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             System.Diagnostics.Debug.WriteLine("GetUsers");
+            System.Diagnostics.Debug.WriteLine($"Currently logged in user: {User.FindFirst("Id").Value} {User.FindFirst("Name").Value} {User.FindFirst("Surname").Value} {User.FindFirst("Email").Value}");
             return await _userService.AllUsersAsync();
         }
 
