@@ -35,9 +35,21 @@ namespace SchedulearnBackend.Controllers
             return await _userService.GetUserAsync(id);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<User>> PutUser(LimitsToApply limits) {
-            await _userService.ChangeLimitsForUserAsync(limits);
+        // PUT: api/User/5/limits
+        [HttpPut("{id}/limits")]
+        public async Task<ActionResult<User>> PutUserLimits(int id, LimitsToApplyToUser limits)
+        {
+            System.Diagnostics.Debug.WriteLine($"PutUserLimits: UserId: {id}, LimitId: {limits.LimitId}");
+            await _userService.ChangeLimitsForUserAsync(id, limits);
+            return NoContent();
+        }
+
+        // PUT: api/User/5/transfer
+        [HttpPut("{id}/transfer")]
+        public async Task<ActionResult<User>> TransferUserTeam(int id, TeamTransfer transfer)
+        {
+            System.Diagnostics.Debug.WriteLine($"TransferUserTeam: UserId: {id}, NewTeamId: {transfer.NewTeamId}");
+            await _userService.TransferUserToNewTeamAsync(id, transfer);
             return NoContent();
         }
 

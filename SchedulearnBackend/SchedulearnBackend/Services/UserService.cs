@@ -15,25 +15,25 @@ namespace SchedulearnBackend.Services
         private readonly TeamService _teamService;
         private readonly LimitService _limitService;
 
-        public UserService(TeamService teamService, LimitService limitService, SchedulearnContext schedulearnContext) 
+        public UserService(TeamService teamService, LimitService limitService, SchedulearnContext schedulearnContext)
         {
             _schedulearnContext = schedulearnContext;
             _teamService = teamService;
             _limitService = limitService;
         }
 
-        public async Task<List<User>> AllUsersAsync() 
+        public async Task<List<User>> AllUsersAsync()
         {
             return await _schedulearnContext.Users.ToListAsync();
         }
 
-        public async Task<User> GetUserAsync(int id) 
+        public async Task<User> GetUserAsync(int id)
         {
             var user = await _schedulearnContext.Users.FindAsync(id);
             return user ?? throw new NotFoundException($"User with id ({id}) does not exist");
         }
 
-        public async Task<User> AddNewUserAsync (CreateNewUser userData) 
+        public async Task<User> AddNewUserAsync(CreateNewUser userData)
         {
             var manager = await GetUserAsync(userData.ManagingUserId);
             if (manager == null)
@@ -42,7 +42,7 @@ namespace SchedulearnBackend.Services
             User newUser = userData.CreateUser();
             if (manager.ManagedTeam == null)
             {
-                var newTeam = await _teamService.AddNewTeamAsync(manager.Id, manager.Team.LimitId);
+                var newTeam = await _teamService.AddNewTeamAsync(new CreateNewTeam() { ManagerId = manager.Id, LimitId = manager.Team.LimitId });
                 newUser.TeamId = newTeam.Id;
             }
             else
@@ -56,12 +56,24 @@ namespace SchedulearnBackend.Services
             return newUser;
         }
 
-        public async Task<User> ChangeLimitsForUserAsync(LimitsToApply limits) 
+        public async Task<User> ChangeLimitsForUserAsync(int userId, LimitsToApplyToUser limits)
         {
             var limit = await _limitService.GetLimitAsync(limits.LimitId);
-            var user = await GetUserAsync(limits.UserId);
+            var user = await GetUserAsync(userId);
 
             user.LimitId = limit.Id;
+            _schedulearnContext.Update(user);
+            await _schedulearnContext.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<User> TransferUserToNewTeamAsync(int userId, TeamTransfer transfer)
+        {
+            var user = await GetUserAsync(userId);
+            var team = await _teamService.GetTeamAsync(transfer.NewTeamId);
+
+            user.TeamId = team.Id;
             _schedulearnContext.Update(user);
             await _schedulearnContext.SaveChangesAsync();
 

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace SchedulearnBackend.Controllers.DTOs
 {
-    public class LimitsToApply
+    public class LimitsToApplyToUser
     {
-        public int UserId { get; set; }
         public int LimitId { get; set; }
     }
 }
