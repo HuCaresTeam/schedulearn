@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using System.Transactions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SchedulearnBackend.DataAccessLayer;
+using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.Models;
+using SchedulearnBackend.Services;
 
 namespace SchedulearnBackend.Controllers
 {
@@ -14,11 +12,11 @@ namespace SchedulearnBackend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly SchedulearnContext _schedulearnContext;
+        private readonly UserService _userService;
 
-        public UserController(SchedulearnContext schedulearnContext)
+        public UserController(UserService userService)
         {
-            _schedulearnContext = schedulearnContext;
+            _userService = userService;
         }
 
         // GET: api/User
@@ -26,8 +24,7 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             System.Diagnostics.Debug.WriteLine("GetUsers");
-
-            return await _schedulearnContext.Users.ToListAsync();
+            return await _userService.AllUsersAsync();
         }
 
         // GET: api/User/5
@@ -35,82 +32,23 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<User>> GetUser(int id)
         {
             System.Diagnostics.Debug.WriteLine("GetUser " + id);
-
-            var user = await _schedulearnContext.Users.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
+            return await _userService.GetUserAsync(id);
         }
 
-        // PUT: api/User/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            System.Diagnostics.Debug.WriteLine("PutUser " + id);
-
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _schedulearnContext.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _schedulearnContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+        [HttpPut]
+        public async Task<ActionResult<User>> PutUser(LimitsToApply limits) {
+            await _userService.ChangeLimitsForUserAsync(limits);
             return NoContent();
         }
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(CreateNewUser userToCreate)
         {
-            System.Diagnostics.Debug.WriteLine("PostUser " + user.Id + " " + user.Name);
+            System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}");
+            var newUser = await _userService.AddNewUserAsync(userToCreate);
 
-            _schedulearnContext.Users.Add(user);
-            await _schedulearnContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
-        }
-
-        // DELETE: api/User/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
-        {
-            System.Diagnostics.Debug.WriteLine("DeleteUser " + id);
-
-            var user = await _schedulearnContext.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _schedulearnContext.Users.Remove(user);
-            await _schedulearnContext.SaveChangesAsync();
-
-            return user;
-        }
-
-        private bool UserExists(int id)
-        {
-            return _schedulearnContext.Users.Any(e => e.Id == id);
+            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
         }
     }
 }
