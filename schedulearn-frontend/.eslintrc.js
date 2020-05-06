@@ -22,6 +22,8 @@ module.exports = {
     'max-len': ['warn', { code: 160 }],
     'linebreak-style': 0,
     eqeqeq: ['error', 'always'],
+    'no-multi-spaces': 'error',
+    'no-multiple-empty-lines': 'error',
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
