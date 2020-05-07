@@ -32,7 +32,7 @@ namespace SchedulearnBackend.Controllers
                 .ToList();
         }
 
-        // GET: api/LearningDay/User/5
+        // GET: api/LearningDay/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FlatLearningDay>> GetLearningDay(int id)
         {
@@ -54,7 +54,7 @@ namespace SchedulearnBackend.Controllers
                 .ToList();
         }
 
-        // POST: api/User
+        // POST: api/LearningDay
         [HttpPost]
         public async Task<ActionResult<User>> PostNewLearningDay(CreateNewLearningDay learningDayToCreate)
         {
