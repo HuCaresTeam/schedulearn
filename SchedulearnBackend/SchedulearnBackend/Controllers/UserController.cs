@@ -28,11 +28,7 @@ namespace SchedulearnBackend.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<string>> Authenticate(AuthenticateModel model)
         {
-            var token = await _userService.Authenticate(model.Email, model.Password);
-            if (token == null)
-                throw new Exception("Failed to create security token");
-
-            return token;
+            return await _userService.Authenticate(model.Email, model.Password);
         }
 
         // GET: api/User

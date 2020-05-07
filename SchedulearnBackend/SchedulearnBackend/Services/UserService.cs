@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SchedulearnBackend.Controllers.DTOs;
@@ -35,9 +36,10 @@ namespace SchedulearnBackend.Services
         public async Task<string> Authenticate(string userEmail, string userPassword)
         {
             var user = await _schedulearnContext.Users.Where(u => u.Email == userEmail && u.Password == userPassword).FirstOrDefaultAsync();
-            if (user != null)
-            {
-                var claims = new[] {
+            if (user == null)
+                throw new UnauthorizedException($"Username or password is incorrect");
+
+            var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
@@ -46,14 +48,11 @@ namespace SchedulearnBackend.Services
                     new Claim("Surname", user.Surname),
                     new Claim("Email", user.Email)
                    };
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-
-            throw new UnauthorisedException($"Username or password is incorrect");
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public async Task<List<User>> AllUsersAsync()
