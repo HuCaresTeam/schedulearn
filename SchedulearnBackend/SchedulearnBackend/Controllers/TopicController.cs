@@ -1,12 +1,17 @@
-﻿using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchedulearnBackend.Controllers.DTOs;
+using Microsoft.EntityFrameworkCore;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
+using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.Services;
 
 namespace SchedulearnBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TopicController : ControllerBase
