@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SchedulearnBackend.Controllers.DTOs
 {
-    public class WorkerByTopicEntry
+    public class LearningDayWithUser
     {
-        public WorkerByTopicEntry(LearningDay learningDay)
+        public LearningDayWithUser(LearningDay learningDay)
         {
             UserId = learningDay.User.Id;
             TopicId = learningDay.Topic.Id;

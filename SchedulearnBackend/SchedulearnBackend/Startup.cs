@@ -34,7 +34,6 @@ namespace SchedulearnBackend
             services.AddScoped<TeamService>();
             services.AddScoped<TopicService>();
             services.AddScoped<LearningDayService>();
-            services.AddScoped<AnalyzeDataService>();
 
             services.AddControllers().AddNewtonsoftJson();
         }

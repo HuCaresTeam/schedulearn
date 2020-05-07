@@ -53,6 +53,18 @@ namespace SchedulearnBackend.Controllers
                 .ToList();
         }
 
+        // GET: api/LearningDay/Topic/5
+        [HttpGet("Topic/{id}")]
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTopic(int id)
+        {
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {id}");
+            var learningDays = await _learningDayService.GetLearningDaysByTopicAsync(id);
+
+            return learningDays
+                .Select(l => new LearningDayWithUser(l))
+                .ToList();
+        }
+
         // POST: api/LearningDay
         [HttpPost]
         public async Task<ActionResult<User>> PostNewLearningDay(CreateNewLearningDay learningDayToCreate)
