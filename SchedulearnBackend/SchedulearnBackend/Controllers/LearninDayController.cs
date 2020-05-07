@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.Models;
@@ -46,7 +45,7 @@ namespace SchedulearnBackend.Controllers
         [HttpGet("User/{id}")]
         public async Task<ActionResult<IEnumerable<FlatLearningDay>>> GetLearningDaysByUserId(int id)
         {
-            System.Diagnostics.Debug.WriteLine("GetUser " + id);
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByUserId {id}");
             var learningDays = await _learningDayService.GetLearningDaysByUserAsync(id);
 
             return learningDays
