@@ -19,10 +19,12 @@ namespace SchedulearnBackend.Controllers
     public class TeamController : ControllerBase
     {
         private readonly TeamService _teamService;
+        private readonly TopicService _topicService;
 
-        public TeamController(TeamService teamService)
+        public TeamController(TeamService teamService, TopicService topicService)
         {
             _teamService = teamService;
+            _topicService = topicService;
         }
 
         // GET: api/Team
@@ -47,6 +49,14 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine("GetAccessibleTeams " + id);
             return await _teamService.GetAccessibleTeams(id);
+        }
+
+        // GET: api/Team/5/topics
+        [HttpGet("{id}/topics")]
+        public async Task<ActionResult<IEnumerable<TeamTopics>>> GetTopicsByTeam(int id)
+        {
+            System.Diagnostics.Debug.WriteLine("GetTopicsByTeam " + id);
+            return await _topicService.GetTopicsForAccessibleTeams(id);
         }
 
         // PUT: api/Team/5
