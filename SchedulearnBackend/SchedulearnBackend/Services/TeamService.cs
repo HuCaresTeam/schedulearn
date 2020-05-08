@@ -3,6 +3,7 @@ using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace SchedulearnBackend.Services
     {
         private readonly SchedulearnContext _schedulearnContext;
         private readonly LimitService _limitService;
+        private readonly LearningDayService _learningDayService;
 
-        public TeamService(LimitService limitService, SchedulearnContext schedulearnContext)
+        public TeamService(LimitService limitService, LearningDayService learningDayService, SchedulearnContext schedulearnContext)
         {
             _limitService = limitService;
+            _learningDayService = learningDayService;
             _schedulearnContext = schedulearnContext;
         }
 
@@ -67,6 +70,39 @@ namespace SchedulearnBackend.Services
             }
 
             return accessibleTeams;
+        }
+
+        public async Task<List<TeamMembers>> GetTeamsByTopicAsync(int topicId, int baseTeamId)
+        {
+            var teamsByTopic = new List<TeamMembers>();
+
+            var baseTeam = await GetTeamAsync(baseTeamId);
+            var baseMemebersWhoLearnedTopic = await GetTeamMembersWhoLearnedTopic(topicId, baseTeam);
+            if (baseMemebersWhoLearnedTopic.Count != 0)
+                teamsByTopic.Add(new TeamMembers(baseTeam, baseMemebersWhoLearnedTopic));
+
+            foreach (Team accessibleTeam in await GetAccessibleTeams(baseTeamId))
+            {
+                var memebersWhoLearnedTopic = await GetTeamMembersWhoLearnedTopic(topicId, accessibleTeam);
+                if (memebersWhoLearnedTopic.Count != 0)
+                    teamsByTopic.Add(new TeamMembers(accessibleTeam, memebersWhoLearnedTopic));
+            }
+
+            return teamsByTopic;
+        }
+
+        private async Task<List<User>> GetTeamMembersWhoLearnedTopic(int topicId, Team team)
+        {
+            var membersWhoLearnedTopic = new List<User>();
+
+            foreach (User memeber in team.Members)
+            {
+                var usersLearningDaysForTopic = await _learningDayService.GetLearningDaysByUserAndTopicAsync(memeber.Id, topicId);
+                if (usersLearningDaysForTopic.Count != 0)
+                    membersWhoLearnedTopic.Add(memeber);
+            }
+
+            return membersWhoLearnedTopic;
         }
     }
 }

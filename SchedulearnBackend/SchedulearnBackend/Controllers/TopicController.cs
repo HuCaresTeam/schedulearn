@@ -17,11 +17,13 @@ namespace SchedulearnBackend.Controllers
     public class TopicController : ControllerBase
     {
         private readonly TopicService _topicService;
+        private readonly TeamService _teamService;
         private readonly SchedulearnContext _schedulearnContext;
 
-        public TopicController(TopicService topicService, SchedulearnContext schedulearnContext)
+        public TopicController(TopicService topicService, TeamService teamService, SchedulearnContext schedulearnContext)
         {
             _topicService = topicService;
+            _teamService = teamService;
             _schedulearnContext = schedulearnContext;
         }
 
@@ -47,6 +49,14 @@ namespace SchedulearnBackend.Controllers
         {
             System.Diagnostics.Debug.WriteLine($"GetParentTopic {id}");
             return await _topicService.GetParentTopicAsync(id);
+        }
+
+        // GET: api/Topic/5/teams/4
+        [HttpGet("{topicId}/teams/{teamId}")]
+        public async Task<ActionResult<IEnumerable<TeamMembers>>> GetTeamsByTopic(int topicId, int teamId)
+        {
+            System.Diagnostics.Debug.WriteLine($"GetTeamsByTopic {topicId} {teamId}");
+            return await _teamService.GetTeamsByTopicAsync(topicId, teamId);
         }
 
         // POST: api/Topic
