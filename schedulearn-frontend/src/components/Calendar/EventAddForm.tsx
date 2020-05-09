@@ -9,11 +9,11 @@ import AtLeast from "src/util-types/AtLeast";
 export interface EventAddFormProps {
   isOpen: boolean;
   disabled: boolean;
-  learningDayEvent?: AtLeast<LearningDayEventInfo, "userId">;
-  onEventSubmit: (event: LearningDayEventInfo) => void;
+  learningDayEvent?: AtLeast<LearningDayEvent, "userId">;
+  onEventSubmit: (event: LearningDayEvent) => void;
 }
 
-export interface LearningDayEventInfo {
+export interface LearningDayEvent {
   start: Date;
   end: Date;
   title: string;
@@ -22,7 +22,7 @@ export interface LearningDayEventInfo {
   userId: number;
 }
 
-export type EventAddFormState = LearningDayEventInfo;
+export type EventAddFormState = LearningDayEvent;
 
 export class EventAddForm extends React.Component<EventAddFormProps, EventAddFormState> {
   public constructor(props: EventAddFormProps) {

@@ -5,25 +5,22 @@ import { HttpStatusCode } from "./HttpStatusCode";
 
 class UserContextManager {
   private _user?: User;
+  private _hasPinged: boolean = false;
+
+  public get hasPinged(): boolean {
+    return this._hasPinged;
+  }
 
   public get user(): User | undefined {
     return this._user;
   }
 
   public async pingServer(): Promise<HttpStatusCode> {
-    const authEndpoint = urljoin(Constants.host, "api/user/current");
     const authToken = localStorage.getItem("token");
     if (authToken === null)
       return HttpStatusCode.Unauthorized;
 
-    const response = await fetch(authEndpoint, {
-      method: "GET",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": authToken,
-      },
-    });
+    const response = await this.fetch("api/user/current");
 
     if (!response.ok) {
       this._user = undefined;
@@ -31,6 +28,8 @@ class UserContextManager {
     }
 
     this._user = await response.json();
+    this._hasPinged = true;
+
     return response.status;
   };
 
@@ -57,6 +56,10 @@ class UserContextManager {
   }
 
   public async fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
+    if (typeof (input) === "string" && !input.includes("http")) {
+      input = urljoin(Constants.host, input);
+    }
+
     const authToken = localStorage.getItem("token") || "";
     if (init === undefined)
       init = { headers: { "Authorization": authToken } };
@@ -81,5 +84,6 @@ class UserContextManager {
 }
 
 export const UserContext = new UserContextManager();
+UserContext.pingServer();
 
 export default UserContext;

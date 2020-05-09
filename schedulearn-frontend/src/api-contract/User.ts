@@ -10,3 +10,5 @@ export interface User {
   teamId?: number;
   limitId?: number;
 }
+
+export default User;

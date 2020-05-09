@@ -2,8 +2,6 @@ import React from "react";
 import { ListItem } from "src/components/NestedList/NestedListItem";
 import { NestedList } from "src/components/NestedList/NestedList";
 import UserContext from "src/UserContext";
-import { Constants } from "src/Constants";
-import urljoin from "url-join";
 import { Topic } from "src/api-contract/Topic";
 
 interface TopicListProps {
@@ -35,9 +33,9 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     UserContext
-      .fetch(urljoin(Constants.host, "api/topic"))
+      .fetch("api/topic")
       .then((response) => {
         if (!response.ok) {
           //set error

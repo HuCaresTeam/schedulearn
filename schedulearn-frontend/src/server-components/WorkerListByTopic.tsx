@@ -3,6 +3,8 @@ import { WorkerListItem } from "../components/WorkerList/WorkerList";
 import WorkerList from "../components/WorkerList/WorkerList";
 import dotnetify, { dotnetifyVM } from "dotnetify";
 
+dotnetify.hubServerUrl = "http://localhost:5000";
+
 interface WorkerListByTopicProps {
   topicId: number;
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.Models;
@@ -8,6 +9,7 @@ using SchedulearnBackend.Services;
 
 namespace SchedulearnBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LearningDayController : ControllerBase
@@ -42,7 +44,7 @@ namespace SchedulearnBackend.Controllers
 
 
         // GET: api/LearningDay/User/5
-        [HttpGet("User/{id}")]
+        [HttpGet("user/{id}")]
         public async Task<ActionResult<IEnumerable<FlatLearningDay>>> GetLearningDaysByUserId(int id)
         {
             System.Diagnostics.Debug.WriteLine($"GetLearningDaysByUserId {id}");
@@ -54,7 +56,7 @@ namespace SchedulearnBackend.Controllers
         }
 
         // GET: api/LearningDay/Topic/5
-        [HttpGet("Topic/{id}")]
+        [HttpGet("topic/{id}")]
         public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTopic(int id)
         {
             System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {id}");

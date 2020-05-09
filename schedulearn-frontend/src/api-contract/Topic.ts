@@ -5,3 +5,5 @@ export interface Topic {
     parentTopicId: number;
     subTopics: Topic[];
 }
+
+export default Topic;
