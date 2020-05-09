@@ -1,83 +1,64 @@
 import React from "react";
-import dotnetify, { dotnetifyVM } from "dotnetify";
-import { UserContext, UserContextValue, User } from "../../components/Contexts/UserContext";
-
-dotnetify.hubServerUrl = "http://localhost:5000";
-
-interface LoginPageProps {
-  user: User;
-}
+import UserContext from "src/UserContext";
+import { isOkStatus, HttpStatusCode } from "src/HttpStatusCode";
 
 interface LoginPageState {
-  CurrentUser?: User;
-  vm?: dotnetifyVM;
-  userName: string;
+  email: string;
+  password: string;
 }
 
 export default class LoginPage extends React.Component<{}, LoginPageState> {
-  constructor(props: LoginPageProps) {
-    super(props);
-    this.state = { userName: "" };
-  }
-
-  private userContext?: UserContextValue;
+  state = { email: "", password: "" };
 
   componentDidMount(): void {
-    const vm = dotnetify.react.connect("UserBaseVM", this);
-    this.setState({ vm: vm });
+    UserContext.pingServer()
+      .then(this.handleResponse);
   }
 
-  componentWillUnmount(): void {
-    if (this.state.vm !== undefined)
-      this.state.vm.$destroy();
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  $dispatch = (iValue: any): void => {
-    if (this.state.vm !== undefined)
-      this.state.vm.$dispatch(iValue);
-  };
-
-  handleUsername = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ userName: event.target.value });
-  }
-
-  handleSetUser = (): void => {
-    this.$dispatch({ SetCurrentUser: { Name: this.state.userName } });
-  }
-
-  componentDidUpdate(): void {
-    if (!this.userContext || !this.state.CurrentUser)
-      return;
-
-    if (!this.userContext.user) {
-      this.userContext.setUser(this.state.CurrentUser);
+  handleResponse(status: HttpStatusCode): void {
+    if (!isOkStatus(status)) {
+      // Auth failed. Stay in login page.
+      console.log(`Need to log in ${HttpStatusCode[status]}`);
       return;
     }
 
-    if (this.userContext.user.Id !== this.state.CurrentUser.Id)
-      this.userContext.setUser(this.state.CurrentUser);
+    // Redirect to home page.
+    console.log(`Logged in as ${UserContext.user?.name}`);
   }
 
-  renderWithContext = (context: UserContextValue): React.ReactNode => {
-    this.userContext = context;
+  handleEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ email: event.target.value });
+  }
 
-    return (
-      <div>
-        <span>Add: </span>
-        <input type="text" placeholder="User Name" value={this.state.userName} onChange={this.handleUsername} />
-        <button onClick={this.handleSetUser}>Send user</button>
-        <p>Current user name: {context.user ? context.user.Name : "Not logged in"}</p>
-      </div>
-    );
+  handlePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ password: event.target.value });
+  }
+
+  handleLogin = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+
+    const email = this.state.email;
+    const password = this.state.password;
+
+    const status = await UserContext.login(email, password);
+    this.handleResponse(status);
   }
 
   render(): React.ReactNode {
-
     return (
-      <UserContext.Consumer>
-        {this.renderWithContext}
-      </UserContext.Consumer>
+      <div>
+        <form onSubmit={this.handleLogin}>
+          <div>
+            <label>Email: </label>
+            <input type="email" placeholder="name@domain.com" value={this.state.email} onChange={this.handleEmail} />
+          </div>
+          <div>
+            <label>Password: </label>
+            <input type="password" value={this.state.password} onChange={this.handlePassword} />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      </div>
     );
   }
 }

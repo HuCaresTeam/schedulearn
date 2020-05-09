@@ -2,7 +2,6 @@
 import React from "react";
 import TopicList from "./server-components/TopicList";
 
-import TopicListProvider from "./server-components/TopicListProvider";
 import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
 import LearningDayProvider from "./server-components/LearningDayCalendarProvider";
 import AnalyzeData from "./server-components/AnalyzeData";
@@ -16,6 +15,7 @@ import {
   Link,
 } from "react-router-dom";
 import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningDayCalendar";
+import { PrivateRoute } from "./PrivateRoute";
 
 export default class App extends React.Component {
   render(): React.ReactNode {
@@ -39,25 +39,23 @@ export default class App extends React.Component {
                 </li>
               </ul>
             </nav>
-            <TopicListProvider>
-              <LearningDayProvider>
-                <Switch>
-                  <Route path="/login">
-                    <LoginPage />
-                  </Route>
-                  <Route path="/list_example">
-                    <TopicList />
-                    <AnalyzeData />
-                  </Route>
-                  <Route path="/calendar">
-                    <UserLearningDayCalendar />
-                  </Route>
-                  <Route path="/calendar_all">
-                    <AllUserLearningDayCalendar />
-                  </Route>
-                </Switch>
-              </LearningDayProvider>
-            </TopicListProvider>
+            <LearningDayProvider>
+              <Switch>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
+                <PrivateRoute path="/list_example">
+                  <TopicList />
+                  <AnalyzeData />
+                </PrivateRoute>
+                <PrivateRoute path="/calendar">
+                  <UserLearningDayCalendar />
+                </PrivateRoute>
+                <PrivateRoute path="/calendar_all">
+                  <AllUserLearningDayCalendar />
+                </PrivateRoute>
+              </Switch>
+            </LearningDayProvider>
           </div>
         </Router>
       </UserProvider>

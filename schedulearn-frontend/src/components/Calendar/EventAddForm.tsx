@@ -3,7 +3,7 @@ import TimeManipulator from "./TimeManipulator";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./EventAddForm.scss";
-import TopicList, { FullTopic } from "src/server-components/TopicList";
+import TopicList, { TopicListItem } from "src/server-components/TopicList";
 import AtLeast from "src/util-types/AtLeast";
 
 export interface EventAddFormProps {
@@ -79,8 +79,8 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
     this.setState({ end: date });
   }
 
-  onTopicSelectChange = (topic: FullTopic): void => {
-    this.setState({ topicId: topic.Id, title: topic.Label });
+  onTopicSelectChange = (topic: TopicListItem): void => {
+    this.setState({ topicId: topic.id, title: topic.label });
   }
 
   onDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
