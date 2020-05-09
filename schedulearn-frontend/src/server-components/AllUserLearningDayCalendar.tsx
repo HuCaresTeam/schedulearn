@@ -30,12 +30,12 @@ export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayS
     };
   }
 
-  fetchUserLearningDays() {
+  fetchUserLearningDays(): void {
     if (!UserContext.user)
       throw new Error("Should never reach this calendar when not logged in");
 
     UserContext
-      .fetch(`api/learningDay`)
+      .fetch("api/learningDay")
       .then((response) => {
         if (!response.ok)
           return;
@@ -44,11 +44,11 @@ export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayS
       })
       .then((learningDays: FlatLearningDay[]) => {
         const learninDayEvents = learningDays.map(this.learningDayToEvent);
-        this.setState({ allLearningDays: learninDayEvents })
+        this.setState({ allLearningDays: learninDayEvents });
       });
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.fetchUserLearningDays();
   }
 

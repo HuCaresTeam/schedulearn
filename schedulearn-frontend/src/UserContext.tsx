@@ -5,11 +5,6 @@ import { HttpStatusCode } from "./HttpStatusCode";
 
 class UserContextManager {
   private _user?: User;
-  private _hasPinged: boolean = false;
-
-  public get hasPinged(): boolean {
-    return this._hasPinged;
-  }
 
   public get user(): User | undefined {
     return this._user;
@@ -28,8 +23,6 @@ class UserContextManager {
     }
 
     this._user = await response.json();
-    this._hasPinged = true;
-
     return response.status;
   };
 
