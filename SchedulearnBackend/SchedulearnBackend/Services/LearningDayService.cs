@@ -11,13 +11,13 @@ namespace SchedulearnBackend.Services
 {
     public class LearningDayService
     {
-        private readonly UserService _userService;
         private readonly SchedulearnContext _schedulearnContext;
+        private readonly UserService _userService;
 
         public LearningDayService(UserService userService, SchedulearnContext schedulearnContext)
         {
-            _userService = userService;
             _schedulearnContext = schedulearnContext;
+            _userService = userService;
         }
 
         public async Task<List<LearningDay>> GetAllLearningDaysAsync() 

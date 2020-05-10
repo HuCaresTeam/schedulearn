@@ -17,13 +17,11 @@ namespace SchedulearnBackend.Controllers
     public class TopicController : ControllerBase
     {
         private readonly TopicService _topicService;
-        private readonly TeamService _teamService;
         private readonly SchedulearnContext _schedulearnContext;
 
-        public TopicController(TopicService topicService, TeamService teamService, SchedulearnContext schedulearnContext)
+        public TopicController(TopicService topicService, SchedulearnContext schedulearnContext)
         {
             _topicService = topicService;
-            _teamService = teamService;
             _schedulearnContext = schedulearnContext;
         }
 
@@ -53,15 +51,15 @@ namespace SchedulearnBackend.Controllers
 
         // GET: api/Topic/manager/5
         [HttpGet("manager/{managerId}")]
-        public async Task<ActionResult<IEnumerable<TeamTopics>>> GetTopicsForManagedTeams(int managerId)
+        public async Task<ActionResult<IEnumerable<TeamTopics>>> GetTopicsByManager(int managerId)
         {
-            System.Diagnostics.Debug.WriteLine("GetTopicsForManagedTeams " + managerId);
-            return await _topicService.GetTopicsForManagedTeams(managerId);
+            System.Diagnostics.Debug.WriteLine("GetTopicsByManager " + managerId);
+            return await _topicService.GetTopicsByManager(managerId);
         }
 
         // GET: api/Topic/team/5
         [HttpGet("team/{teamId}")]
-        public async Task<ActionResult<IEnumerable<TopicNoSubtopics>>> GetTopicsForTeam(int teamId)
+        public async Task<ActionResult<IEnumerable<TopicNoSubtopics>>> GetTopicsByTeam(int teamId)
         {
             System.Diagnostics.Debug.WriteLine("GetTopicsForTeam " + teamId);
             var topics = await _topicService.GetTopicsByTeamAsync(teamId);

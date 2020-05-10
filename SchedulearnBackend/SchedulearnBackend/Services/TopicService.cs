@@ -14,13 +14,11 @@ namespace SchedulearnBackend.Services
         private readonly SchedulearnContext _schedulearnContext;
         private readonly LearningDayService _learningDayService;
         private readonly TeamService _teamService;
-        private readonly UserService _userService;
 
-        public TopicService(LearningDayService learningDayService, TeamService teamService, UserService userService, SchedulearnContext schedulearnContext) 
+        public TopicService(LearningDayService learningDayService, TeamService teamService, SchedulearnContext schedulearnContext) 
         {
             _schedulearnContext = schedulearnContext;
             _learningDayService = learningDayService;
-            _userService = userService;
             _teamService = teamService;
         }
 
@@ -81,18 +79,18 @@ namespace SchedulearnBackend.Services
             return teamTopics;
         }
 
-        public async Task<List<TeamTopics>> GetTopicsForManagedTeams(int managerId)
+        public async Task<List<TeamTopics>> GetTopicsByManager(int managerId)
         {
             var teamsWithTopics = new List<TeamTopics>();
 
-            var manager = await _userService.GetUserAsync(managerId);
-            if (manager.ManagedTeam == null)
+            var baseTeam = await _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefaultAsync();
+            if (baseTeam == null)
                 throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
 
-            var baseTeamsTopics = await GetTopicsByTeamAsync(manager.ManagedTeam.Id);
-            teamsWithTopics.Add(new TeamTopics(manager.ManagedTeam, baseTeamsTopics));
+            var baseTeamsTopics = await GetTopicsByTeamAsync(baseTeam.Id);
+            teamsWithTopics.Add(new TeamTopics(baseTeam, baseTeamsTopics));
 
-            foreach (Team accessibleTeam in await _teamService.GetAccessibleTeams(manager.ManagedTeam.Id))
+            foreach (Team accessibleTeam in await _teamService.GetAccessibleTeams(baseTeam.Id))
             {
                 var teamTopics = await GetTopicsByTeamAsync(accessibleTeam.Id);
                 teamsWithTopics.Add(new TeamTopics(accessibleTeam, teamTopics));
