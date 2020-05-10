@@ -144,7 +144,7 @@ export class NestedList<TItem extends ListItem<TItem>>
           <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
           {infoIcon}
         </div>
-        <div style={{overflow: "auto", maxHeight: (this.props.maxHeight ? this.props.maxHeight : -1)}}>
+        <div style={{overflow: "auto", maxHeight: this.props.maxHeight}}>
           {this.state.currentItem.subItems.map((item: TItem, index: number) => (
             <NestedListItem
               key={item.id}
