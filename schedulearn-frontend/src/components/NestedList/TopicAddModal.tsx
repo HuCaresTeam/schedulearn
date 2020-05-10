@@ -17,6 +17,7 @@ export class TopicAddModal extends React.PureComponent<TopicAddModalProps> {
   render(): JSX.Element {
     return (
       <Modal
+        portalClassName="topic-add-modal ReactModalPortal"
         isOpen={this.props.isOpen}
         onRequestClose={this.props.onRequestClose}
         contentLabel="Topic Add Modal"

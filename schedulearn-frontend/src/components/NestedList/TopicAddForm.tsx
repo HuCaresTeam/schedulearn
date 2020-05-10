@@ -33,11 +33,6 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    
-    if(this.state.name === "") {
-      this.props.onRequestClose();
-      return;
-    }
 
     this.props.onEventSubmit({
       name: this.state.name,
@@ -75,6 +70,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
             placeholder="Name of the topic"
             onChange={this.onNameChange} 
             value={this.state.name}
+            required={true}
           />
         </div>
         <div className="topic-field topic-description">
