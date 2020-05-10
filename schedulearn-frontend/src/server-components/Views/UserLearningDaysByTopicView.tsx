@@ -1,6 +1,6 @@
 import React from "react";
-import TopicList, { TopicListItem } from "./TopicList";
-import LearningDaysByTopic from "./LearningDaysByTopic";
+import TopicList, { TopicListItem } from "../TopicList";
+import LearningDaysByTopic from "../LearningDaysByTopic";
 
 interface UserLearningDaysByTopicViewState {
   topicId?: number;
@@ -19,7 +19,7 @@ export default class UserLearningDaysByTopicView extends React.Component<{}, Use
 
     return (
       <React.Fragment>
-        <TopicList onItemClick={this.handleItemClick} />
+        <TopicList onItemClick={this.handleItemClick} maxHeight={250} />
         {workerList}
       </React.Fragment>
     );

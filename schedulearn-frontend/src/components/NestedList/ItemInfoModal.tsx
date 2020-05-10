@@ -27,9 +27,11 @@ export class ItemInfoModal extends React.PureComponent<ItemInfoModalProps> {
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
         style={{
-          content : {
+          content: {
             transform: `translate3d(${this.props.posX + offsetX}px, ${this.props.posY + offsetY}px, 0px)`,
+            zIndex: 7,
           },
+          overlay: { zIndex: 6 },
         }}
       >
         <div>{this.props.description}</div>

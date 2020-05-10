@@ -31,9 +31,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
     };
   }
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-
+  handleSubmit = (): void => {
     this.props.onEventSubmit({
       name: this.state.name,
       description: this.state.description,
@@ -60,15 +58,15 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
 
   render(): JSX.Element {
     return (
-      <form className="topic-form" onSubmit={this.handleSubmit}>
+      <form className="topic-form">
         <div className="topic-field">
           <label className="topic-name">
             Name:
           </label>
-          <input type="text" 
+          <input type="text"
             disabled={this.props.disabled}
             placeholder="Name of the topic"
-            onChange={this.onNameChange} 
+            onChange={this.onNameChange}
             value={this.state.name}
             required={true}
           />
@@ -84,7 +82,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
             placeholder="Please describe the topic in detail to avoid any fatal confusion"
           />
         </div>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </form>
     );
   }

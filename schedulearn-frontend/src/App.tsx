@@ -1,9 +1,7 @@
 
 import React from "react";
-import TopicList from "./server-components/TopicList";
-
 import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
-import UserLearningDaysByTopicView from "./server-components/UserLearningDaysByTopicView";
+import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import LoginPage from "./server-components/Login/LoginPage";
 import { UserProvider } from "./components/Contexts/UserContext";
 
@@ -48,7 +46,6 @@ export default class App extends React.Component {
                 <LoginPage />
               </Route>
               <PrivateRoute path="/list_example">
-                <TopicList />
                 <TopicsByManagerView />
                 <UserLearningDaysByTopicView />
               </PrivateRoute>
@@ -59,13 +56,13 @@ export default class App extends React.Component {
                 <AllUserLearningDayCalendar />
               </PrivateRoute>
               <PrivateRoute path="/my_limits">
-                <LimitViewer/>
+                <LimitViewer />
               </PrivateRoute>
             </Switch>
           </div>
         </Router>
-        
-        
+
+
       </UserProvider>
     );
   }

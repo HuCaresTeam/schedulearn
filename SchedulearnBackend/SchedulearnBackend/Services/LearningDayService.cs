@@ -56,11 +56,15 @@ namespace SchedulearnBackend.Services
         public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate) 
         {
             await _userService.GetUserAsync(learningDayToCreate.UserId); //Check user exists
+            var topic = await _schedulearnContext.Topics.FindAsync(learningDayToCreate.TopicId);
+            if (topic == null)
+                throw new NotFoundException($"Topic with id ({learningDayToCreate.TopicId}) does not exist");
 
             var newLearningDay = learningDayToCreate.CreateLearningDay();
 
             await _schedulearnContext.LearningDays.AddAsync(newLearningDay);
             await _schedulearnContext.SaveChangesAsync();
+            await _schedulearnContext.Entry(newLearningDay).ReloadAsync();
 
             return newLearningDay;
         }
