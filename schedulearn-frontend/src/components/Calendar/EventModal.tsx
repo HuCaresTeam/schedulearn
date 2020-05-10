@@ -14,6 +14,7 @@ export class EventModal extends React.PureComponent<EventModalProps> {
   render(): JSX.Element {
     return (
       <Modal
+        portalClassName="event-add-modal ReactModalPortal"
         isOpen={this.props.isOpen}
         onRequestClose={this.props.onRequestClose}
         contentLabel="Event modal"

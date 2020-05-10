@@ -2,6 +2,8 @@ import React from "react";
 import { NestedListItem, ListItem } from "./NestedListItem";
 import "./NestedList.scss";
 import arrow from "./back.svg";
+import info from "./info.svg";
+import { ItemInfoModal } from "./ItemInfoModal";
 
 export interface NestedListProps<TItem extends ListItem<TItem>> {
   rootItem: TItem;
@@ -13,6 +15,10 @@ export interface NestedListProps<TItem extends ListItem<TItem>> {
 
 interface NestedListState<TItem extends ListItem<TItem>> {
   currentItem: TItem;
+  modalVisible: boolean;
+  modalDescription: string;
+  posX: number;
+  posY: number;
 }
 
 export class NestedList<TItem extends ListItem<TItem>>
@@ -24,7 +30,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     this.history = this.convertIdToHistory(this.props.selectedItemId);
     const currentItem = this.currentItem;
-    this.state = { currentItem };
+    this.state = { currentItem: currentItem, modalVisible: false, modalDescription: "", posX: 0, posY: 0 };
   }
 
   private get currentItem(): TItem {
@@ -69,6 +75,10 @@ export class NestedList<TItem extends ListItem<TItem>>
     this.tryCallOnItemClick(item);
   };
 
+  onInfoItemClick = (event: React.MouseEvent<HTMLImageElement, MouseEvent>, item: TItem): void => {
+    this.setState({modalVisible: true, modalDescription: item.description, posX: event.pageX, posY: event.pageY});
+  }
+
   onCurrentItemClick = (): void => {
     this.tryCallOnItemClick(this.state.currentItem);
   }
@@ -102,9 +112,27 @@ export class NestedList<TItem extends ListItem<TItem>>
     }
   }
 
+  handleModalClose = (): void => {
+    this.setState({ modalVisible: false });
+  }
+
   render(): JSX.Element {
     const showButton = !!this.history.length;
     const backButton = <img className="nested-list-back-icon" src={arrow} alt="arrow" />;
+
+    const modal = <ItemInfoModal 
+      isOpen={this.state.modalVisible} 
+      onRequestClose={this.handleModalClose}
+      description={this.state.modalDescription}
+      posX={this.state.posX}
+      posY={this.state.posY}
+    />;
+
+    const infoIcon = <img className="nested-list-info-icon"
+      src={info}
+      alt="info" 
+      onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
+    />;
 
     return (
       <div className="nested-list" style={{ width: this.props.width }}>
@@ -113,6 +141,7 @@ export class NestedList<TItem extends ListItem<TItem>>
             {showButton ? backButton : undefined}
           </div>
           <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
+          {infoIcon}
         </div>
         {this.state.currentItem.subItems.map((item: TItem, index: number) => (
           <NestedListItem
@@ -121,8 +150,10 @@ export class NestedList<TItem extends ListItem<TItem>>
             item={item}
             index={index}
             callback={this.onListItemClick}
+            infoCallback={this.onInfoItemClick}
           />
         ))}
+        {modal}
       </div>
     );
   }
