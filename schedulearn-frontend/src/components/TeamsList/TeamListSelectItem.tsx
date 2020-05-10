@@ -14,7 +14,7 @@ export interface TeamListSelectItemProps {
 export class TeamListSelectItem extends React.Component<TeamListSelectItemProps, {}> {
   render(): JSX.Element {
     return (
-      <option label={this.props.item.managerName + " " + this.props.item.managerSurname + " team"} value={this.props.item.teamId}/>
+      <option label={`${this.props.item.managerName} ${this.props.item.managerSurname} team`} value={this.props.item.teamId}/>
     );
   }
 }
