@@ -3,6 +3,7 @@ import { ListItem } from "src/components/NestedList/NestedListItem";
 import { NestedList } from "src/components/NestedList/NestedList";
 import UserContext from "src/UserContext";
 import { Topic } from "src/api-contract/Topic";
+import { TopicForm } from "../components/NestedList/TopicAddForm";
 
 interface TopicListProps {
   onItemClick?(item: TopicListItem): void;
@@ -33,7 +34,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
     };
   }
 
-  componentDidMount(): void {
+  getTopicsFromRoot = (): void => {
     UserContext
       .fetch("api/topic")
       .then((response) => {
@@ -50,18 +51,42 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
       });
   }
 
+  handleTopicSubmit = (topic: TopicForm): void => {
+    UserContext
+      .fetch("api/topic", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(topic),
+      })
+      .then((response) => {
+        console.log("Trying post", response);
+        if (!response.ok)
+          return;
+
+        this.getTopicsFromRoot();
+      });
+  }
+
+  componentDidMount(): void {
+    this.getTopicsFromRoot();
+  }
+
   render(): React.ReactNode {
     if (!this.state.rootTopic) {
       return (
-        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [], description: "" }} />
+        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [], description: "" }} displayAddOption={false} />
       );
     }
 
     return (
-      <NestedList
-        rootItem={this.state.rootTopic}
-        onItemClick={this.props.onItemClick}
+      <NestedList 
+        rootItem={this.state.rootTopic} 
+        onItemClick={this.props.onItemClick} 
         disabled={this.props.disabled}
+        displayAddOption={true}
+        onAddOptionSubmit={this.handleTopicSubmit}
         selectedItemId={this.props.selectedItemId}
         maxHeight={this.props.maxHeight}
       />

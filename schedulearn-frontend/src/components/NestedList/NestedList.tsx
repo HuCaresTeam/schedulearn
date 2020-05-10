@@ -1,5 +1,7 @@
 import React from "react";
 import { NestedListItem, ListItem } from "./NestedListItem";
+import { TopicAddModal } from "./TopicAddModal";
+import { TopicForm } from "./TopicAddForm";
 import "./NestedList.scss";
 import arrow from "./back.svg";
 import info from "./info.svg";
@@ -11,11 +13,16 @@ export interface NestedListProps<TItem extends ListItem<TItem>> {
   width?: number;
   selectedItemId?: number;
   disabled?: boolean;
+  displayAddOption: boolean;
+  onAddOptionSubmit?(newTopic: TopicForm): void;
   maxHeight?: number;
 }
 
 interface NestedListState<TItem extends ListItem<TItem>> {
   currentItem: TItem;
+  isTopicModalOpen: boolean;
+  isTopicModalDisabled: boolean;
+  newTopic?: TopicForm;
   modalVisible: boolean;
   modalDescription: string;
   posX: number;
@@ -31,7 +38,16 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     this.history = this.convertIdToHistory(this.props.selectedItemId);
     const currentItem = this.currentItem;
-    this.state = { currentItem: currentItem, modalVisible: false, modalDescription: "", posX: 0, posY: 0 };
+    this.state = { 
+      currentItem: currentItem, 
+      modalVisible: false, 
+      modalDescription: "", 
+      posX: 0, 
+      posY: 0,
+      isTopicModalOpen: false,
+      isTopicModalDisabled: true,
+      newTopic: {parentTopicId: currentItem.id}, 
+    };
   }
 
   private get currentItem(): TItem {
@@ -113,6 +129,40 @@ export class NestedList<TItem extends ListItem<TItem>>
     }
   }
 
+  onNewAddNewTopicClick = (): void => {
+    this.setState({
+      isTopicModalOpen: true,
+      isTopicModalDisabled: false,
+      newTopic: {
+        parentTopicId: this.currentItem.id,
+      },
+    });
+  }
+
+  onTopicAddClose = (): void => {
+    this.setState({
+      isTopicModalOpen: false,
+      isTopicModalDisabled: true,
+    });
+  }
+
+  tryOnAddOptionSubmit = (topic: TopicForm): void => {
+    if(this.props.onAddOptionSubmit) {
+      return this.props.onAddOptionSubmit(topic);
+    } else {
+      throw Error("tryOnAddOptionSubmit is not implemented!");
+    }
+  }
+
+  onTopicAddSubmit = (topic: TopicForm): void => {
+    this.setState({
+      isTopicModalOpen: false,
+      isTopicModalDisabled: true,
+    });
+
+    this.tryOnAddOptionSubmit(topic);
+  }
+
   handleModalClose = (): void => {
     this.setState({ modalVisible: false });
   }
@@ -120,6 +170,12 @@ export class NestedList<TItem extends ListItem<TItem>>
   render(): JSX.Element {
     const showButton = !!this.history.length;
     const backButton = <img className="nested-list-back-icon" src={arrow} alt="arrow" />;
+
+    const addNewOption = <div className="create-new-item" onClick={this.onNewAddNewTopicClick}>
+      <b>Create a new Topic</b>
+    </div>;
+
+    const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption: undefined; 
 
     const modal = <ItemInfoModal 
       isOpen={this.state.modalVisible} 
@@ -136,28 +192,40 @@ export class NestedList<TItem extends ListItem<TItem>>
     />;
 
     return (
-      <div className="nested-list" style={{ width: this.props.width }}>
-        <div className="nested-list-title">
-          <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
-            {showButton ? backButton : undefined}
+      <React.Fragment>
+        <TopicAddModal
+          isOpen={this.state.isTopicModalOpen}
+          disabled={this.state.isTopicModalDisabled}
+          topic={this.state.newTopic}
+          onRequestClose={this.onTopicAddClose}
+          onEventSubmit={this.onTopicAddSubmit}
+        />
+
+        <div className="nested-list" style={{ width: this.props.width }}>
+          <div className="nested-list-title">
+            <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
+              {showButton ? backButton : undefined}
+            </div>
+            <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
+            {infoIcon}
           </div>
-          <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
-          {infoIcon}
+
+          <div style={{overflow: "auto", maxHeight: this.props.maxHeight}}>
+            {this.state.currentItem.subItems.map((item: TItem, index: number) => (
+              <NestedListItem
+                key={item.id}
+                history={this.history}
+                item={item}
+                index={index}
+                callback={this.onListItemClick}
+                infoCallback={this.onInfoItemClick}
+              />
+            ))}
+          </div>
+          {modal}
+          {showAddNewOption}
         </div>
-        <div style={{overflow: "auto", maxHeight: this.props.maxHeight}}>
-          {this.state.currentItem.subItems.map((item: TItem, index: number) => (
-            <NestedListItem
-              key={item.id}
-              history={this.history}
-              item={item}
-              index={index}
-              callback={this.onListItemClick}
-              infoCallback={this.onInfoItemClick}
-            />
-          ))}
-        </div>
-        {modal}
-      </div>
+      </React.Fragment>
     );
   }
 }
