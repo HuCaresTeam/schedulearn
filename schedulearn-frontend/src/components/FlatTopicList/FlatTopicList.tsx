@@ -1,4 +1,5 @@
 import React from "react";
+import "./FlatTopicList.scss";
 
 export interface FlatTopicListItem {
   name: string;
@@ -12,7 +13,7 @@ interface FlatTopicListProps {
 export default class FlatTopicList extends React.Component<FlatTopicListProps, {}> {
   render(): JSX.Element {
     return (
-      <table className="worker-table">
+      <table className="flat-topic-table">
         <tbody>
           <tr>
             <th>Topic name</th>

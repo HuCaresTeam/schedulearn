@@ -28,8 +28,7 @@ export default class TopicsByManagerView extends React.Component<{}, TopicsByMan
   }
 
   render(): React.ReactNode {
-    const teamTopics = this.state.topics !== undefined ?
-      (<FlatTopicList topics={this.state.topics} />) : undefined;
+    const teamTopics = (<FlatTopicList topics={this.state.topics ?? []} />);
 
     return (
       <div>
