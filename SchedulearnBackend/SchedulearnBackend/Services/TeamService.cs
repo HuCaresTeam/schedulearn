@@ -53,16 +53,28 @@ namespace SchedulearnBackend.Services
             return team;
         }
 
+        public async Task<List<Team>> GetManagedTeams(int managerId)
+        {
+            var baseTeam = _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefault();
+            if (baseTeam == null)
+                throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
+
+            return await GetAccessibleTeams(baseTeam.Id);
+        }
+
         public async Task<List<Team>> GetAccessibleTeams(int teamId)
         {
             var accessibleTeams = new List<Team>();
             var team = await GetTeamAsync(teamId);
+            if (team == null)
+                throw new NotFoundException($"Team with id {teamId} doesn't exist");
+
+            accessibleTeams.Add(team);
 
             foreach (User member in team.Members)
             {
                 if (member.ManagedTeam != null)
                 {
-                    accessibleTeams.Add(member.ManagedTeam);
                     accessibleTeams.AddRange(await GetAccessibleTeams(member.ManagedTeam.Id));
                 }
             }
@@ -77,10 +89,6 @@ namespace SchedulearnBackend.Services
             var baseTeam = await _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefaultAsync();
             if (baseTeam == null)
                 throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
-
-            var baseMemebersWhoLearnedTopic = GetTeamMembersWhoLearnedTopic(topicId, baseTeam);
-            if (baseMemebersWhoLearnedTopic.Count != 0)
-                teamsByTopic.Add(new TeamMembers(baseTeam, baseMemebersWhoLearnedTopic));
 
             foreach (Team accessibleTeam in await GetAccessibleTeams(baseTeam.Id))
             {
