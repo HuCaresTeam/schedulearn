@@ -15,6 +15,7 @@ export default class TeamList extends React.Component<TeamListProps, {}>{
 
     return (
       <select onChange={(e: React.FormEvent<HTMLSelectElement>): void => this.props.onChange( parseInt(e.currentTarget.value))}>
+        <option disabled selected> -- Select a team -- </option>
         { teamOptionsList };
       </select>
     );
