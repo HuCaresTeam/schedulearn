@@ -45,6 +45,14 @@ namespace SchedulearnBackend.Services
                 .ToListAsync();
         }
 
+        public async Task<List<LearningDay>> GetLearningDaysByTeamAsync(int teamId)
+        {
+            return await _schedulearnContext.LearningDays
+                .Where(l => l.User.Team.Id == teamId)
+                .ToListAsync();
+
+        }
+
         public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate) 
         {
             await _userService.GetUserAsync(learningDayToCreate.UserId); //Check user exists

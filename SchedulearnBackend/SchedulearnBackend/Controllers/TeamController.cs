@@ -49,6 +49,14 @@ namespace SchedulearnBackend.Controllers
             return await _teamService.GetAccessibleTeams(id);
         }
 
+        // GET: api/Team/manager/5/topic/4
+        [HttpGet("manager/{managerId}/topic/{topicId}")]
+        public async Task<ActionResult<IEnumerable<TeamMembers>>> GetManagedTeamsByTopic(int managerId, int topicId)
+        {
+            System.Diagnostics.Debug.WriteLine($"GetManagedTeamsByTopic: ManagerId: {managerId}, TopicId: {topicId}");
+            return await _teamService.GetManagedTeamsByTopicAsync(topicId, managerId);
+        }
+
         // PUT: api/Team/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTeamLimits(int id, LimitsToApply limits)

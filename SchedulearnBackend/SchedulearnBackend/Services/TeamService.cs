@@ -3,6 +3,7 @@ using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,42 @@ namespace SchedulearnBackend.Services
             }
 
             return accessibleTeams;
+        }
+
+        public async Task<List<TeamMembers>> GetManagedTeamsByTopicAsync(int topicId, int managerId)
+        {
+            var teamsByTopic = new List<TeamMembers>();
+
+            var baseTeam = await _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefaultAsync();
+            if (baseTeam == null)
+                throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
+
+            var baseMemebersWhoLearnedTopic = GetTeamMembersWhoLearnedTopic(topicId, baseTeam);
+            if (baseMemebersWhoLearnedTopic.Count != 0)
+                teamsByTopic.Add(new TeamMembers(baseTeam, baseMemebersWhoLearnedTopic));
+
+            foreach (Team accessibleTeam in await GetAccessibleTeams(baseTeam.Id))
+            {
+                var memebersWhoLearnedTopic = GetTeamMembersWhoLearnedTopic(topicId, accessibleTeam);
+                if (memebersWhoLearnedTopic.Count != 0)
+                    teamsByTopic.Add(new TeamMembers(accessibleTeam, memebersWhoLearnedTopic));
+            }
+
+            return teamsByTopic;
+        }
+
+        private List<User> GetTeamMembersWhoLearnedTopic(int topicId, Team team)
+        {
+            var membersWhoLearnedTopic = new List<User>();
+
+            foreach (User memeber in team.Members)
+            {
+                var usersLearningDaysForTopic = memeber.LearningDays.Where(l => l.TopicId == topicId).ToList();
+                if (usersLearningDaysForTopic.Count != 0)
+                    membersWhoLearnedTopic.Add(memeber);
+            }
+
+            return membersWhoLearnedTopic;
         }
     }
 }
