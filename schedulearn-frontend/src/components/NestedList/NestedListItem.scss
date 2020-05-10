@@ -1,8 +1,9 @@
 .nested-list-item {
   padding: 8px;
   display: grid;
-  grid-template-columns: 1fr 30px;
+  grid-template-columns: 1fr 40px 40px;
   border-top: 1px solid #dddddd;
+  align-items: center;
 }
 
 .nested-list-item:hover {
@@ -13,5 +14,6 @@
 .nested-list-forward-icon {
   width: 20px;
   height: 20px;
+  padding: 10px;
   display: block;
 }

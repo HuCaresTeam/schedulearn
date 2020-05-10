@@ -1,10 +1,12 @@
 import React from "react";
 import "./NestedListItem.scss";
 import arrow from "./next.svg";
+import info from "./info.svg";
 
 export interface ListItem<TItem> {
   id: number;
   label: string;
+  description: string;
   subItems: TItem[];
 }
 
@@ -13,23 +15,32 @@ export interface NestedListItemProps<TItem extends ListItem<TItem>> {
   item: TItem;
   index: number;
   callback(item: TItem, index: number, history: number[]): void;
+  infoCallback(event: React.MouseEvent<HTMLImageElement, MouseEvent>, item: TItem): void;
 }
 
 export class NestedListItem<TItem extends ListItem<TItem>> extends React.PureComponent<NestedListItemProps<TItem>> {
-  handler = (): void => {
+  itemClick = (): void => {
     this.props.callback(this.props.item, this.props.index, this.props.history);
   };
 
+  infoClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>): void => {
+    e.stopPropagation();
+    this.props.infoCallback(e, this.props.item);
+  }
+
   render(): JSX.Element {
-    let icon;
+    let arrowIcon;
     if (this.props.item.subItems.length) {
-      icon = <img className="nested-list-forward-icon" src={arrow} alt="arrow" />;
+      arrowIcon = <img className="nested-list-forward-icon" src={arrow} alt="arrow" />;
     }
 
+    const infoIcon = <img className="nested-list-info-icon" src={info} alt="info"onClick={this.infoClick} />;
+
     return (
-      <div className="nested-list-item" onClick={this.handler}>
+      <div className="nested-list-item" onClick={this.itemClick}>
         {this.props.item.label}
-        {icon}
+        {infoIcon}
+        {arrowIcon}
       </div>
     );
   }
