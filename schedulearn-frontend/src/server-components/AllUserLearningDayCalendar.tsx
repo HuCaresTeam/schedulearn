@@ -2,7 +2,7 @@ import React from "react";
 import { LearningDayCalendar } from "src/components/Calendar/LearningDayCalendar";
 import UserContext from "src/UserContext";
 import FlatLearningDay from "src/api-contract/FlatLearningDay";
-import { LearningDayEvent } from "src/components/Calendar/EventAddForm";
+import { LearningDayEvent } from "src/components/Calendar/EventForm";
 
 export interface LearningDayState {
   allLearningDays?: LearningDayEvent[];

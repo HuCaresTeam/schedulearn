@@ -69,12 +69,21 @@ namespace SchedulearnBackend.Controllers
 
         // POST: api/LearningDay
         [HttpPost]
-        public async Task<ActionResult<User>> PostNewLearningDay(CreateNewLearningDay learningDayToCreate)
+        public async Task<ActionResult<FlatLearningDay>> PostNewLearningDay(CreateNewLearningDay learningDayToCreate)
         {
             System.Diagnostics.Debug.WriteLine($"PostNewLearningDay: User {learningDayToCreate.UserId} creating learning day for topic {learningDayToCreate.TopicId}");
             var newLearningDay = await _learningDayService.AddNewLearningDayAsync(learningDayToCreate);
 
             return CreatedAtAction(nameof(GetLearningDay), new { id = newLearningDay.Id }, newLearningDay);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<FlatLearningDay>> PutLearningDay(int id, ModifyLearningDay learningDayToCreate)
+        {
+            System.Diagnostics.Debug.WriteLine($"PutLearningDay: {id}");
+            var modifiedLearningDay = await _learningDayService.ModifyLearningDayAsync(id, learningDayToCreate);
+
+            return new FlatLearningDay(modifiedLearningDay);
         }
     }
 }

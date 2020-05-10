@@ -43,7 +43,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     const result = this.findHistoryById(selectedId, this.props.rootItem, []);
     if (result === undefined)
-      throw new Error("Id does not exist on root topic.");
+      throw new Error(`Id does not exist on root topic: ${selectedId}`);
 
     return result;
   }
@@ -87,7 +87,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
   componentDidMount(): void {
     if (this.props.onItemClick)
-      this.props.onItemClick(this.props.rootItem);
+      this.props.onItemClick(this.currentItem);
   }
 
   componentDidUpdate(prevProps: NestedListProps<TItem>): void {
@@ -96,7 +96,7 @@ export class NestedList<TItem extends ListItem<TItem>>
       this.history = this.convertIdToHistory(this.props.selectedItemId);
       const currentItem = this.currentItem;
       if (this.props.onItemClick)
-        this.props.onItemClick(this.props.rootItem);
+        this.props.onItemClick(this.currentItem);
 
       this.setState({ currentItem });
     }
