@@ -11,10 +11,12 @@ namespace SchedulearnBackend.Services
 {
     public class LearningDayService
     {
+        private readonly UserService _userService;
         private readonly SchedulearnContext _schedulearnContext;
 
-        public LearningDayService(SchedulearnContext schedulearnContext)
+        public LearningDayService(UserService userService, SchedulearnContext schedulearnContext)
         {
+            _userService = userService;
             _schedulearnContext = schedulearnContext;
         }
 
@@ -43,14 +45,6 @@ namespace SchedulearnBackend.Services
                 .ToListAsync();
         }
 
-        public async Task<List<LearningDay>> GetLearningDaysByUserAndTopicAsync(int userId, int topicId)
-        {
-            return await _schedulearnContext.LearningDays
-                .Where(l => l.UserId == userId)
-                .Where(l => l.TopicId == topicId)
-                .ToListAsync();
-        }
-
         public async Task<List<LearningDay>> GetLearningDaysByTeamAsync(int teamId)
         {
             return await _schedulearnContext.LearningDays
@@ -61,6 +55,8 @@ namespace SchedulearnBackend.Services
 
         public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate) 
         {
+            await _userService.GetUserAsync(learningDayToCreate.UserId); //Check user exists
+
             var newLearningDay = learningDayToCreate.CreateLearningDay();
 
             await _schedulearnContext.LearningDays.AddAsync(newLearningDay);
