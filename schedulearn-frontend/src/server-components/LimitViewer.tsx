@@ -19,7 +19,7 @@ export default class LimitViewer extends React.Component<LearningLimitsProps, Le
   state: LearningLimitsState = {}
   componentDidMount(): void {
     if (!UserContext.user)
-      throw new Error("Should never reach this calendar when not logged in");
+      throw new Error("Should never reach this My Limits view when not logged in");
 
     UserContext
       .fetch(`api/limit/user/${UserContext.user.id}`)

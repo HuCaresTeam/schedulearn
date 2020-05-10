@@ -48,7 +48,7 @@ export default class App extends React.Component {
               </Route>
               <PrivateRoute path="/list_example">
                 <TopicList />
-                <AnalyzeData />                
+                <AnalyzeData />
               </PrivateRoute>
               <PrivateRoute path="/calendar">
                 <UserLearningDayCalendar />

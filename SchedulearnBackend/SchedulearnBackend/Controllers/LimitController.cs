@@ -39,7 +39,5 @@ namespace SchedulearnBackend.Controllers
             System.Diagnostics.Debug.WriteLine($"GetLimitByUser {userId}");
             return await _limitService.GetLimitByUserAsync(userId);
         }
-
-
     }
 }
