@@ -138,7 +138,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
             onItemClick={this.onTopicSelectChange}
             disabled={disabledForms?.topicPickDisabled}
             selectedItemId={this.props.learningDayEvent?.topicId}
-            maxHeigh={400}
+            maxHeight={400}
           />
         </div>
         <div className="event-field event-description">
