@@ -9,7 +9,7 @@ export interface TopicAddModalProps {
   isOpen: boolean;
   disabled: boolean;
   topic?: TopicForm;
-  onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
+  onRequestClose: () => void;
   onEventSubmit: (topic: TopicForm) => void;
 }
 
@@ -28,7 +28,8 @@ export class TopicAddModal extends React.PureComponent<TopicAddModalProps> {
           isOpen={this.props.isOpen}
           disabled={this.props.disabled}
           onEventSubmit={this.props.onEventSubmit}
-          topic={this.props.topic}
+          onRequestClose={this.props.onRequestClose}
+          newTopic={this.props.topic}
         />
       </Modal>
     );

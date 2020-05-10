@@ -43,3 +43,15 @@
 .nested-list {
   border: 1px solid #95a5a6;
 }
+
+.create-new-item {
+  padding: 8px;
+  display: grid;
+  grid-template-columns: 1fr 30px;
+  border-top: 1px solid #dddddd;
+}
+
+.create-new-item:hover {
+  background-color: #dddddd;
+  cursor: pointer;
+}

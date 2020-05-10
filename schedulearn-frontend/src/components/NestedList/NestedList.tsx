@@ -11,16 +11,15 @@ export interface NestedListProps<TItem extends ListItem<TItem>> {
   width?: number;
   selectedItemId?: number;
   disabled?: boolean;
-  displayAddOption?: boolean;
-  onAddOptionSubmit?: (topic: TopicForm) => Promise<TopicForm | undefined>;
+  displayAddOption: boolean;
+  onAddOptionSubmit?(newTopic: TopicForm): void;
 }
 
 interface NestedListState<TItem extends ListItem<TItem>> {
   currentItem: TItem;
   isTopicModalOpen: boolean;
   isTopicModalDisabled: boolean;
-  topic?: TopicForm;
-  displayAddOption?: boolean;
+  newTopic?: TopicForm;
 }
 
 export class NestedList<TItem extends ListItem<TItem>>
@@ -36,8 +35,7 @@ export class NestedList<TItem extends ListItem<TItem>>
       currentItem, 
       isTopicModalOpen: false,
       isTopicModalDisabled: true,
-      topic: {parentTopicId: currentItem.id}, 
-      displayAddOption: props.displayAddOption,
+      newTopic: {parentTopicId: currentItem.id}, 
     };
   }
 
@@ -116,38 +114,28 @@ export class NestedList<TItem extends ListItem<TItem>>
     }
   }
 
-  getInsertNewTopicTItem = (): ListItem<TItem> => {
-    return {
-      id: 0,
-      label: "Think you're better than all the rest? Then create your own topic you unthankful prick",
-      subItems:[],
-    }
-  }
-
   onNewAddNewTopicClick = (): void => {
     this.setState({
       isTopicModalOpen: true,
       isTopicModalDisabled: false,
-      topic: {
+      newTopic: {
         parentTopicId: this.currentItem.id,
-      }
-    })
+      },
+    });
   }
 
-  onTopicAddClose = (_: React.MouseEvent | React.KeyboardEvent): void => {
+  onTopicAddClose = (): void => {
     this.setState({
       isTopicModalOpen: false,
       isTopicModalDisabled: true,
-    })
+    });
   }
 
-  // TODO: fix return promise if no onAddOptionSubmit is set
-  tryOnAddOptionSubmit = (topic: TopicForm): Promise<TopicForm | undefined> => {
+  tryOnAddOptionSubmit = (topic: TopicForm): void => {
     if(this.props.onAddOptionSubmit) {
       return this.props.onAddOptionSubmit(topic);
     } else {
-      // Not sure if this works
-      return new Promise<TopicForm>(() => {return {}})
+      throw Error("tryOnAddOptionSubmit is not implemented!");
     }
   }
 
@@ -155,37 +143,30 @@ export class NestedList<TItem extends ListItem<TItem>>
     this.setState({
       isTopicModalOpen: false,
       isTopicModalDisabled: true,
-    })
+    });
 
-    console.log("Topic add initiated!");
-    console.log(topic);
-
-    this.tryOnAddOptionSubmit(topic).then(
-      (topic: TopicForm | undefined): void => {
-        if(topic) {
-          this.setState({
-            topic: topic,
-          })
-        } else {
-          // Handle an error
-        }
-    })
+    this.tryOnAddOptionSubmit(topic);
   }
 
   render(): JSX.Element {
     const showButton = !!this.history.length;
     const backButton = <img className="nested-list-back-icon" src={arrow} alt="arrow" />;
 
+    const addNewOption = <div className="create-new-item" onClick={this.onNewAddNewTopicClick}>
+      <b>Create a new Topic</b>
+    </div>;
+
+    const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption: undefined; 
+
     return (
       <React.Fragment>
-        {/** TODO: Add if clause that checks if state.displayAddOption is true */}
-          <TopicAddModal
-            isOpen={this.state.isTopicModalOpen}
-            disabled={this.state.isTopicModalDisabled}
-            topic={this.state.topic}
-            onRequestClose={this.onTopicAddClose}
-            onEventSubmit={this.onTopicAddSubmit}
-          />
+        <TopicAddModal
+          isOpen={this.state.isTopicModalOpen}
+          disabled={this.state.isTopicModalDisabled}
+          topic={this.state.newTopic}
+          onRequestClose={this.onTopicAddClose}
+          onEventSubmit={this.onTopicAddSubmit}
+        />
 
         <div className="nested-list" style={{ width: this.props.width }}>
           <div className="nested-list-title">
@@ -203,13 +184,7 @@ export class NestedList<TItem extends ListItem<TItem>>
               callback={this.onListItemClick}
             />
           ))}
-          <NestedListItem
-              key={123}
-              history={this.history}
-              item={this.getInsertNewTopicTItem()}
-              index={0}
-              callback={this.onNewAddNewTopicClick}
-          />
+          {showAddNewOption}
         </div>
       </React.Fragment>
     );

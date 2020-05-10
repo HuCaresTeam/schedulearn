@@ -4,12 +4,12 @@ import "./TopicAddForm.scss";
 export interface TopicAddFormProps {
   isOpen: boolean;
   disabled: boolean;
-  topic?: TopicForm;
+  newTopic?: TopicForm;
   onEventSubmit: (event: TopicForm) => void;
+  onRequestClose: () => void;
 }
 
 export interface TopicForm {
-  id?: number; // New topic has to get id from the database
   name?: string;
   description?: string;
   parentTopicId?: number;
@@ -25,14 +25,20 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
 
   private getDefaultState(): TopicAddFormState {
     return {
-      name: this.props.topic?.name ??  "I am not set, but I'm open to new things",
-      description: this.props.topic?.description ?? "Describe me, in very fine detail ;)",
-      parentTopicId: this.props.topic?.parentTopicId,
+      name: this.props.newTopic?.name ?? "",
+      description: this.props.newTopic?.description ?? "",
+      parentTopicId: this.props.newTopic?.parentTopicId,
     };
   }
 
-  handleSubmit = (topic: React.FormEvent<HTMLFormElement>): void => {
-    topic.preventDefault();
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    
+    if(this.state.name === "") {
+      this.props.onRequestClose();
+      return;
+    }
+
     this.props.onEventSubmit({
       name: this.state.name,
       description: this.state.description,
@@ -42,14 +48,14 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
 
   componentDidUpdate(prevProps: TopicAddFormProps): void {
     if ((this.props.isOpen !== prevProps.isOpen && this.props.isOpen === true) ||
-      this.props.topic?.name !== prevProps.topic?.name ||
-      this.props.topic?.description !== prevProps.topic?.description ||
-      this.props.topic?.parentTopicId !== prevProps.topic?.parentTopicId) {
+      this.props.newTopic?.name !== prevProps.newTopic?.name ||
+      this.props.newTopic?.description !== prevProps.newTopic?.description ||
+      this.props.newTopic?.parentTopicId !== prevProps.newTopic?.parentTopicId) {
       this.setState(this.getDefaultState());
     }
   }
 
-  onNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+  onNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ name: event.target.value });
   }
 
@@ -64,7 +70,12 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
           <label className="topic-name">
             Name:
           </label>
-          <input type="text" disabled={this.props.disabled} placeholder="Topic name" value={this.state.name} />
+          <input type="text" 
+            disabled={this.props.disabled}
+            placeholder="Name of the topic"
+            onChange={this.onNameChange} 
+            value={this.state.name}
+          />
         </div>
         <div className="topic-field topic-description">
           <label className="topic-label">
@@ -74,6 +85,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
             value={this.state.description}
             onChange={this.onDescriptionChange}
             disabled={this.props.disabled}
+            placeholder="Please describe the topic in detail to avoid any fatal confusion"
           />
         </div>
         <input type="submit" value="Submit" />

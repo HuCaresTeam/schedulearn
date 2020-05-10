@@ -34,7 +34,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
     };
   }
 
-  componentDidMount(): void {
+  getTopicsFromRoot = (): void => {
     UserContext
       .fetch("api/topic")
       .then((response) => {
@@ -51,10 +51,8 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
       });
   }
 
-  // TODO: Determine the return type of the Promise
-  // TODO: Create a new TopicForm for the api connection, transform TopicForm to it
-  handleTopicSubmit = (topic: TopicForm): Promise<TopicForm | undefined> => {
-    return UserContext
+  handleTopicSubmit = (topic: TopicForm): void => {
+    UserContext
       .fetch("api/topic", {
         method: "POST",
         headers: {
@@ -67,14 +65,18 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
         if (!response.ok)
           return;
 
-        return topic;
+        this.getTopicsFromRoot();
       });
+  }
+
+  componentDidMount(): void {
+    this.getTopicsFromRoot();
   }
 
   render(): React.ReactNode {
     if (!this.state.rootTopic) {
       return (
-        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [] }} />
+        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [] }} displayAddOption={false} />
       );
     }
 
@@ -85,7 +87,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
         disabled={this.props.disabled}
         displayAddOption={true}
         onAddOptionSubmit={this.handleTopicSubmit}
-        />
+      />
     );
   }
 }
