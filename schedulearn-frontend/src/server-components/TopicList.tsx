@@ -9,6 +9,7 @@ interface TopicListProps {
   width?: number;
   disabled?: boolean;
   selectedItemId?: number;
+  maxHeight?: number;
 }
 
 export interface TopicListItem extends ListItem<TopicListItem> {
@@ -62,6 +63,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
         onItemClick={this.props.onItemClick}
         disabled={this.props.disabled}
         selectedItemId={this.props.selectedItemId}
+        maxHeight={this.props.maxHeight}
       />
     );
   }
