@@ -24,17 +24,14 @@ export default class TopicsByManagerView extends React.Component<{}, TopicsByMan
       .then((teamsTopics: FlatTopicListItem[]) => {
         this.setState({ topics: teamsTopics });
       });
-    console.log("Paspaude " + teamId);
   }
 
   render(): React.ReactNode {
-    const teamTopics = (<FlatTopicList topics={this.state.topics ?? []} />);
-
     return (
-      <div>
+      <React.Fragment>
         <ManagedTeamsSelect onTeamChange={this.handleTeamClick}/>
-        {teamTopics}
-      </div>
+        <FlatTopicList topics={this.state.topics ?? []} />
+      </React.Fragment>
     );
   }
 }
