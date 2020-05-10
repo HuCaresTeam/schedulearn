@@ -15,6 +15,7 @@ export interface NestedListProps<TItem extends ListItem<TItem>> {
   disabled?: boolean;
   displayAddOption: boolean;
   onAddOptionSubmit?(newTopic: TopicForm): void;
+  maxHeight?: number;
 }
 
 interface NestedListState<TItem extends ListItem<TItem>> {
@@ -209,16 +210,18 @@ export class NestedList<TItem extends ListItem<TItem>>
             {infoIcon}
           </div>
 
-          {this.state.currentItem.subItems.map((item: TItem, index: number) => (
-            <NestedListItem
-              key={item.id}
-              history={this.history}
-              item={item}
-              index={index}
-              callback={this.onListItemClick}
-              infoCallback={this.onInfoItemClick}
-            />
-          ))}
+          <div style={{overflow: "auto", maxHeight: this.props.maxHeight}}>
+            {this.state.currentItem.subItems.map((item: TItem, index: number) => (
+              <NestedListItem
+                key={item.id}
+                history={this.history}
+                item={item}
+                index={index}
+                callback={this.onListItemClick}
+                infoCallback={this.onInfoItemClick}
+              />
+            ))}
+          </div>
           {modal}
           {showAddNewOption}
         </div>
