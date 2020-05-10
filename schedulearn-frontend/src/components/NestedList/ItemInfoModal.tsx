@@ -1,28 +1,33 @@
 import React from "react";
 import Modal, { setAppElement } from "react-modal";
-import "./EventModal.scss";
+import "./ItemInfoModel.scss";
 
 setAppElement("#root");
 
-export interface EventModalProps {
+export interface ItemInfoModalProps {
   isOpen: boolean;
+  description: string;
   onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
-  children: (isOpen: boolean) => React.ReactNode;
+  modalStyle: string;
 }
 
-export class EventModal extends React.PureComponent<EventModalProps> {
+export class ItemInfoModal extends React.PureComponent<ItemInfoModalProps> {
   render(): JSX.Element {
     return (
       <Modal
-        portalClassName="event-add-modal ReactModalPortal"
+        portalClassName="item-info-modal ReactModalPortal"
         isOpen={this.props.isOpen}
         onRequestClose={this.props.onRequestClose}
-        contentLabel="Event modal"
+        contentLabel="Example Modal"
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
-        style={{ content: { zIndex: 5 }, overlay: { zIndex: 4 } }}
+        style={{
+          content : {
+            transform: this.props.modalStyle,
+          },
+        }}
       >
-        {this.props.children(this.props.isOpen)}
+        <div>{this.props.description}</div>
       </Modal>
     );
   }

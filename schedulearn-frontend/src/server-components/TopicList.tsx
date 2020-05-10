@@ -12,7 +12,6 @@ interface TopicListProps {
 }
 
 export interface TopicListItem extends ListItem<TopicListItem> {
-  description: string;
   parentTopicId?: number;
 }
 
@@ -53,7 +52,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
   render(): React.ReactNode {
     if (!this.state.rootTopic) {
       return (
-        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [] }} />
+        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [], description: "" }} />
       );
     }
 
