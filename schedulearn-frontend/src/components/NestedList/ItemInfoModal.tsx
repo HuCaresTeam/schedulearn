@@ -8,11 +8,16 @@ export interface ItemInfoModalProps {
   isOpen: boolean;
   description: string;
   onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
-  modalStyle: string;
+  posX: number;
+  posY: number;
 }
 
 export class ItemInfoModal extends React.PureComponent<ItemInfoModalProps> {
   render(): JSX.Element {
+
+    const offsetX = -370;
+    const offsetY = -70;
+
     return (
       <Modal
         portalClassName="item-info-modal ReactModalPortal"
@@ -23,7 +28,7 @@ export class ItemInfoModal extends React.PureComponent<ItemInfoModalProps> {
         shouldCloseOnEsc={true}
         style={{
           content : {
-            transform: this.props.modalStyle,
+            transform: `translate3d(${this.props.posX + offsetX}px, ${this.props.posY + offsetY}px, 0px)`,
           },
         }}
       >

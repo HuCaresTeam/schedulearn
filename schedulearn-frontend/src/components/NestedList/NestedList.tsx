@@ -17,7 +17,8 @@ interface NestedListState<TItem extends ListItem<TItem>> {
   currentItem: TItem;
   modalVisible: boolean;
   modalDescription: string;
-  modalStyle: string;
+  posX: number;
+  posY: number;
 }
 
 export class NestedList<TItem extends ListItem<TItem>>
@@ -29,7 +30,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     this.history = this.convertIdToHistory(this.props.selectedItemId);
     const currentItem = this.currentItem;
-    this.state = { currentItem: currentItem, modalVisible: false, modalDescription: "", modalStyle: "" };
+    this.state = { currentItem: currentItem, modalVisible: false, modalDescription: "", posX: 0, posY: 0 };
   }
 
   private get currentItem(): TItem {
@@ -75,8 +76,7 @@ export class NestedList<TItem extends ListItem<TItem>>
   };
 
   onInfoItemClick = (event: React.MouseEvent<HTMLImageElement, MouseEvent>, item: TItem): void => {
-    const translate = "translate3d(" + (event.pageX - 370) + "px, " + (event.pageY - 70) + "px, 0px)";
-    this.setState({modalVisible: true, modalDescription: item.description, modalStyle: translate});
+    this.setState({modalVisible: true, modalDescription: item.description, posX: event.pageX, posY: event.pageY});
   }
 
   onCurrentItemClick = (): void => {
@@ -124,7 +124,8 @@ export class NestedList<TItem extends ListItem<TItem>>
       isOpen={this.state.modalVisible} 
       onRequestClose={this.handleModalClose}
       description={this.state.modalDescription}
-      modalStyle={this.state.modalStyle}
+      posX={this.state.posX}
+      posY={this.state.posY}
     />;
 
     const infoIcon = <img className="nested-list-info-icon"
