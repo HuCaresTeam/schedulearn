@@ -1,13 +1,13 @@
 import React from "react";
 import TopicList, { TopicListItem } from "./TopicList";
-import WorkerListByTopic from "./WorkerListByTopic";
+import LearningDaysByTopic from "./LearningDaysByTopic";
 
-interface AnalyzeDataState {
+interface UserLearningDaysByTopicViewState {
   topicId?: number;
 }
 
-export default class AnalyzeData extends React.Component<{}, AnalyzeDataState> {
-  state: AnalyzeDataState = {};
+export default class UserLearningDaysByTopicView extends React.Component<{}, UserLearningDaysByTopicViewState> {
+  state: UserLearningDaysByTopicViewState = {};
 
   handleItemClick = (item: TopicListItem): void => {
     this.setState({ topicId: item.id });
@@ -15,7 +15,7 @@ export default class AnalyzeData extends React.Component<{}, AnalyzeDataState> {
 
   render(): React.ReactNode {
     const workerList = this.state.topicId !== undefined ?
-      (<WorkerListByTopic topicId={this.state.topicId} />) : undefined;
+      (<LearningDaysByTopic topicId={this.state.topicId} />) : undefined;
 
     return (
       <React.Fragment>

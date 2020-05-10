@@ -3,7 +3,7 @@ import React from "react";
 import TopicList from "./server-components/TopicList";
 
 import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
-import AnalyzeData from "./server-components/AnalyzeData";
+import UserLearningDaysByTopicView from "./server-components/UserLearningDaysByTopicView";
 import LoginPage from "./server-components/Login/LoginPage";
 import { UserProvider } from "./components/Contexts/UserContext";
 
@@ -48,7 +48,7 @@ export default class App extends React.Component {
               </Route>
               <PrivateRoute path="/list_example">
                 <TopicList />
-                <AnalyzeData />
+                <UserLearningDaysByTopicView />
               </PrivateRoute>
               <PrivateRoute path="/calendar">
                 <UserLearningDayCalendar />
