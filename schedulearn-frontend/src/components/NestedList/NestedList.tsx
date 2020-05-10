@@ -4,6 +4,8 @@ import { TopicAddModal } from "./TopicAddModal";
 import { TopicForm } from "./TopicAddForm";
 import "./NestedList.scss";
 import arrow from "./back.svg";
+import info from "./info.svg";
+import { ItemInfoModal } from "./ItemInfoModal";
 
 export interface NestedListProps<TItem extends ListItem<TItem>> {
   rootItem: TItem;
@@ -20,6 +22,10 @@ interface NestedListState<TItem extends ListItem<TItem>> {
   isTopicModalOpen: boolean;
   isTopicModalDisabled: boolean;
   newTopic?: TopicForm;
+  modalVisible: boolean;
+  modalDescription: string;
+  posX: number;
+  posY: number;
 }
 
 export class NestedList<TItem extends ListItem<TItem>>
@@ -32,7 +38,11 @@ export class NestedList<TItem extends ListItem<TItem>>
     this.history = this.convertIdToHistory(this.props.selectedItemId);
     const currentItem = this.currentItem;
     this.state = { 
-      currentItem, 
+      currentItem: currentItem, 
+      modalVisible: false, 
+      modalDescription: "", 
+      posX: 0, 
+      posY: 0,
       isTopicModalOpen: false,
       isTopicModalDisabled: true,
       newTopic: {parentTopicId: currentItem.id}, 
@@ -55,7 +65,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     const result = this.findHistoryById(selectedId, this.props.rootItem, []);
     if (result === undefined)
-      throw new Error("Id does not exist on root topic.");
+      throw new Error(`Id does not exist on root topic: ${selectedId}`);
 
     return result;
   }
@@ -81,6 +91,10 @@ export class NestedList<TItem extends ListItem<TItem>>
     this.tryCallOnItemClick(item);
   };
 
+  onInfoItemClick = (event: React.MouseEvent<HTMLImageElement, MouseEvent>, item: TItem): void => {
+    this.setState({modalVisible: true, modalDescription: item.description, posX: event.pageX, posY: event.pageY});
+  }
+
   onCurrentItemClick = (): void => {
     this.tryCallOnItemClick(this.state.currentItem);
   }
@@ -99,7 +113,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
   componentDidMount(): void {
     if (this.props.onItemClick)
-      this.props.onItemClick(this.props.rootItem);
+      this.props.onItemClick(this.currentItem);
   }
 
   componentDidUpdate(prevProps: NestedListProps<TItem>): void {
@@ -108,7 +122,7 @@ export class NestedList<TItem extends ListItem<TItem>>
       this.history = this.convertIdToHistory(this.props.selectedItemId);
       const currentItem = this.currentItem;
       if (this.props.onItemClick)
-        this.props.onItemClick(this.props.rootItem);
+        this.props.onItemClick(this.currentItem);
 
       this.setState({ currentItem });
     }
@@ -148,6 +162,10 @@ export class NestedList<TItem extends ListItem<TItem>>
     this.tryOnAddOptionSubmit(topic);
   }
 
+  handleModalClose = (): void => {
+    this.setState({ modalVisible: false });
+  }
+
   render(): JSX.Element {
     const showButton = !!this.history.length;
     const backButton = <img className="nested-list-back-icon" src={arrow} alt="arrow" />;
@@ -157,6 +175,20 @@ export class NestedList<TItem extends ListItem<TItem>>
     </div>;
 
     const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption: undefined; 
+
+    const modal = <ItemInfoModal 
+      isOpen={this.state.modalVisible} 
+      onRequestClose={this.handleModalClose}
+      description={this.state.modalDescription}
+      posX={this.state.posX}
+      posY={this.state.posY}
+    />;
+
+    const infoIcon = <img className="nested-list-info-icon"
+      src={info}
+      alt="info" 
+      onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
+    />;
 
     return (
       <React.Fragment>
@@ -174,7 +206,9 @@ export class NestedList<TItem extends ListItem<TItem>>
               {showButton ? backButton : undefined}
             </div>
             <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
+            {infoIcon}
           </div>
+
           {this.state.currentItem.subItems.map((item: TItem, index: number) => (
             <NestedListItem
               key={item.id}
@@ -182,8 +216,10 @@ export class NestedList<TItem extends ListItem<TItem>>
               item={item}
               index={index}
               callback={this.onListItemClick}
+              infoCallback={this.onInfoItemClick}
             />
           ))}
+          {modal}
           {showAddNewOption}
         </div>
       </React.Fragment>

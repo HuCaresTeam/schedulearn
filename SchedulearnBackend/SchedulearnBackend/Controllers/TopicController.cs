@@ -49,6 +49,25 @@ namespace SchedulearnBackend.Controllers
             return await _topicService.GetParentTopicAsync(id);
         }
 
+        // GET: api/Topic/manager/5
+        [HttpGet("manager/{managerId}")]
+        public async Task<ActionResult<IEnumerable<TeamTopics>>> GetTopicsByManager(int managerId)
+        {
+            System.Diagnostics.Debug.WriteLine("GetTopicsByManager " + managerId);
+            return await _topicService.GetTopicsByManager(managerId);
+        }
+
+        // GET: api/Topic/team/5
+        [HttpGet("team/{teamId}")]
+        public async Task<ActionResult<IEnumerable<TopicNoSubtopics>>> GetTopicsByTeam(int teamId)
+        {
+            System.Diagnostics.Debug.WriteLine("GetTopicsForTeam " + teamId);
+            var topics = await _topicService.GetTopicsByTeamAsync(teamId);
+            return topics
+                .Select(t => new TopicNoSubtopics(t))
+                .ToList();
+        }
+
         // POST: api/Topic
         [HttpPost]
         public async Task<ActionResult<Topic>> PostTopic(CreateNewTopic topic)

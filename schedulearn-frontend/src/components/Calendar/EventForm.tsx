@@ -2,18 +2,24 @@ import React from "react";
 import TimeManipulator from "./TimeManipulator";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./EventAddForm.scss";
+import "./EventForm.scss";
 import TopicList, { TopicListItem } from "src/server-components/TopicList";
 import AtLeast from "src/util-types/AtLeast";
 
-export interface EventAddFormProps {
+export interface EventFormProps {
   isOpen: boolean;
-  disabled: boolean;
+  disabledForms?: {
+    topicPickDisabled?: boolean;
+    datePickDisabled?: boolean;
+    descriptionDisabled?: boolean;
+  };
   learningDayEvent?: AtLeast<LearningDayEvent, "userId">;
+  submitText?: string;
   onEventSubmit: (event: LearningDayEvent) => void;
 }
 
 export interface LearningDayEvent {
+  id?: number;
   start: Date;
   end: Date;
   title: string;
@@ -22,15 +28,15 @@ export interface LearningDayEvent {
   userId: number;
 }
 
-export type EventAddFormState = LearningDayEvent;
+export type EventFormState = LearningDayEvent;
 
-export class EventAddForm extends React.Component<EventAddFormProps, EventAddFormState> {
-  public constructor(props: EventAddFormProps) {
+export class EventForm extends React.Component<EventFormProps, EventFormState> {
+  public constructor(props: EventFormProps) {
     super(props);
     this.state = this.getDefaultState();
   }
 
-  private getDefaultState(): EventAddFormState {
+  private getDefaultState(): EventFormState {
     const currentDate = new Date(Date.now());
     const startEndRange = TimeManipulator.getNearestThirtyMinuteInterval(currentDate);
     return {
@@ -46,6 +52,7 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     this.props.onEventSubmit({
+      id: this.props.learningDayEvent?.id,
       start: this.state.start,
       end: this.state.end,
       title: this.state.title,
@@ -55,7 +62,7 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
     });
   }
 
-  componentDidUpdate(prevProps: EventAddFormProps): void {
+  componentDidUpdate(prevProps: EventFormProps): void {
     if ((this.props.isOpen !== prevProps.isOpen && this.props.isOpen === true) ||
       this.props.learningDayEvent?.start !== prevProps.learningDayEvent?.start ||
       this.props.learningDayEvent?.end !== prevProps.learningDayEvent?.end ||
@@ -88,6 +95,9 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
   }
 
   render(): JSX.Element {
+    const disabledForms = this.props.disabledForms;
+    const submitDisabled = disabledForms?.datePickDisabled && disabledForms.descriptionDisabled && disabledForms.topicPickDisabled;
+
     return (
       <form className="event-form" onSubmit={this.handleSubmit}>
         <div className="event-field event-title">
@@ -95,15 +105,6 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
             Title:
           </label>
           <input type="text" disabled={true} placeholder="Event title" value={this.state.title} />
-        </div>
-        <div className="event-field event-topic-selector">
-          <label className="event-label">
-            Learning topic:
-          </label>
-          <TopicList
-            onItemClick={this.onTopicSelectChange}
-            disabled={this.props.disabled}
-          />
         </div>
         <div className="event-field event-start-time">
           <label className="event-label">
@@ -114,7 +115,7 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
             onChange={this.onStartDateChange}
             showTimeSelect
             dateFormat="Pp"
-            disabled={this.props.disabled}
+            disabled={disabledForms?.datePickDisabled}
           />
         </div>
         <div className="event-field event-end-time">
@@ -126,7 +127,17 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
             onChange={this.onEndDateChange}
             showTimeSelect
             dateFormat="Pp"
-            disabled={this.props.disabled}
+            disabled={disabledForms?.datePickDisabled}
+          />
+        </div>
+        <div className="event-field event-topic-selector">
+          <label className="event-label">
+            Learning topic:
+          </label>
+          <TopicList
+            onItemClick={this.onTopicSelectChange}
+            disabled={disabledForms?.topicPickDisabled}
+            selectedItemId={this.props.learningDayEvent?.topicId}
           />
         </div>
         <div className="event-field event-description">
@@ -136,10 +147,10 @@ export class EventAddForm extends React.Component<EventAddFormProps, EventAddFor
           <textarea
             value={this.state.description}
             onChange={this.onDescriptionChange}
-            disabled={this.props.disabled}
+            disabled={disabledForms?.descriptionDisabled}
           />
         </div>
-        <input type="submit" value="Submit" />
+        {submitDisabled ? undefined : <input type="submit" value={this.props.submitText ?? "Submit"} />}
       </form>
     );
   }

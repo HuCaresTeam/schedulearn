@@ -5,7 +5,8 @@
   font-size: 20px;
   font-weight: bold;
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: max-content 1fr 40px;
+  align-items: center;
 }
 
 .nested-list-back-icon {
@@ -54,4 +55,14 @@
 .create-new-item:hover {
   background-color: #dddddd;
   cursor: pointer;
+}
+.nested-list-info-icon {
+  width: 20px;
+  height: 20px;
+  padding: 10px;
+}
+
+.nested-list-info-icon:hover {
+  background-color: darkgray;
+  border-radius: 5px;
 }

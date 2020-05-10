@@ -3,6 +3,7 @@ using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +12,14 @@ namespace SchedulearnBackend.Services
     public class TopicService
     {
         private readonly SchedulearnContext _schedulearnContext;
+        private readonly LearningDayService _learningDayService;
+        private readonly TeamService _teamService;
 
-        public TopicService(SchedulearnContext schedulearnContext) 
+        public TopicService(LearningDayService learningDayService, TeamService teamService, SchedulearnContext schedulearnContext) 
         {
             _schedulearnContext = schedulearnContext;
+            _learningDayService = learningDayService;
+            _teamService = teamService;
         }
 
         public async Task<Topic> GetFullRootTopicAsync() 
@@ -65,6 +70,33 @@ namespace SchedulearnBackend.Services
             await _schedulearnContext.SaveChangesAsync();
 
             return newTopic;
+        }
+
+        public async Task<List<Topic>> GetTopicsByTeamAsync(int teamId)
+        {
+            var teamLearningDays = await _learningDayService.GetLearningDaysByTeamAsync(teamId);
+            var teamTopics = teamLearningDays.Select(l => l.Topic).Distinct().ToList();
+            return teamTopics;
+        }
+
+        public async Task<List<TeamTopics>> GetTopicsByManager(int managerId)
+        {
+            var teamsWithTopics = new List<TeamTopics>();
+
+            var baseTeam = await _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefaultAsync();
+            if (baseTeam == null)
+                throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
+
+            var baseTeamsTopics = await GetTopicsByTeamAsync(baseTeam.Id);
+            teamsWithTopics.Add(new TeamTopics(baseTeam, baseTeamsTopics));
+
+            foreach (Team accessibleTeam in await _teamService.GetAccessibleTeams(baseTeam.Id))
+            {
+                var teamTopics = await GetTopicsByTeamAsync(accessibleTeam.Id);
+                teamsWithTopics.Add(new TeamTopics(accessibleTeam, teamTopics));
+            }
+
+            return teamsWithTopics;
         }
     }
 }

@@ -9,11 +9,10 @@ interface TopicListProps {
   onItemClick?(item: TopicListItem): void;
   width?: number;
   disabled?: boolean;
-  selectedItemIndex?: string;
+  selectedItemId?: number;
 }
 
 export interface TopicListItem extends ListItem<TopicListItem> {
-  description: string;
   parentTopicId?: number;
 }
 
@@ -76,7 +75,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
   render(): React.ReactNode {
     if (!this.state.rootTopic) {
       return (
-        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [] }} displayAddOption={false} />
+        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [], description: "" }} displayAddOption={false} />
       );
     }
 
@@ -87,6 +86,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
         disabled={this.props.disabled}
         displayAddOption={true}
         onAddOptionSubmit={this.handleTopicSubmit}
+        selectedItemId={this.props.selectedItemId}
       />
     );
   }

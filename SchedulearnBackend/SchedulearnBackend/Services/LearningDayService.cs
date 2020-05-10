@@ -45,6 +45,14 @@ namespace SchedulearnBackend.Services
                 .ToListAsync();
         }
 
+        public async Task<List<LearningDay>> GetLearningDaysByTeamAsync(int teamId)
+        {
+            return await _schedulearnContext.LearningDays
+                .Where(l => l.User.Team.Id == teamId)
+                .ToListAsync();
+
+        }
+
         public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate) 
         {
             await _userService.GetUserAsync(learningDayToCreate.UserId); //Check user exists
@@ -55,6 +63,20 @@ namespace SchedulearnBackend.Services
             await _schedulearnContext.SaveChangesAsync();
 
             return newLearningDay;
+        }
+
+        public async Task<LearningDay> ModifyLearningDayAsync(int id, ModifyLearningDay learningDayToCreate)
+        {
+            var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
+            if (learningDay == null)
+                throw new NotFoundException($"Learning day with id ({id}) does not exist.");
+
+            learningDay.Description = learningDayToCreate.Description;
+            _schedulearnContext.Update(learningDay);
+
+            await _schedulearnContext.SaveChangesAsync();
+
+            return learningDay;
         }
     }
 }
