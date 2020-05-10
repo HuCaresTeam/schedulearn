@@ -22,7 +22,7 @@ export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayS
   private learningDayToEvent(learningDay: LearningDayWithUser): LearningDayEvent {
     return {
       id: learningDay.id,
-      title: learningDay.topicTilte,
+      title: learningDay.topicTitle,
       start: new Date(learningDay.dateFrom),
       end: new Date(learningDay.dateTo),
       topicId: learningDay.topicId,
@@ -51,8 +51,8 @@ export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayS
 
   componentDidMount(): void {
     this.fetchUserLearningDays();
-  }
 
+  }
   render(): React.ReactNode {
     if (!UserContext.user || !this.state.allLearningDays) {
       return (

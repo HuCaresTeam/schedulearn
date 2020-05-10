@@ -12,7 +12,7 @@ export interface LearningDayWithUser {
 
     //Topic
     topicId: number;
-    topicTilte: string;
+    topicTitle: string;
 }
 
 export default LearningDayWithUser;

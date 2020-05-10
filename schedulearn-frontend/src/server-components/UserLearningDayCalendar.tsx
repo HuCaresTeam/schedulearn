@@ -15,7 +15,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   private learningDayToEvent(learningDay: LearningDayWithUser): LearningDayEvent {
     return {
       id: learningDay.id,
-      title: learningDay.topicTilte,
+      title: learningDay.topicTitle,
       start: new Date(learningDay.dateFrom),
       end: new Date(learningDay.dateTo),
       topicId: learningDay.topicId,
