@@ -43,10 +43,24 @@ namespace SchedulearnBackend.Controllers
 
         // GET: api/Team/5/accessible
         [HttpGet("{id}/accessible")]
-        public async Task<ActionResult<IEnumerable<Team>>> GetAccessibleTeams(int id)
+        public async Task<ActionResult<IEnumerable<FlatTeam>>> GetAccessibleTeams(int id)
         {
             System.Diagnostics.Debug.WriteLine("GetAccessibleTeams " + id);
-            return await _teamService.GetAccessibleTeams(id);
+            var teams = await _teamService.GetAccessibleTeams(id);
+            return teams
+                .Select(t => new FlatTeam(t))
+                .ToList();
+        }
+
+        // GET: api/Team/manager/5/accessible
+        [HttpGet("manager/{managerId}/accessible")]
+        public async Task<ActionResult<IEnumerable<FlatTeam>>> GetManagedTeams(int managerId)
+        {
+            System.Diagnostics.Debug.WriteLine("GetManagedTeams " + managerId);
+            var teams = await _teamService.GetManagedTeams(managerId);
+            return teams
+                .Select(t => new FlatTeam(t))
+                .ToList();
         }
 
         // GET: api/Team/manager/5/topic/4

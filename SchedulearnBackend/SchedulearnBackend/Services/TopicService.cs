@@ -87,9 +87,6 @@ namespace SchedulearnBackend.Services
             if (baseTeam == null)
                 throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
 
-            var baseTeamsTopics = await GetTopicsByTeamAsync(baseTeam.Id);
-            teamsWithTopics.Add(new TeamTopics(baseTeam, baseTeamsTopics));
-
             foreach (Team accessibleTeam in await _teamService.GetAccessibleTeams(baseTeam.Id))
             {
                 var teamTopics = await GetTopicsByTeamAsync(accessibleTeam.Id);
