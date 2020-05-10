@@ -8,7 +8,7 @@ interface TopicListProps {
   onItemClick?(item: TopicListItem): void;
   width?: number;
   disabled?: boolean;
-  selectedItemIndex?: string;
+  selectedItemId?: number;
 }
 
 export interface TopicListItem extends ListItem<TopicListItem> {
@@ -58,7 +58,12 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
     }
 
     return (
-      <NestedList rootItem={this.state.rootTopic} onItemClick={this.props.onItemClick} disabled={this.props.disabled} />
+      <NestedList
+        rootItem={this.state.rootTopic}
+        onItemClick={this.props.onItemClick}
+        disabled={this.props.disabled}
+        selectedItemId={this.props.selectedItemId}
+      />
     );
   }
 }
