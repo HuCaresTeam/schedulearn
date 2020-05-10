@@ -1,8 +1,9 @@
 import React from "react";
 import { LearningDayCalendar } from "src/components/Calendar/LearningDayCalendar";
 import UserContext from "src/UserContext";
-import FlatLearningDay from "src/api-contract/FlatLearningDay";
-import { LearningDayEvent } from "src/components/Calendar/EventAddForm";
+import LearningDayWithUser from "src/api-contract/LearningDayWithUser";
+import { LearningDayEvent } from "src/components/Calendar/EventForm";
+import CreateNewLearningDay from "src/api-contract/CreateNewLearningDay";
 
 export interface LearningDayState {
   userLearningDays?: LearningDayEvent[];
@@ -11,9 +12,10 @@ export interface LearningDayState {
 export class UserLearningDayCalendar extends React.Component<{}, LearningDayState> {
   state: LearningDayState = {};
 
-  private learningDayToEvent(learningDay: FlatLearningDay): LearningDayEvent {
+  private learningDayToEvent(learningDay: LearningDayWithUser): LearningDayEvent {
     return {
-      title: learningDay.title,
+      id: learningDay.id,
+      title: learningDay.topicTitle,
       start: new Date(learningDay.dateFrom),
       end: new Date(learningDay.dateTo),
       topicId: learningDay.topicId,
@@ -22,14 +24,13 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     };
   }
 
-  private eventToLearningDay(learningDay: LearningDayEvent): FlatLearningDay {
+  private eventToNewLearningDay(learningDay: LearningDayEvent): CreateNewLearningDay {
     return {
-      title: learningDay.title,
-      dateFrom: learningDay.start.toISOString(),
-      dateTo: learningDay.end.toISOString(),
+      userId: learningDay.userId,
       topicId: learningDay.topicId,
       description: learningDay.description,
-      userId: learningDay.userId,
+      dateFrom: learningDay.start.toISOString(),
+      dateTo: learningDay.end.toISOString(),
     };
   }
 
@@ -45,9 +46,9 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
 
         return response.json();
       })
-      .then((learningDays: FlatLearningDay[]) => {
-        const learninDayEvents = learningDays.map(this.learningDayToEvent);
-        this.setState({ userLearningDays: learninDayEvents });
+      .then((learningDays: LearningDayWithUser[]) => {
+        const learningDayEvents = learningDays.map(this.learningDayToEvent);
+        this.setState({ userLearningDays: learningDayEvents });
       });
   }
 
@@ -56,7 +57,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   }
 
   handleEventSubmit = (learningDayEvent: LearningDayEvent): void => {
-    const learningDay = this.eventToLearningDay(learningDayEvent);
+    const learningDay = this.eventToNewLearningDay(learningDayEvent);
 
     UserContext
       .fetch("api/learningDay", {
@@ -67,13 +68,36 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
         body: JSON.stringify(learningDay),
       })
       .then((response) => {
-        console.log("Trying post", response);
         if (!response.ok)
           return;
 
         this.fetchUserLearningDays();
       });
   }
+
+  handleEventModify = (learningDayEvent: LearningDayEvent): void => {
+    const learningDay = this.eventToNewLearningDay(learningDayEvent);
+    if (!learningDayEvent.id) {
+      // Cannot modify without id. Set error.
+      return;
+    }
+
+    UserContext
+      .fetch(`api/learningDay/${learningDayEvent.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ description: learningDay.description }),
+      })
+      .then((response) => {
+        if (!response.ok)
+          return;
+
+        this.fetchUserLearningDays();
+      });
+  }
+
 
   render(): React.ReactNode {
     if (!UserContext.user || !this.state.userLearningDays) {
@@ -88,7 +112,8 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     return (
       <LearningDayCalendar
         learningDayEvents={this.state.userLearningDays}
-        handleEventSubmit={(event): void => this.handleEventSubmit(event)}
+        handleEventSubmit={this.handleEventSubmit}
+        handleEventModify={this.handleEventModify}
         currentUserId={UserContext.user.id}
       />
     );

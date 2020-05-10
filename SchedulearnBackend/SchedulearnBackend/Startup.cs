@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using DotNetify;
 using SchedulearnBackend.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using SchedulearnBackend.Services;
 using SchedulearnBackend.Middleware;
 using Microsoft.AspNetCore.Http;
@@ -28,8 +26,6 @@ namespace SchedulearnBackend
         {
             services.AddCors();
             services.AddMemoryCache();
-            services.AddSignalR();
-            services.AddDotNetify();
             services.AddDbContext<SchedulearnContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SchedulearnDatabase")));
             
             services.AddScoped<UserService>();
@@ -82,21 +78,13 @@ namespace SchedulearnBackend
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<DotNetifyHub>("/dotnetify");
                 endpoints.MapControllers();
-            });
-
-            app.UseDotNetify(config =>
-            {
-                config.UseJsonSerializerSettings(ignoredPropertyNames => new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                });
             });
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync("{error: \"Endpoint does not exist\"}");
             });
         }
     }

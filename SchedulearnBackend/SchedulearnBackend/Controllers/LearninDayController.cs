@@ -23,35 +23,35 @@ namespace SchedulearnBackend.Controllers
 
         // GET: api/LearningDay
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FlatLearningDay>>> GetAllLearningDays()
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetAllLearningDays()
         {
             System.Diagnostics.Debug.WriteLine("GetAllLearningDays");
             var learningDays = await _learningDayService.GetAllLearningDaysAsync();
 
             return learningDays
-                .Select(l => new FlatLearningDay(l))
+                .Select(l => new LearningDayWithUser(l))
                 .ToList();
         }
 
         // GET: api/LearningDay/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FlatLearningDay>> GetLearningDay(int id)
+        public async Task<ActionResult<LearningDayWithUser>> GetLearningDay(int id)
         {
             System.Diagnostics.Debug.WriteLine($"GetLearningDay {id}");
             var learningDay = await _learningDayService.GetLearningDayAsync(id);
-            return new FlatLearningDay(learningDay);
+            return new LearningDayWithUser(learningDay);
         }
 
 
         // GET: api/LearningDay/User/5
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<IEnumerable<FlatLearningDay>>> GetLearningDaysByUserId(int id)
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByUserId(int id)
         {
             System.Diagnostics.Debug.WriteLine($"GetLearningDaysByUserId {id}");
             var learningDays = await _learningDayService.GetLearningDaysByUserAsync(id);
 
             return learningDays
-                .Select(l => new FlatLearningDay(l))
+                .Select(l => new LearningDayWithUser(l))
                 .ToList();
         }
 
@@ -69,12 +69,23 @@ namespace SchedulearnBackend.Controllers
 
         // POST: api/LearningDay
         [HttpPost]
-        public async Task<ActionResult<User>> PostNewLearningDay(CreateNewLearningDay learningDayToCreate)
+        public async Task<ActionResult<LearningDayWithUser>> PostNewLearningDay(CreateNewLearningDay learningDayToCreate)
         {
             System.Diagnostics.Debug.WriteLine($"PostNewLearningDay: User {learningDayToCreate.UserId} creating learning day for topic {learningDayToCreate.TopicId}");
             var newLearningDay = await _learningDayService.AddNewLearningDayAsync(learningDayToCreate);
 
-            return CreatedAtAction(nameof(GetLearningDay), new { id = newLearningDay.Id }, newLearningDay);
+            var learningDayWithUser = new LearningDayWithUser(newLearningDay);
+
+            return CreatedAtAction(nameof(GetLearningDay), new { id = learningDayWithUser.Id }, learningDayWithUser);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<LearningDayWithUser>> PutLearningDay(int id, ModifyLearningDay learningDayToCreate)
+        {
+            System.Diagnostics.Debug.WriteLine($"PutLearningDay: {id}");
+            var modifiedLearningDay = await _learningDayService.ModifyLearningDayAsync(id, learningDayToCreate);
+
+            return new LearningDayWithUser(modifiedLearningDay);
         }
     }
 }

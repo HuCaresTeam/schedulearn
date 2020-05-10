@@ -64,5 +64,19 @@ namespace SchedulearnBackend.Services
 
             return newLearningDay;
         }
+
+        public async Task<LearningDay> ModifyLearningDayAsync(int id, ModifyLearningDay learningDayToCreate)
+        {
+            var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
+            if (learningDay == null)
+                throw new NotFoundException($"Learning day with id ({id}) does not exist.");
+
+            learningDay.Description = learningDayToCreate.Description;
+            _schedulearnContext.Update(learningDay);
+
+            await _schedulearnContext.SaveChangesAsync();
+
+            return learningDay;
+        }
     }
 }

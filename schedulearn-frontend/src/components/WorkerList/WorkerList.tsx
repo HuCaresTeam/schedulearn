@@ -2,12 +2,12 @@ import React from "react";
 import "./WorkerList.css";
 
 export interface WorkerListItem {
-  UserId: number;
-  Name: string;
-  Surname: string;
-  JobTitle: string;
-  DateFrom: string;
-  DateTo: string;
+  userId: number;
+  name: string;
+  surname: string;
+  jobTitle: string;
+  dateFrom: string;
+  dateTo: string;
 }
 
 interface WorkerListProps {
@@ -27,10 +27,10 @@ export default class WorkerList extends React.Component<WorkerListProps, {}> {
         </tr>
         {this.props.items.map((item: WorkerListItem, index: number) => (
           <tr key={index}>
-            <td>{item.Name} {item.Surname}</td>
-            <td>{item.JobTitle}</td>
-            <td>{new Date(item.DateFrom).toLocaleString()}</td>
-            <td>{new Date(item.DateTo).toLocaleString()}</td>
+            <td>{item.name} {item.surname}</td>
+            <td>{item.jobTitle}</td>
+            <td>{new Date(item.dateFrom).toLocaleString()}</td>
+            <td>{new Date(item.dateTo).toLocaleString()}</td>
           </tr>
         ))}
       </table>

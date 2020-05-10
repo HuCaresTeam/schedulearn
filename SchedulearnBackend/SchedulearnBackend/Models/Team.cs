@@ -1,5 +1,4 @@
-﻿using DotNetify;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,7 +13,6 @@ namespace SchedulearnBackend.Models
 
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
-        [Ignore]
         [JsonIgnore]
         public virtual User Manager { get; set; }
 

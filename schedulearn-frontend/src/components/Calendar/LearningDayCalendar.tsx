@@ -1,8 +1,8 @@
 import React from "react";
 import { WeekViewCalendar } from "./WeekViewCalendar";
 import { SlotInfo } from "react-big-calendar";
-import { EventAddModal } from "./EventAddModal";
-import { LearningDayEvent } from "./EventAddForm";
+import { EventModal } from "./EventModal";
+import { LearningDayEvent, EventForm } from "./EventForm";
 import AtLeast from "src/util-types/AtLeast";
 
 export interface LearningDayCalendarPropsBase {
@@ -17,20 +17,21 @@ export interface LearningDayCalendarPropsEnabled extends LearningDayCalendarProp
   disabled: false | undefined;
   currentUserId: number;
   handleEventSubmit: (learningDay: LearningDayEvent) => void;
+  handleEventModify: (learningDay: LearningDayEvent) => void;
 }
 
 type LearningDayCalendarProps = LearningDayCalendarPropsEnabled | LearningDayCalendarPropsDisabled
 
 interface LearningDayCalendarState {
   isEventModalOpen: boolean;
-  isEventModalDisabled: boolean;
+  isExistingEventOpened: boolean;
   currentEvent?: AtLeast<LearningDayEvent, "start" | "end" | "userId">;
 }
 
 export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
   public state: LearningDayCalendarState = {
     isEventModalOpen: false,
-    isEventModalDisabled: true,
+    isExistingEventOpened: true,
   }
 
   static defaultProps = {
@@ -50,7 +51,7 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
     this.setState(
       {
         isEventModalOpen: true,
-        isEventModalDisabled: false,
+        isExistingEventOpened: false,
         currentEvent: {
           start: slotInfo.start,
           end: slotInfo.end,
@@ -63,7 +64,12 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
     if (this.props.disabled)
       return;
 
-    this.props.handleEventSubmit(event);
+    if (this.state.isExistingEventOpened) {
+      this.props.handleEventModify(event);
+    } else {
+      this.props.handleEventSubmit(event);
+    }
+
     this.setState({ isEventModalOpen: false });
   }
 
@@ -75,21 +81,34 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
     this.setState(
       {
         isEventModalOpen: true,
-        isEventModalDisabled: true,
+        isExistingEventOpened: true,
         currentEvent: event,
       });
   }
 
   render(): React.ReactNode {
+    const disabledForms = {
+      topicPickDisabled: this.props.disabled || this.state.isExistingEventOpened,
+      datePickDisabled: this.props.disabled || this.state.isExistingEventOpened,
+      descriptionDisabled: this.props.disabled,
+    };
+
     return (
       <React.Fragment>
-        <EventAddModal
+        <EventModal
           isOpen={this.state.isEventModalOpen}
-          disabled={this.state.isEventModalDisabled}
-          learningDayEvent={this.state.currentEvent}
           onRequestClose={this.handleModalClose}
-          onEventSubmit={this.handleEventSubmit}
-        />
+        >
+          {(isOpen): React.ReactNode => (
+            <EventForm
+              isOpen={isOpen}
+              onEventSubmit={this.handleEventSubmit}
+              learningDayEvent={this.state.currentEvent}
+              disabledForms={disabledForms}
+              submitText={this.state.isExistingEventOpened ? "Modify" : "Submit"}
+            />)
+          }
+        </EventModal>
         <WeekViewCalendar
           events={this.props.learningDayEvents}
           onSelectSlot={this.handleSelectSlot}

@@ -3,7 +3,7 @@ import React from "react";
 import TopicList from "./server-components/TopicList";
 
 import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
-import AnalyzeData from "./server-components/AnalyzeData";
+import UserLearningDaysByTopicView from "./server-components/UserLearningDaysByTopicView";
 import LoginPage from "./server-components/Login/LoginPage";
 import { UserProvider } from "./components/Contexts/UserContext";
 
@@ -16,6 +16,7 @@ import {
 import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningDayCalendar";
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
+import LimitViewer from "./server-components/LimitViewer";
 
 export default class App extends React.Component {
   render(): React.ReactNode {
@@ -37,6 +38,9 @@ export default class App extends React.Component {
                 <li>
                   <Link to="/calendar_all">All Calendar</Link>
                 </li>
+                <li>
+                  <Link to="/my_limits">My Limits</Link>
+                </li>
               </ul>
             </nav>
             <Switch>
@@ -45,8 +49,8 @@ export default class App extends React.Component {
               </Route>
               <PrivateRoute path="/list_example">
                 <TopicList />
-                <AnalyzeData />
                 <TopicsByManagerView />
+                <UserLearningDaysByTopicView />
               </PrivateRoute>
               <PrivateRoute path="/calendar">
                 <UserLearningDayCalendar />
@@ -54,9 +58,14 @@ export default class App extends React.Component {
               <PrivateRoute path="/calendar_all">
                 <AllUserLearningDayCalendar />
               </PrivateRoute>
+              <PrivateRoute path="/my_limits">
+                <LimitViewer/>
+              </PrivateRoute>
             </Switch>
           </div>
         </Router>
+        
+        
       </UserProvider>
     );
   }

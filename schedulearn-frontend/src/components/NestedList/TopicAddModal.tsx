@@ -1,35 +1,36 @@
 import React from "react";
 import Modal, { setAppElement } from "react-modal";
-import { EventAddForm, LearningDayEvent } from "./EventAddForm";
-import "./EventAddModal.scss";
-import AtLeast from "src/util-types/AtLeast";
+import { TopicAddForm, TopicForm } from "./TopicAddForm";
+import "./TopicAddModal.scss";
 
 setAppElement("#root");
 
-export interface EventAddModalProps {
+export interface TopicAddModalProps {
   isOpen: boolean;
   disabled: boolean;
-  learningDayEvent?: AtLeast<LearningDayEvent, "userId">;
-  onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
-  onEventSubmit: (event: LearningDayEvent) => void;
+  topic?: TopicForm;
+  onRequestClose: () => void;
+  onEventSubmit: (topic: TopicForm) => void;
 }
 
-export class EventAddModal extends React.PureComponent<EventAddModalProps> {
+export class TopicAddModal extends React.PureComponent<TopicAddModalProps> {
   render(): JSX.Element {
     return (
       <Modal
+        portalClassName="topic-add-modal ReactModalPortal"
         isOpen={this.props.isOpen}
         onRequestClose={this.props.onRequestClose}
-        contentLabel="Example Modal"
+        contentLabel="Topic Add Modal"
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
         style={{ content: { zIndex: 5 }, overlay: { zIndex: 4 } }}
       >
-        <EventAddForm
+        <TopicAddForm
           isOpen={this.props.isOpen}
           disabled={this.props.disabled}
           onEventSubmit={this.props.onEventSubmit}
-          learningDayEvent={this.props.learningDayEvent}
+          onRequestClose={this.props.onRequestClose}
+          newTopic={this.props.topic}
         />
       </Modal>
     );

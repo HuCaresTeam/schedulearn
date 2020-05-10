@@ -1,8 +1,8 @@
 import React from "react";
 import { LearningDayCalendar } from "src/components/Calendar/LearningDayCalendar";
 import UserContext from "src/UserContext";
-import FlatLearningDay from "src/api-contract/FlatLearningDay";
-import { LearningDayEvent } from "src/components/Calendar/EventAddForm";
+import LearningDayWithUser from "src/api-contract/LearningDayWithUser";
+import { LearningDayEvent } from "src/components/Calendar/EventForm";
 
 export interface LearningDayState {
   allLearningDays?: LearningDayEvent[];
@@ -19,9 +19,10 @@ export interface LearningDayState {
 export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayState> {
   state: LearningDayState = {};
 
-  private learningDayToEvent(learningDay: FlatLearningDay): LearningDayEvent {
+  private learningDayToEvent(learningDay: LearningDayWithUser): LearningDayEvent {
     return {
-      title: learningDay.title,
+      id: learningDay.id,
+      title: learningDay.topicTitle,
       start: new Date(learningDay.dateFrom),
       end: new Date(learningDay.dateTo),
       topicId: learningDay.topicId,
@@ -42,7 +43,7 @@ export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayS
 
         return response.json();
       })
-      .then((learningDays: FlatLearningDay[]) => {
+      .then((learningDays: LearningDayWithUser[]) => {
         const learninDayEvents = learningDays.map(this.learningDayToEvent);
         this.setState({ allLearningDays: learninDayEvents });
       });
@@ -50,8 +51,8 @@ export class AllUserLearningDayCalendar extends React.Component<{}, LearningDayS
 
   componentDidMount(): void {
     this.fetchUserLearningDays();
-  }
 
+  }
   render(): React.ReactNode {
     if (!UserContext.user || !this.state.allLearningDays) {
       return (
