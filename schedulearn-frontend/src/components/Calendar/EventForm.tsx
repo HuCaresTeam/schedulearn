@@ -49,8 +49,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
     };
   }
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
+  handleSubmit = (): void => {
     this.props.onEventSubmit({
       id: this.props.learningDayEvent?.id,
       start: this.state.start,
@@ -99,7 +98,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
     const submitDisabled = disabledForms?.datePickDisabled && disabledForms.descriptionDisabled && disabledForms.topicPickDisabled;
 
     return (
-      <form className="event-form" onSubmit={this.handleSubmit}>
+      <form className="event-form">
         <div className="event-field event-title">
           <label className="eventLabel">
             Title:
@@ -138,7 +137,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
             onItemClick={this.onTopicSelectChange}
             disabled={disabledForms?.topicPickDisabled}
             selectedItemId={this.props.learningDayEvent?.topicId}
-            maxHeight={400}
+            maxHeight={250}
           />
         </div>
         <div className="event-field event-description">
@@ -151,7 +150,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
             disabled={disabledForms?.descriptionDisabled}
           />
         </div>
-        {submitDisabled ? undefined : <input type="submit" value={this.props.submitText ?? "Submit"} />}
+        {submitDisabled ? undefined : <input type="submit" onClick={this.handleSubmit} value={this.props.submitText ?? "Submit"} />}
       </form>
     );
   }
