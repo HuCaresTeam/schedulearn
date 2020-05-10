@@ -21,6 +21,15 @@ namespace SchedulearnBackend.Services
         {
             var limit = await _schedulearnContext.Limits.FindAsync(id);
             return limit ?? throw new NotFoundException($"Limit with id ({id}) not found");
-        } 
+        }
+        public async Task<Limit> GetLimitByUserAsync(int userId)
+        {
+            var user = await _schedulearnContext.Users.FindAsync(userId);
+            Limit limit = user.Limit;
+            if (limit == null)
+                limit = user.Team.Limit;
+            
+            return limit ?? throw new NotFoundException($"Limit in user with id ({userId}) was not found");
+        }
     }
 }
