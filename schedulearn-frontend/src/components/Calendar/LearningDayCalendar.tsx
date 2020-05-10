@@ -2,20 +2,11 @@ import React from "react";
 import { WeekViewCalendar } from "./WeekViewCalendar";
 import { SlotInfo } from "react-big-calendar";
 import { EventAddModal } from "./EventAddModal";
-import { LearningDayEventInfo } from "./EventAddForm";
+import { LearningDayEvent } from "./EventAddForm";
 import AtLeast from "src/util-types/AtLeast";
 
-export interface LearningDay {
-  Title: string;
-  DateFrom: string;
-  DateTo: string;
-  Description: string;
-  TopicId: number;
-  UserId: number;
-}
-
 export interface LearningDayCalendarPropsBase {
-  learningDayEvents: LearningDay[];
+  learningDayEvents: LearningDayEvent[];
 }
 
 export interface LearningDayCalendarPropsDisabled extends LearningDayCalendarPropsBase {
@@ -25,21 +16,19 @@ export interface LearningDayCalendarPropsDisabled extends LearningDayCalendarPro
 export interface LearningDayCalendarPropsEnabled extends LearningDayCalendarPropsBase {
   disabled: false | undefined;
   currentUserId: number;
-  handleEventSubmit: (learningDay: LearningDay) => void;
+  handleEventSubmit: (learningDay: LearningDayEvent) => void;
 }
 
 type LearningDayCalendarProps = LearningDayCalendarPropsEnabled | LearningDayCalendarPropsDisabled
 
 interface LearningDayCalendarState {
-  learningDayEvents: LearningDayEventInfo[];
   isEventModalOpen: boolean;
   isEventModalDisabled: boolean;
-  currentEvent?: AtLeast<LearningDayEventInfo, "start" | "end" | "userId">;
+  currentEvent?: AtLeast<LearningDayEvent, "start" | "end" | "userId">;
 }
 
 export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
   public state: LearningDayCalendarState = {
-    learningDayEvents: [],
     isEventModalOpen: false,
     isEventModalDisabled: true,
   }
@@ -70,11 +59,11 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
       });
   }
 
-  handleEventSubmit = (event: LearningDayEventInfo): void => {
+  handleEventSubmit = (event: LearningDayEvent): void => {
     if (this.props.disabled)
       return;
 
-    this.props.handleEventSubmit(LearningDayCalendar.eventToLearningDay(event));
+    this.props.handleEventSubmit(event);
     this.setState({ isEventModalOpen: false });
   }
 
@@ -82,43 +71,13 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
     this.setState({ isEventModalOpen: false });
   }
 
-  handleSelectEvent = (event: LearningDayEventInfo): void => {
+  handleSelectEvent = (event: LearningDayEvent): void => {
     this.setState(
       {
         isEventModalOpen: true,
         isEventModalDisabled: true,
         currentEvent: event,
       });
-  }
-
-  private static learningDayToEvent = (learningDay: LearningDay): LearningDayEventInfo => {
-    return {
-      title: learningDay.Title,
-      start: new Date(learningDay.DateFrom),
-      end: new Date(learningDay.DateTo),
-      topicId: learningDay.TopicId,
-      description: learningDay.Description,
-      userId: learningDay.UserId,
-    };
-  }
-
-  private static eventToLearningDay = (learningDay: LearningDayEventInfo): LearningDay => {
-    return {
-      Title: learningDay.title,
-      DateFrom: learningDay.start.toISOString(),
-      DateTo: learningDay.end.toISOString(),
-      TopicId: learningDay.topicId,
-      Description: learningDay.description,
-      UserId: learningDay.userId,
-    };
-  }
-
-  static getDerivedStateFromProps(props: LearningDayCalendarProps, state: LearningDayCalendarState): LearningDayCalendarState {
-    return {
-      isEventModalOpen: state.isEventModalOpen,
-      isEventModalDisabled: state.isEventModalDisabled,
-      learningDayEvents: props.learningDayEvents.map(LearningDayCalendar.learningDayToEvent),
-    };
   }
 
   render(): React.ReactNode {
@@ -132,7 +91,7 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
           onEventSubmit={this.handleEventSubmit}
         />
         <WeekViewCalendar
-          events={this.state.learningDayEvents}
+          events={this.props.learningDayEvents}
           onSelectSlot={this.handleSelectSlot}
           onSelectEvent={this.handleSelectEvent}
           mergeEveryHalfHour={2}

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchedulearnBackend.Controllers.DTOs;
@@ -29,6 +27,18 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<string>> Authenticate(AuthenticateModel model)
         {
             return await _userService.Authenticate(model.Email, model.Password);
+        }
+
+        // GET: api/User/current
+        [HttpGet("current")]
+        public async Task<ActionResult<User>> GetCurrentUser()
+        {
+            var id = int.Parse(User.FindFirst("Id").Value);
+            var currentUser = await _userService.GetUserAsync(id);
+
+            System.Diagnostics.Debug.WriteLine($"Currently logged in user: {currentUser.Id} {currentUser.Email}");
+
+            return currentUser;
         }
 
         // GET: api/User

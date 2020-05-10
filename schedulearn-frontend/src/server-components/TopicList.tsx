@@ -1,38 +1,64 @@
 import React from "react";
-import { Item } from "src/components/NestedList/NestedListItem";
+import { ListItem } from "src/components/NestedList/NestedListItem";
 import { NestedList } from "src/components/NestedList/NestedList";
-import { TopicListContext, TopicListProviderState } from "./TopicListProvider";
+import UserContext from "src/UserContext";
+import { Topic } from "src/api-contract/Topic";
 
 interface TopicListProps {
-  onItemClick?(item: FullTopic): void;
+  onItemClick?(item: TopicListItem): void;
   width?: number;
   disabled?: boolean;
   selectedItemIndex?: string;
 }
 
-export interface FullTopic extends Item<FullTopic> {
-  Description: string;
-  ParentTopicId?: number;
+export interface TopicListItem extends ListItem<TopicListItem> {
+  description: string;
+  parentTopicId?: number;
 }
 
-export default class TopicList extends React.Component<TopicListProps> {
-  renderWithinContext = (topicContext: TopicListProviderState): React.ReactNode => {
-    if (!topicContext.RootTopic) {
+export interface TopicListState {
+  rootTopic?: TopicListItem;
+}
+
+export default class TopicList extends React.Component<TopicListProps, TopicListState> {
+  state: TopicListState = {}
+
+  topicToListItem = (topic: Topic): TopicListItem => {
+    return {
+      id: topic.id,
+      label: topic.name,
+      description: topic.description,
+      parentTopicId: topic.parentTopicId,
+      subItems: topic.subTopics.map((t) => this.topicToListItem(t)),
+    };
+  }
+
+  componentDidMount(): void {
+    UserContext
+      .fetch("api/topic")
+      .then((response) => {
+        if (!response.ok) {
+          //set error
+          return;
+        }
+
+        return response.json();
+      })
+      .then((rootTopic: Topic) => {
+        const listItem = this.topicToListItem(rootTopic);
+        this.setState({ rootTopic: listItem });
+      });
+  }
+
+  render(): React.ReactNode {
+    if (!this.state.rootTopic) {
       return (
-        <NestedList rootItem={{ Id: 0, Label: "Loading...", SubItems: [] }} />
+        <NestedList rootItem={{ id: 0, label: "Loading...", subItems: [] }} />
       );
     }
 
     return (
-      <NestedList rootItem={topicContext.RootTopic} onItemClick={this.props.onItemClick} disabled={this.props.disabled} />
-    );
-  }
-
-  render(): React.ReactNode {
-    return (
-      <TopicListContext.Consumer>
-        {this.renderWithinContext}
-      </TopicListContext.Consumer>
+      <NestedList rootItem={this.state.rootTopic} onItemClick={this.props.onItemClick} disabled={this.props.disabled} />
     );
   }
 }

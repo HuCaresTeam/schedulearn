@@ -1,6 +1,6 @@
 import React from "react";
 import Modal, { setAppElement } from "react-modal";
-import { EventAddForm, LearningDayEventInfo } from "./EventAddForm";
+import { EventAddForm, LearningDayEvent } from "./EventAddForm";
 import "./EventAddModal.scss";
 import AtLeast from "src/util-types/AtLeast";
 
@@ -9,9 +9,9 @@ setAppElement("#root");
 export interface EventAddModalProps {
   isOpen: boolean;
   disabled: boolean;
-  learningDayEvent?: AtLeast<LearningDayEventInfo, "userId">;
+  learningDayEvent?: AtLeast<LearningDayEvent, "userId">;
   onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
-  onEventSubmit: (event: LearningDayEventInfo) => void;
+  onEventSubmit: (event: LearningDayEvent) => void;
 }
 
 export class EventAddModal extends React.PureComponent<EventAddModalProps> {

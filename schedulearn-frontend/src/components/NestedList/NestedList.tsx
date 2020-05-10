@@ -1,9 +1,9 @@
 import React from "react";
-import { NestedListItem, Item } from "./NestedListItem";
+import { NestedListItem, ListItem } from "./NestedListItem";
 import "./NestedList.scss";
 import arrow from "./back.svg";
 
-export interface NestedListProps<TItem extends Item<TItem>> {
+export interface NestedListProps<TItem extends ListItem<TItem>> {
   rootItem: TItem;
   onItemClick?(item: TItem): void;
   width?: number;
@@ -11,11 +11,11 @@ export interface NestedListProps<TItem extends Item<TItem>> {
   disabled?: boolean;
 }
 
-interface NestedListState<TItem extends Item<TItem>> {
+interface NestedListState<TItem extends ListItem<TItem>> {
   currentItem: TItem;
 }
 
-export class NestedList<TItem extends Item<TItem>>
+export class NestedList<TItem extends ListItem<TItem>>
   extends React.Component<NestedListProps<TItem>, NestedListState<TItem>> {
   private history: number[] = [];
 
@@ -31,7 +31,7 @@ export class NestedList<TItem extends Item<TItem>>
     let item = this.props.rootItem;
     for (let i = 0; i < this.history.length; i++) {
       const index = this.history[i];
-      item = item.SubItems[index];
+      item = item.subItems[index];
     }
 
     return item;
@@ -49,10 +49,10 @@ export class NestedList<TItem extends Item<TItem>>
   }
 
   private findHistoryById(selectedId: number, item: TItem, currentHistory: number[]): number[] | undefined {
-    if (item.Id === selectedId)
+    if (item.id === selectedId)
       return currentHistory;
 
-    for (const [index, subItem] of item.SubItems.entries()) {
+    for (const [index, subItem] of item.subItems.entries()) {
       const nextHistory = [...currentHistory, index];
       const result = this.findHistoryById(selectedId, subItem, nextHistory);
 
@@ -112,11 +112,11 @@ export class NestedList<TItem extends Item<TItem>>
           <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
             {showButton ? backButton : undefined}
           </div>
-          <div className="nested-list-label-cell">{this.state.currentItem.Label}</div>
+          <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
         </div>
-        {this.state.currentItem.SubItems.map((item: TItem, index: number) => (
+        {this.state.currentItem.subItems.map((item: TItem, index: number) => (
           <NestedListItem
-            key={item.Id}
+            key={item.id}
             history={this.history}
             item={item}
             index={index}

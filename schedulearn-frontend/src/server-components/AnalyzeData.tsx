@@ -1,7 +1,6 @@
 import React from "react";
-import TopicList from "./TopicList";
+import TopicList, { TopicListItem } from "./TopicList";
 import WorkerListByTopic from "./WorkerListByTopic";
-import { FullTopic } from "./TopicListProvider";
 
 interface AnalyzeDataState {
   topicId?: number;
@@ -10,8 +9,8 @@ interface AnalyzeDataState {
 export default class AnalyzeData extends React.Component<{}, AnalyzeDataState> {
   state: AnalyzeDataState = {};
 
-  handleItemClick = (item: FullTopic): void => {
-    this.setState({ topicId: item.Id });
+  handleItemClick = (item: TopicListItem): void => {
+    this.setState({ topicId: item.id });
   }
 
   render(): React.ReactNode {
