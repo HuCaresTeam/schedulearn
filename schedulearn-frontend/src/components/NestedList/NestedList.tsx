@@ -11,6 +11,7 @@ export interface NestedListProps<TItem extends ListItem<TItem>> {
   width?: number;
   selectedItemId?: number;
   disabled?: boolean;
+  maxHeight?: number;
 }
 
 interface NestedListState<TItem extends ListItem<TItem>> {
@@ -143,16 +144,18 @@ export class NestedList<TItem extends ListItem<TItem>>
           <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
           {infoIcon}
         </div>
-        {this.state.currentItem.subItems.map((item: TItem, index: number) => (
-          <NestedListItem
-            key={item.id}
-            history={this.history}
-            item={item}
-            index={index}
-            callback={this.onListItemClick}
-            infoCallback={this.onInfoItemClick}
-          />
-        ))}
+        <div style={{overflow: "auto", maxHeight: (this.props.maxHeight ? this.props.maxHeight : -1)}}>
+          {this.state.currentItem.subItems.map((item: TItem, index: number) => (
+            <NestedListItem
+              key={item.id}
+              history={this.history}
+              item={item}
+              index={index}
+              callback={this.onListItemClick}
+              infoCallback={this.onInfoItemClick}
+            />
+          ))}
+        </div>
         {modal}
       </div>
     );
