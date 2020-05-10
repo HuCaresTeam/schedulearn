@@ -1,8 +1,9 @@
 import React from "react";
 import { LearningDayCalendar } from "src/components/Calendar/LearningDayCalendar";
 import UserContext from "src/UserContext";
-import FlatLearningDay from "src/api-contract/FlatLearningDay";
+import LearningDayWithUser from "src/api-contract/LearningDayWithUser";
 import { LearningDayEvent } from "src/components/Calendar/EventForm";
+import CreateNewLearningDay from "src/api-contract/CreateNewLearningDay";
 
 export interface LearningDayState {
   userLearningDays?: LearningDayEvent[];
@@ -11,10 +12,10 @@ export interface LearningDayState {
 export class UserLearningDayCalendar extends React.Component<{}, LearningDayState> {
   state: LearningDayState = {};
 
-  private learningDayToEvent(learningDay: FlatLearningDay): LearningDayEvent {
+  private learningDayToEvent(learningDay: LearningDayWithUser): LearningDayEvent {
     return {
       id: learningDay.id,
-      title: learningDay.title,
+      title: learningDay.topicTilte,
       start: new Date(learningDay.dateFrom),
       end: new Date(learningDay.dateTo),
       topicId: learningDay.topicId,
@@ -23,15 +24,13 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     };
   }
 
-  private eventToLearningDay(learningDay: LearningDayEvent): FlatLearningDay {
+  private eventToNewLearningDay(learningDay: LearningDayEvent): CreateNewLearningDay {
     return {
-      id: learningDay.id,
-      title: learningDay.title,
-      dateFrom: learningDay.start.toISOString(),
-      dateTo: learningDay.end.toISOString(),
+      userId: learningDay.userId,
       topicId: learningDay.topicId,
       description: learningDay.description,
-      userId: learningDay.userId,
+      dateFrom: learningDay.start.toISOString(),
+      dateTo: learningDay.end.toISOString(),
     };
   }
 
@@ -47,7 +46,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
 
         return response.json();
       })
-      .then((learningDays: FlatLearningDay[]) => {
+      .then((learningDays: LearningDayWithUser[]) => {
         const learningDayEvents = learningDays.map(this.learningDayToEvent);
         this.setState({ userLearningDays: learningDayEvents });
       });
@@ -58,7 +57,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   }
 
   handleEventSubmit = (learningDayEvent: LearningDayEvent): void => {
-    const learningDay = this.eventToLearningDay(learningDayEvent);
+    const learningDay = this.eventToNewLearningDay(learningDayEvent);
 
     UserContext
       .fetch("api/learningDay", {
@@ -77,7 +76,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   }
 
   handleEventModify = (learningDayEvent: LearningDayEvent): void => {
-    const learningDay = this.eventToLearningDay(learningDayEvent);
+    const learningDay = this.eventToNewLearningDay(learningDayEvent);
     if (!learningDayEvent.id) {
       // Cannot modify without id. Set error.
       return;
