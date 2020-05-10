@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningDayCalendar";
 import { PrivateRoute } from "./PrivateRoute";
+import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
 
 export default class App extends React.Component {
@@ -48,6 +49,7 @@ export default class App extends React.Component {
               </Route>
               <PrivateRoute path="/list_example">
                 <TopicList />
+                <TopicsByManagerView />
                 <UserLearningDaysByTopicView />
               </PrivateRoute>
               <PrivateRoute path="/calendar">
