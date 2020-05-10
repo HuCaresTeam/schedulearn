@@ -1,0 +1,28 @@
+.topic-field {
+  margin-bottom: 19px;
+  grid-template-columns: 20% 1fr;
+  display: grid;
+}
+
+.topic-name {
+  margin-right: 15px;
+}
+
+.topic-form {
+  display: grid;
+}
+
+.topic-form input {
+  width: 100%;
+}
+
+.topic-form .nested-list {
+  width: 100%;
+}
+
+.topic-form .topic-description textarea {
+  resize: vertical;
+  max-height: 300px;
+  min-height: 100px;
+  overflow-y: scroll;
+}

@@ -3,6 +3,7 @@ import { ListItem } from "src/components/NestedList/NestedListItem";
 import { NestedList } from "src/components/NestedList/NestedList";
 import UserContext from "src/UserContext";
 import { Topic } from "src/api-contract/Topic";
+import { TopicForm } from "../components/NestedList/TopicAddForm";
 
 interface TopicListProps {
   onItemClick?(item: TopicListItem): void;
@@ -50,6 +51,26 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
       });
   }
 
+  // TODO: Determine the return type of the Promise
+  // TODO: Create a new TopicForm for the api connection, transform TopicForm to it
+  handleTopicSubmit = (topic: TopicForm): Promise<TopicForm | undefined> => {
+    return UserContext
+      .fetch("api/topic", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(topic),
+      })
+      .then((response) => {
+        console.log("Trying post", response);
+        if (!response.ok)
+          return;
+
+        return topic;
+      });
+  }
+
   render(): React.ReactNode {
     if (!this.state.rootTopic) {
       return (
@@ -58,7 +79,13 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
     }
 
     return (
-      <NestedList rootItem={this.state.rootTopic} onItemClick={this.props.onItemClick} disabled={this.props.disabled} />
+      <NestedList 
+        rootItem={this.state.rootTopic} 
+        onItemClick={this.props.onItemClick} 
+        disabled={this.props.disabled}
+        displayAddOption={true}
+        onAddOptionSubmit={this.handleTopicSubmit}
+        />
     );
   }
 }
