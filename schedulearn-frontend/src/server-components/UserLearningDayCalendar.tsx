@@ -1,18 +1,18 @@
 import React from "react";
-import { LearningDayCalendar } from "src/components/Calendar/LearningDayCalendar";
+import { LearningDayCalendar, ColoredLearningDayEvent } from "src/components/Calendar/LearningDayCalendar";
 import UserContext from "src/UserContext";
 import LearningDayWithUser from "src/api-contract/LearningDayWithUser";
 import { LearningDayEvent } from "src/components/Calendar/EventForm";
 import CreateNewLearningDay from "src/api-contract/CreateNewLearningDay";
 
 export interface LearningDayState {
-  userLearningDays?: LearningDayEvent[];
+  userLearningDays?: ColoredLearningDayEvent[];
 }
 
 export class UserLearningDayCalendar extends React.Component<{}, LearningDayState> {
   state: LearningDayState = {};
 
-  private learningDayToEvent(learningDay: LearningDayWithUser): LearningDayEvent {
+  private learningDayToEvent(learningDay: LearningDayWithUser): ColoredLearningDayEvent {
     return {
       id: learningDay.id,
       title: learningDay.topicTitle,
@@ -21,6 +21,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
       topicId: learningDay.topicId,
       description: learningDay.description,
       userId: learningDay.userId,
+      colorId: learningDay.userId,
     };
   }
 

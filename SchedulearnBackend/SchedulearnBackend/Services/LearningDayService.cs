@@ -1,23 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.DataAccessLayer;
+using SchedulearnBackend.Extensions;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.Services
 {
     public class LearningDayService
     {
         private readonly SchedulearnContext _schedulearnContext;
-        private readonly UserService _userService;
 
-        public LearningDayService(UserService userService, SchedulearnContext schedulearnContext)
+        public LearningDayService (SchedulearnContext schedulearnContext)
         {
             _schedulearnContext = schedulearnContext;
-            _userService = userService;
         }
 
         public async Task<List<LearningDay>> GetAllLearningDaysAsync() 
@@ -48,17 +48,19 @@ namespace SchedulearnBackend.Services
         public async Task<List<LearningDay>> GetLearningDaysByTeamAsync(int teamId)
         {
             return await _schedulearnContext.LearningDays
-                .Where(l => l.User.Team.Id == teamId)
+                .Where(l => l.User.TeamId == teamId)
                 .ToListAsync();
-
         }
 
         public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate) 
         {
-            await _userService.GetUserAsync(learningDayToCreate.UserId); //Check user exists
+            var user = await _schedulearnContext.Users.FindAsync(learningDayToCreate.UserId);
+            if (user == null)
+                throw new NotFoundException(Error_UserNotFound.ReplaceArgs(learningDayToCreate.UserId));
+
             var topic = await _schedulearnContext.Topics.FindAsync(learningDayToCreate.TopicId);
             if (topic == null)
-                throw new NotFoundException($"Topic with id ({learningDayToCreate.TopicId}) does not exist");
+                throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(learningDayToCreate.TopicId));
 
             var newLearningDay = learningDayToCreate.CreateLearningDay();
 
@@ -73,7 +75,7 @@ namespace SchedulearnBackend.Services
         {
             var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
             if (learningDay == null)
-                throw new NotFoundException($"Learning day with id ({id}) does not exist.");
+                throw new NotFoundException(Error_LearningDayNotFound.ReplaceArgs(id));
 
             learningDay.Description = learningDayToCreate.Description;
             _schedulearnContext.Update(learningDay);
