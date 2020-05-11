@@ -19,6 +19,7 @@ import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCale
 import ColorTest from "./ColorTest";
 import "./App.scss";
 import HomePage from "./pages/HomePage";
+import CreateUserForm from "./server-components/CreateUserForm";
 
 export default class App extends React.Component {
 
@@ -79,6 +80,9 @@ export default class App extends React.Component {
                   <Link to="/team-calendar">Team Calendar</Link>
                 </li>
                 <li>
+                  <Link to="/user-creation">Create User</Link>
+                </li>
+                <li>
                   <Link to="/my-limits">My Limits</Link>
                 </li>
               </ul>
@@ -105,6 +109,9 @@ export default class App extends React.Component {
                 </PrivateRoute>
                 <PrivateRoute path="/calendar">
                   <UserLearningDayCalendar />
+                </PrivateRoute>
+                <PrivateRoute path="/user-creation">
+                  <CreateUserForm />
                 </PrivateRoute>
                 <PrivateRoute path="/my-limits">
                   <LimitViewer />
