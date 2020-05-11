@@ -38,15 +38,15 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     this.history = this.convertIdToHistory(this.props.selectedItemId);
     const currentItem = this.currentItem;
-    this.state = { 
-      currentItem: currentItem, 
-      modalVisible: false, 
-      modalDescription: "", 
-      posX: 0, 
+    this.state = {
+      currentItem: currentItem,
+      modalVisible: false,
+      modalDescription: "",
+      posX: 0,
       posY: 0,
       isTopicModalOpen: false,
       isTopicModalDisabled: true,
-      newTopic: {parentTopicId: currentItem.id}, 
+      newTopic: { parentTopicId: currentItem.id },
     };
   }
 
@@ -93,7 +93,7 @@ export class NestedList<TItem extends ListItem<TItem>>
   };
 
   onInfoItemClick = (event: React.MouseEvent<HTMLImageElement, MouseEvent>, item: TItem): void => {
-    this.setState({modalVisible: true, modalDescription: item.description, posX: event.pageX, posY: event.pageY});
+    this.setState({ modalVisible: true, modalDescription: item.description, posX: event.clientX, posY: event.clientY });
   }
 
   onCurrentItemClick = (): void => {
@@ -147,7 +147,7 @@ export class NestedList<TItem extends ListItem<TItem>>
   }
 
   tryOnAddOptionSubmit = (topic: TopicForm): void => {
-    if(this.props.onAddOptionSubmit) {
+    if (this.props.onAddOptionSubmit) {
       return this.props.onAddOptionSubmit(topic);
     } else {
       throw Error("tryOnAddOptionSubmit is not implemented!");
@@ -175,10 +175,10 @@ export class NestedList<TItem extends ListItem<TItem>>
       <b>Create a new Topic</b>
     </div>;
 
-    const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption: undefined; 
+    const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption : undefined;
 
-    const modal = <ItemInfoModal 
-      isOpen={this.state.modalVisible} 
+    const modal = <ItemInfoModal
+      isOpen={this.state.modalVisible}
       onRequestClose={this.handleModalClose}
       description={this.state.modalDescription}
       posX={this.state.posX}
@@ -187,7 +187,7 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     const infoIcon = <img className="nested-list-info-icon"
       src={info}
-      alt="info" 
+      alt="info"
       onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
     />;
 
@@ -205,7 +205,7 @@ export class NestedList<TItem extends ListItem<TItem>>
           onRequestClose={this.onTopicAddClose}
           onEventSubmit={this.onTopicAddSubmit}
         />
-        
+
 
         <div className={className} style={{ width: this.props.width }}>
           <div className="nested-list-title">
@@ -216,7 +216,7 @@ export class NestedList<TItem extends ListItem<TItem>>
             {infoIcon}
           </div>
 
-          <div style={{overflow: "auto", maxHeight: this.props.maxHeight}}>
+          <div style={{ overflow: "auto", maxHeight: this.props.maxHeight }}>
             {this.state.currentItem.subItems.map((item: TItem, index: number) => (
               <NestedListItem
                 key={item.id}
