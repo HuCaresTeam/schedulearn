@@ -20,6 +20,8 @@ namespace SchedulearnBackend.DataAccessLayer
         public DbSet<LearningDay> LearningDays { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Limit> Limits { get; set; }
+        public DbSet<Suggestion> Suggestions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
@@ -49,21 +51,21 @@ namespace SchedulearnBackend.DataAccessLayer
 
 
             //CEO team
-            modelbuilder.Entity<User>().HasData(new User() { Id = 1, Name = "Vadovu", Surname = "Vadovas", Email = "Vadovu.Vadovas@schedulearn.com", JobTitleId = 1 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 1, Name = "Vadovu", Surname = "Vadovas", Email = "Vadovu.Vadovas@schedulearn.com", JobTitleId = 1, Password = "123" });
             modelbuilder.Entity<Team>().HasData(new Team() { Id = 1, LimitId = 1, ManagerId = 1 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 2, Name = "Technologiju", Surname = "Vadovas", Email = "Technologiju.Vadovas@schedulearn.com", JobTitleId = 2, TeamId = 1 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 3, Name = "Finansu", Surname = "Vadovas", Email = "Finansu.Vadovas@schedulearn.com", JobTitleId = 3, TeamId = 1 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 2, Name = "Technologiju", Surname = "Vadovas", Email = "Technologiju.Vadovas@schedulearn.com", JobTitleId = 2, TeamId = 1, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 3, Name = "Finansu", Surname = "Vadovas", Email = "Finansu.Vadovas@schedulearn.com", JobTitleId = 3, TeamId = 1, Password = "123" });
 
             //CTO team
             modelbuilder.Entity<Team>().HasData(new Team() { Id = 2, LimitId = 2, ManagerId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 4, Name = "Vardenis", Surname = "Pavardenis", Email = "Vardenis.Pavardenis@schedulearn.com", JobTitleId = 4, TeamId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 5, Name = "Petras", Surname = "Petrauskas", Email = "Petras.Petrauskas@schedulearn.com", JobTitleId = 4, TeamId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 6, Name = "Jonas", Surname = "Jonauskas", Email = "Jonas.Jonauskas@schedulearn.com", JobTitleId = 5, TeamId = 2, LimitId = 3 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 4, Name = "Vardenis", Surname = "Pavardenis", Email = "Vardenis.Pavardenis@schedulearn.com", JobTitleId = 4, TeamId = 2, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 5, Name = "Petras", Surname = "Petrauskas", Email = "Petras.Petrauskas@schedulearn.com", JobTitleId = 4, TeamId = 2, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 6, Name = "Jonas", Surname = "Jonauskas", Email = "Jonas.Jonauskas@schedulearn.com", JobTitleId = 5, TeamId = 2, LimitId = 3, Password = "123" });
 
             //CFO team
             modelbuilder.Entity<Team>().HasData(new Team() { Id = 3, LimitId = 3, ManagerId = 3 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 7, Name = "Tomas", Surname = "Tomauskas", Email = "Tomas.Tomauskas@schedulearn.com", JobTitleId = 6, TeamId = 3 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 8, Name = "John", Surname = "Cena", Email = "John.Cena@schedulearn.com", JobTitleId = 7, TeamId = 3 });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 7, Name = "Tomas", Surname = "Tomauskas", Email = "Tomas.Tomauskas@schedulearn.com", JobTitleId = 6, TeamId = 3, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 8, Name = "John", Surname = "Cena", Email = "John.Cena@schedulearn.com", JobTitleId = 7, TeamId = 3, Password = "123" });
 
 
             modelbuilder.Entity<Topic>().HasData(new Topic() { Id = 1, Name = "Learning", Description = "Learning description" });
@@ -103,6 +105,11 @@ namespace SchedulearnBackend.DataAccessLayer
             modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 7, UserId = 3, TopicId = 16, DateFrom = new DateTime(2020, 04, 26, 10, 30, 00), DateTo = new DateTime(2020, 04, 26, 13, 00, 00), Description = "Mokausi Capital budgeting" });
             modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 8, UserId = 3, TopicId = 17, DateFrom = new DateTime(2020, 04, 26, 14, 30, 00), DateTo = new DateTime(2020, 04, 26, 15, 30, 00), Description = "Mokausi Sources of capital" });
             modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 9, UserId = 3, TopicId = 18, DateFrom = new DateTime(2020, 04, 26, 15, 30, 00), DateTo = new DateTime(2020, 04, 26, 17, 00, 00), Description = "Mokausi Dividend policy" });
+
+
+            modelbuilder.Entity<Suggestion>().HasData(new Suggestion() { Id = 1, TopicId = 1, SuggesteeId = 4, SuggesterId = 1, CreationDate = new DateTime(2020, 04, 26, 15, 30, 00) });
+            modelbuilder.Entity<Suggestion>().HasData(new Suggestion() { Id = 2, TopicId = 2, SuggesteeId = 4, SuggesterId = 2, CreationDate = new DateTime(2020, 05, 02, 17, 00, 00) });
+
         }
 
     }
