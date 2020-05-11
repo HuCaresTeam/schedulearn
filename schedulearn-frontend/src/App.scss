@@ -1,11 +1,18 @@
+.page-content {
+  padding-top: 10px;
+}
+
 .nav-bar {
-  background-color: black;
+  background-color: #333;
 }
 
 .menu {
   display: block;
-  z-index: 999999;
+  z-index: 10;
   color: white;
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
 }
 .menu li {
   display: inline-block;
@@ -17,7 +24,7 @@
 .menu li a {
   display: block;
   padding: 12px 8px;
-  background: black;
+  background-color: #333;
   text-decoration: none;
   color: white;
 }
@@ -45,10 +52,9 @@
 
 .submenu li a {
   display: block;
-  background: black;
+  background-color: #333;
   color: #fff;
   padding: 8px 6px;
-  margin-bottom: 1px;
 }
 .menu .submenu > li.dropdown:hover > .submenu {
   display: block;

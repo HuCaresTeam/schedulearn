@@ -77,30 +77,32 @@ export default class App extends React.Component {
               </ul>
             </nav>
 
-            <Switch>
-              <Route path="/home">
-                <HomePage/>
-              </Route>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <Route path="/color-test">
-                <ColorTest />
-              </Route>
-              <PrivateRoute path="/views">
-                <TopicsByManagerView />
-                <UserLearningDaysByTopicView />
-              </PrivateRoute>
-              <PrivateRoute path="/calendar">
-                <UserLearningDayCalendar />
-              </PrivateRoute>
-              <PrivateRoute path="/my-limits">
-                <LimitViewer />
-              </PrivateRoute>
-              <PrivateRoute path="/team-calendar">
-                <TeamLearningDayCalendar />
-              </PrivateRoute>
-            </Switch>
+            <div className="page-content">
+              <Switch>
+                <Route path="/home">
+                  <HomePage/>
+                </Route>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
+                <Route path="/color-test">
+                  <ColorTest />
+                </Route>
+                <PrivateRoute path="/views">
+                  <TopicsByManagerView />
+                  <UserLearningDaysByTopicView />
+                </PrivateRoute>
+                <PrivateRoute path="/calendar">
+                  <UserLearningDayCalendar />
+                </PrivateRoute>
+                <PrivateRoute path="/my-limits">
+                  <LimitViewer />
+                </PrivateRoute>
+                <PrivateRoute path="/team-calendar">
+                  <TeamLearningDayCalendar />
+                </PrivateRoute>
+              </Switch>
+            </div>
           </div>
         </Router>
       </UserProvider>
