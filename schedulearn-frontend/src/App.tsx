@@ -17,15 +17,45 @@ import LimitViewer from "./server-components/LimitViewer";
 import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
 import ColorTest from "./ColorTest";
 import "./App.scss";
+import HomePage from "./pages/HomePage";
 
 export default class App extends React.Component {
+
   render(): React.ReactNode {
     return (
       <UserProvider>
         <Router>
           <div>
             <nav className="nav-bar">
-              <ul>
+              <ul className="menu">
+                <li>
+                  <Link to="/home">Home</Link>
+                </li>
+                <li className="dropdown">
+                  <Link to="">My Team</Link>
+                  <ul className="submenu">
+                    <li>
+                      <Link to="">Create user</Link>
+                    </li>   
+                    <li>
+                      <Link to="">Calendar</Link>
+                    </li>      
+                    <li className="dropdown">
+                      <Link to="">Views</Link>
+                      <ul className="submenu">
+                        <li className="dropdown">
+                          <Link to="">View 1</Link>
+                        </li>
+                        <li>
+                          <Link to="">View 2</Link>
+                        </li>
+                        <li>
+                          <Link to="">View3</Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
                 <li>
                   <Link to="/login">Login</Link>
                 </li>
@@ -46,7 +76,11 @@ export default class App extends React.Component {
                 </li>
               </ul>
             </nav>
+
             <Switch>
+              <Route path="/home">
+                <HomePage/>
+              </Route>
               <Route path="/login">
                 <LoginPage />
               </Route>
