@@ -29,7 +29,13 @@ export default class App extends React.Component {
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/list_example">Nested List</Link>
+                  <Link to="/topics_by_team">Topics by team view</Link>
+                </li>
+                <li>
+                  <Link to="/members_by_topic">Your team members by topic view</Link>
+                </li>
+                <li>
+                  <Link to="/teams_by_topic">Teams by topic view</Link>
                 </li>
                 <li>
                   <Link to="/calendar">Calendar</Link>
@@ -46,9 +52,13 @@ export default class App extends React.Component {
               <Route path="/login">
                 <LoginPage />
               </Route>
-              <PrivateRoute path="/list_example">
+              <PrivateRoute path="/topics_by_team">
                 <TopicsByManagerView />
+              </PrivateRoute>
+              <PrivateRoute path="/members_by_topic">
                 <UserLearningDaysByTopicView />
+              </PrivateRoute>
+              <PrivateRoute path="/teams_by_topic">
                 <TeamsByTopicView/>
               </PrivateRoute>
               <PrivateRoute path="/calendar">

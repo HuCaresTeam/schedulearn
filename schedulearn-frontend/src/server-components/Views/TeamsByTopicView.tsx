@@ -22,8 +22,8 @@ export default class TeamsByTopicView extends React.Component<{}, TeamsByTopicVi
 
     return (
       <React.Fragment>
-        {/* TODO: change disabled to some other way to disable Create new topic item */}
-        <TopicList onItemClick={this.handleItemClick} maxHeight={250} disabled={true} />
+        <h1>Teams, that have or will learn a selected topic</h1>
+        <TopicList onItemClick={this.handleItemClick} maxHeight={250} />
         {teamsByTopic}
       </React.Fragment>
     );
