@@ -15,6 +15,7 @@ import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningD
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
+import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 
 export default class App extends React.Component {
   render(): React.ReactNode {
@@ -48,6 +49,7 @@ export default class App extends React.Component {
               <PrivateRoute path="/list_example">
                 <TopicsByManagerView />
                 <UserLearningDaysByTopicView />
+                <TeamsByTopicView/>
               </PrivateRoute>
               <PrivateRoute path="/calendar">
                 <UserLearningDayCalendar />
