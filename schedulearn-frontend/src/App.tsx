@@ -18,26 +18,56 @@ import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
 import ColorTest from "./ColorTest";
 import "./App.scss";
+import HomePage from "./pages/HomePage";
 
 export default class App extends React.Component {
+
   render(): React.ReactNode {
     return (
       <UserProvider>
         <Router>
           <div>
             <nav className="nav-bar">
-              <ul>
+              <ul className="menu">
+                <li>
+                  <Link to="/home">Home</Link>
+                </li>
+                <li className="dropdown">
+                  <Link to="">My Team</Link>
+                  <ul className="submenu">
+                    <li>
+                      <Link to="">Create user</Link>
+                    </li>
+                    <li>
+                      <Link to="">Calendar</Link>
+                    </li>
+                    <li className="dropdown">
+                      <Link to="">Views</Link>
+                      <ul className="submenu">
+                        <li className="dropdown">
+                          <Link to="">View 1</Link>
+                        </li>
+                        <li>
+                          <Link to="">View 2</Link>
+                        </li>
+                        <li>
+                          <Link to="">View3</Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
                 <li>
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/topics_by_team">Topics by team view</Link>
+                  <Link to="/topics-by-team">Topics by team view</Link>
                 </li>
                 <li>
-                  <Link to="/members_by_topic">Your team members by topic view</Link>
+                  <Link to="/members-by-topic">Your team members by topic view</Link>
                 </li>
                 <li>
-                  <Link to="/teams_by_topic">Teams by topic view</Link>
+                  <Link to="/teams-by-topic">Teams by topic view</Link>
                 </li>
                 <li>
                   <Link to="/color-test">Color Test</Link>
@@ -53,32 +83,37 @@ export default class App extends React.Component {
                 </li>
               </ul>
             </nav>
-            <Switch>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <PrivateRoute path="/topics_by_team">
-                <TopicsByManagerView />
-              </PrivateRoute>
-              <PrivateRoute path="/members_by_topic">
-                <UserLearningDaysByTopicView />
-              </PrivateRoute>
-              <PrivateRoute path="/teams_by_topic">
-                <TeamsByTopicView/>
-              </PrivateRoute>
-              <Route path="/color-test">
-                <ColorTest />
-              </Route>
-              <PrivateRoute path="/calendar">
-                <UserLearningDayCalendar />
-              </PrivateRoute>
-              <PrivateRoute path="/my-limits">
-                <LimitViewer />
-              </PrivateRoute>
-              <PrivateRoute path="/team-calendar">
-                <TeamLearningDayCalendar />
-              </PrivateRoute>
-            </Switch>
+            <div className="page-content">
+              <Switch>
+                <Route path="/home">
+                  <HomePage />
+                </Route>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
+                <Route path="/color-test">
+                  <ColorTest />
+                </Route>
+                <PrivateRoute path="/members-by-topic">
+                  <UserLearningDaysByTopicView />
+                </PrivateRoute>
+                <PrivateRoute path="/teams-by-topic">
+                  <TeamsByTopicView />
+                </PrivateRoute>
+                <PrivateRoute path="/topics-by-team">
+                  <TopicsByManagerView />
+                </PrivateRoute>
+                <PrivateRoute path="/calendar">
+                  <UserLearningDayCalendar />
+                </PrivateRoute>
+                <PrivateRoute path="/my-limits">
+                  <LimitViewer />
+                </PrivateRoute>
+                <PrivateRoute path="/team-calendar">
+                  <TeamLearningDayCalendar />
+                </PrivateRoute>
+              </Switch>
+            </div>
           </div>
         </Router>
       </UserProvider>
