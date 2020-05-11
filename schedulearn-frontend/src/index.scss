@@ -10,3 +10,21 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.schedulearn-table {
+  border-collapse: collapse;
+  margin: 10px 0px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.schedulearn-table,
+.schedulearn-table td,
+.schedulearn-table th {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.schedulearn-table tr:nth-child(odd) {
+  background-color: lightgray;
+}

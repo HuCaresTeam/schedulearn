@@ -1,5 +1,5 @@
 import React from "react";
-import "./WorkerList.css";
+import "./WorkerList.scss";
 
 export interface WorkerListItem {
   userId: number;
@@ -18,7 +18,7 @@ interface WorkerListProps {
 export default class WorkerList extends React.Component<WorkerListProps, {}> {
   render(): JSX.Element {
     return (
-      <table className="worker-table" style={{ width: this.props.width }}>
+      <table className="schedulearn-table" style={{ width: this.props.width }}>
         <tr>
           <th>Full Name</th>
           <th>Job Title</th>

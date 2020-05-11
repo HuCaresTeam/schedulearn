@@ -1,6 +1,7 @@
 import React from "react";
 import TeamByTopic from "src/api-contract/TeamByTopic";
 import { UserContext } from "src/UserContext";
+import "./TeamsByTopicsList.scss";
 
 interface TeamsByTopicListProps {
   topicId: number;
@@ -42,19 +43,20 @@ export default class TeamsByTopicList extends React.Component<TeamsByTopicListPr
   }
 
   render(): React.ReactNode {
-    if (!this.state.teamsByTopic) {
-      const emptyTeams: TeamByTopic[] = [];
-      this.setState({teamsByTopic: emptyTeams});
+
+    let teams = this.state.teamsByTopic;
+    if (!teams) {
+      teams = [];
     }
 
     return (
-      <table className="worker-table">
+      <table className="schedulearn-table">
         <tbody>
           <tr>
             <th>Team</th>
             <th>Users who learned this topic</th>
           </tr>
-          {this.state.teamsByTopic.map((team) => (
+          {teams.map((team) => (
             <tr key={team.teamId}>
               <td>{team.managerName} {team.managerSurname} team</td>
               <td>{team.users.length} of {team.numberOfTotalMembers}</td>
