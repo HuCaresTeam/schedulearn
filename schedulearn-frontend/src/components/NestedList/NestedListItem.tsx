@@ -37,8 +37,11 @@ export class NestedListItem<TItem extends ListItem<TItem>> extends React.PureCom
 
     const infoIcon = <img className="nested-list-info-icon" src={info} alt="info"onClick={this.infoClick} />;
 
+    let className = "nested-list-item";
+    className += this.props.disabled ? " disabled" : " enabled";
+
     return (
-      <div className={this.props.disabled ? "nested-list-item-disabled" : "nested-list-item-enabled"} 
+      <div className={className}
         onClick={this.props.disabled ? undefined : this.itemClick}
       >
         {this.props.item.label}

@@ -191,6 +191,11 @@ export class NestedList<TItem extends ListItem<TItem>>
       onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
     />;
 
+    let className = "nested-list";
+    if (this.props.disabled) {
+      className += " disabled";
+    }
+
     return (
       <React.Fragment>
         <TopicAddModal
@@ -200,11 +205,12 @@ export class NestedList<TItem extends ListItem<TItem>>
           onRequestClose={this.onTopicAddClose}
           onEventSubmit={this.onTopicAddSubmit}
         />
+        
 
-        <div className="nested-list" style={{ width: this.props.width }}>
+        <div className={className} style={{ width: this.props.width }}>
           <div className="nested-list-title">
             <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
-              {showButton ? backButton : undefined}
+              {showButton && !this.props.disabled ? backButton : undefined}
             </div>
             <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
             {infoIcon}
