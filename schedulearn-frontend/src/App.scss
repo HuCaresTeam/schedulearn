@@ -1,24 +1,67 @@
-.nav-bar ul {
+.page-content {
+  padding-top: 10px;
+}
+
+.nav-bar {
+  background-color: #333;
+}
+
+.menu {
+  display: block;
+  z-index: 10;
+  color: white;
+  padding: 0;
   list-style-type: none;
   margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-  margin-bottom: 10px;
 }
-
-.nav-bar li {
-  float: left;
+.menu li {
+  display: inline-block;
+  position: relative;
 }
-
-.nav-bar li a {
+.menu li.dropdown:hover > .submenu {
   display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
+}
+.menu li a {
+  display: block;
+  padding: 12px 8px;
+  background-color: #333;
   text-decoration: none;
+  color: white;
+}
+.menu li a:hover {
+  background: grey;
 }
 
-.nav-bar li a:hover {
-  background-color: #111;
+.menu .submenu {
+  display: none;
+}
+.submenu {
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  left: 0px;
+  list-style-type: none;
+  display: block;
+  width: 200px;
+  z-index: 9;
+}
+
+.submenu li {
+  display: block;
+}
+
+.submenu li a {
+  display: block;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 6px;
+}
+.menu .submenu > li.dropdown:hover > .submenu {
+  display: block;
+}
+
+.menu .submenu .submenu {
+  position: absolute;
+  left: 200px;
+  top: 0px;
 }
