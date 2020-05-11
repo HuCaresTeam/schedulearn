@@ -14,6 +14,7 @@ export interface NestedListItemProps<TItem extends ListItem<TItem>> {
   history: number[];
   item: TItem;
   index: number;
+  disabled?: boolean;
   callback(item: TItem, index: number, history: number[]): void;
   infoCallback(event: React.MouseEvent<HTMLImageElement, MouseEvent>, item: TItem): void;
 }
@@ -30,14 +31,19 @@ export class NestedListItem<TItem extends ListItem<TItem>> extends React.PureCom
 
   render(): JSX.Element {
     let arrowIcon;
-    if (this.props.item.subItems.length) {
+    if (this.props.item.subItems.length && !this.props.disabled) {
       arrowIcon = <img className="nested-list-forward-icon" src={arrow} alt="arrow" />;
     }
 
     const infoIcon = <img className="nested-list-info-icon" src={info} alt="info"onClick={this.infoClick} />;
 
+    let className = "nested-list-item";
+    className += this.props.disabled ? " disabled" : " enabled";
+
     return (
-      <div className="nested-list-item" onClick={this.itemClick}>
+      <div className={className}
+        onClick={this.props.disabled ? undefined : this.itemClick}
+      >
         {this.props.item.label}
         {infoIcon}
         {arrowIcon}
