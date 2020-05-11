@@ -10,3 +10,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+*:disabled {
+  color: rgb(84, 84, 84);
+  background-color: rgb(235, 235, 228);
+}
