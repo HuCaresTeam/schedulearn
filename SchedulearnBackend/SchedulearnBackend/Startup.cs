@@ -33,6 +33,7 @@ namespace SchedulearnBackend
             services.AddScoped<TeamService>();
             services.AddScoped<TopicService>();
             services.AddScoped<LearningDayService>();
+            services.AddScoped<SuggestionService>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
