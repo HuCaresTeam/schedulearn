@@ -1,14 +1,23 @@
 .nested-list-item {
   padding: 8px;
   display: grid;
-  grid-template-columns: 1fr 40px 40px;
   border-top: 1px solid #dddddd;
   align-items: center;
 }
 
-.nested-list-item:hover {
+.nested-list-item.enabled {
+  grid-template-columns: 1fr 40px 40px;
+}
+
+.enabled:hover {
   background-color: #dddddd;
   cursor: pointer;
+}
+
+.nested-list-item.disabled {
+  grid-template-columns: 1fr 40px;
+  color: rgb(84, 84, 84);
+  background-color: rgb(235, 235, 228);
 }
 
 .nested-list-forward-icon {
