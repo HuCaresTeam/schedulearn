@@ -1,7 +1,8 @@
 import React from "react";
-import TopicList, { TopicListItem } from "../TopicList";
+import { TopicListItem } from "../TopicList";
 import TeamsByTopicList from "../TeamsByTopicList";
 import TeamByTopic from "src/api-contract/TeamByTopic";
+import TopicListNoAdd from "../TopicListNoAddNew";
 
 interface TeamsByTopicViewState {
   teams?: TeamByTopic[];
@@ -23,7 +24,7 @@ export default class TeamsByTopicView extends React.Component<{}, TeamsByTopicVi
     return (
       <React.Fragment>
         <h1>Teams, that have or will learn a selected topic</h1>
-        <TopicList onItemClick={this.handleItemClick} maxHeight={250} />
+        <TopicListNoAdd onItemClick={this.handleItemClick} maxHeight={250} />
         {teamsByTopic}
       </React.Fragment>
     );
