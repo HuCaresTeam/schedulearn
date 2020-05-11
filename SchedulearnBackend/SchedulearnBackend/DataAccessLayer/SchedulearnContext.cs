@@ -36,6 +36,12 @@ namespace SchedulearnBackend.DataAccessLayer
                 .HasForeignKey(e => e.TeamId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelbuilder.Entity<Suggestion>()
+                .HasOne(e => e.Suggester)
+                .WithMany(e => e.Suggestions)
+                .HasForeignKey(e => e.SuggesterId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 1, Title = "CEO" });
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 2, Title = "CTO" });

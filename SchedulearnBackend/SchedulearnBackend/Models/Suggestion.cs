@@ -18,11 +18,9 @@ namespace SchedulearnBackend.Models
         public DateTime CreationDate { get; set; }
 
         public virtual Topic Topic { get; set; }
+        [JsonIgnore]
         public virtual User Suggester { get; set; }
         public virtual User Suggestee { get; set; }
-
-        // Create the necessary Service with all of the querying
-        // Create the Controller with necessary endpoint (do I need to handle the authentication)
 
     }
 }

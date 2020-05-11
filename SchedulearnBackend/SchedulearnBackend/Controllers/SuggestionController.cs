@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchedulearnBackend.Controllers.DTOs;
-using SchedulearnBackend.Models;
 using SchedulearnBackend.Services;
 
 namespace SchedulearnBackend.Controllers
@@ -22,7 +21,7 @@ namespace SchedulearnBackend.Controllers
         }
 
         // GET: api/Suggestion/user/{id}
-        [HttpGet("user/{id}")]
+        [HttpGet("user/{userId}")]
         public async Task<ActionResult<List<SuggestionForUser>>> GetSuggestionsForSuggestee(int userId)
         {
             var suggestions = await _suggestionService.GetSuggestionsForSuggesteeAsync(userId);

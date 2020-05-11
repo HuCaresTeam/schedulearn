@@ -235,6 +235,54 @@ namespace SchedulearnBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SchedulearnBackend.Models.Suggestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SuggesteeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SuggesterId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SuggesteeId");
+
+                    b.HasIndex("SuggesterId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Suggestions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationDate = new DateTime(2020, 4, 26, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            SuggesteeId = 4,
+                            SuggesterId = 1,
+                            TopicId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreationDate = new DateTime(2020, 5, 2, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            SuggesteeId = 4,
+                            SuggesterId = 2,
+                            TopicId = 2
+                        });
+                });
+
             modelBuilder.Entity("SchedulearnBackend.Models.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -506,6 +554,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Vadovu.Vadovas@schedulearn.com",
                             JobTitleId = 1,
                             Name = "Vadovu",
+                            Password = "123",
                             Surname = "Vadovas"
                         },
                         new
@@ -514,6 +563,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Technologiju.Vadovas@schedulearn.com",
                             JobTitleId = 2,
                             Name = "Technologiju",
+                            Password = "123",
                             Surname = "Vadovas",
                             TeamId = 1
                         },
@@ -523,6 +573,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Finansu.Vadovas@schedulearn.com",
                             JobTitleId = 3,
                             Name = "Finansu",
+                            Password = "123",
                             Surname = "Vadovas",
                             TeamId = 1
                         },
@@ -532,6 +583,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Vardenis.Pavardenis@schedulearn.com",
                             JobTitleId = 4,
                             Name = "Vardenis",
+                            Password = "123",
                             Surname = "Pavardenis",
                             TeamId = 2
                         },
@@ -541,6 +593,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Petras.Petrauskas@schedulearn.com",
                             JobTitleId = 4,
                             Name = "Petras",
+                            Password = "123",
                             Surname = "Petrauskas",
                             TeamId = 2
                         },
@@ -551,6 +604,7 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 5,
                             LimitId = 3,
                             Name = "Jonas",
+                            Password = "123",
                             Surname = "Jonauskas",
                             TeamId = 2
                         },
@@ -560,6 +614,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Tomas.Tomauskas@schedulearn.com",
                             JobTitleId = 6,
                             Name = "Tomas",
+                            Password = "123",
                             Surname = "Tomauskas",
                             TeamId = 3
                         },
@@ -569,6 +624,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "John.Cena@schedulearn.com",
                             JobTitleId = 7,
                             Name = "John",
+                            Password = "123",
                             Surname = "Cena",
                             TeamId = 3
                         });
@@ -583,8 +639,29 @@ namespace SchedulearnBackend.Migrations
                         .IsRequired();
 
                     b.HasOne("SchedulearnBackend.Models.User", "User")
-                        .WithMany()
+                        .WithMany("LearningDays")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SchedulearnBackend.Models.Suggestion", b =>
+                {
+                    b.HasOne("SchedulearnBackend.Models.User", "Suggestee")
+                        .WithMany()
+                        .HasForeignKey("SuggesteeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchedulearnBackend.Models.User", "Suggester")
+                        .WithMany("Suggestions")
+                        .HasForeignKey("SuggesterId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SchedulearnBackend.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

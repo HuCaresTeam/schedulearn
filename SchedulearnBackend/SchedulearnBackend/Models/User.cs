@@ -30,5 +30,7 @@ namespace SchedulearnBackend.Models
         [JsonIgnore]
         [ForeignKey("UserId")]
         public virtual ICollection<LearningDay> LearningDays { get; set; }
+
+        public virtual ICollection<Suggestion> Suggestions { get; set; }
     }
 }
