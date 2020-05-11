@@ -15,6 +15,7 @@ import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningD
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
+import "./App.scss";
 
 export default class App extends React.Component {
   render(): React.ReactNode {
@@ -22,7 +23,7 @@ export default class App extends React.Component {
       <UserProvider>
         <Router>
           <div>
-            <nav>
+            <nav className="nav-bar">
               <ul>
                 <li>
                   <Link to="/login">Login</Link>
