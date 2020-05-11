@@ -25,16 +25,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
   }
   public constructor(props: CreateUserProps) {
     super(props);
-    //this.state = this.getDefaultState();
   }
-
-  // private getDefaultState(): CreateUserState {
-  //   return {
-  //     name: this.props.name ?? "",
-  //     surname: this.props.newTopic?.description ?? "",
-  //     parentTopicId: this.props.newTopic?.parentTopicId,
-  //   };
-  // }
 
   handleSubmit = (): void => {
     this.props.onUserSubmit({
