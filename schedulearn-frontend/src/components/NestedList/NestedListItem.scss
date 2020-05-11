@@ -1,4 +1,4 @@
-.nested-list-item {
+.nested-list-item-enabled {
   padding: 8px;
   display: grid;
   grid-template-columns: 1fr 40px 40px;
@@ -6,7 +6,15 @@
   align-items: center;
 }
 
-.nested-list-item:hover {
+.nested-list-item-disabled {
+  padding: 8px;
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  border-top: 1px solid #dddddd;
+  align-items: center;
+}
+
+.nested-list-item-enabled:hover {
   background-color: #dddddd;
   cursor: pointer;
 }
