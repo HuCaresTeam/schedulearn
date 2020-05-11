@@ -28,3 +28,8 @@ code {
 .schedulearn-table tr:nth-child(odd) {
   background-color: lightgray;
 }
+
+*:disabled {
+  color: rgb(84, 84, 84);
+  background-color: rgb(235, 235, 228);
+}

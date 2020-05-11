@@ -17,6 +17,7 @@ import LimitViewer from "./server-components/LimitViewer";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
 import ColorTest from "./ColorTest";
+import "./App.scss";
 
 export default class App extends React.Component {
   render(): React.ReactNode {
@@ -24,7 +25,7 @@ export default class App extends React.Component {
       <UserProvider>
         <Router>
           <div>
-            <nav>
+            <nav className="nav-bar">
               <ul>
                 <li>
                   <Link to="/login">Login</Link>

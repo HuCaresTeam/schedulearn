@@ -45,6 +45,11 @@
   border: 1px solid #95a5a6;
 }
 
+.nested-list.disabled {
+  color: rgb(84, 84, 84);
+  background-color: rgb(235, 235, 228);
+}
+
 .create-new-item {
   padding: 8px;
   display: grid;
