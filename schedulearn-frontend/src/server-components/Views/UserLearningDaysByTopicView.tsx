@@ -19,7 +19,8 @@ export default class UserLearningDaysByTopicView extends React.Component<{}, Use
 
     return (
       <React.Fragment>
-        <TopicList onItemClick={this.handleItemClick} maxHeight={250} />
+        <h1>People in your team, that have or will learn selected topic</h1>
+        <TopicList onItemClick={this.handleItemClick} maxHeight={250} displayAddOption={false} />
         {workerList}
       </React.Fragment>
     );

@@ -13,7 +13,7 @@ interface FlatTopicListProps {
 export default class FlatTopicList extends React.Component<FlatTopicListProps, {}> {
   render(): JSX.Element {
     return (
-      <table className="flat-topic-table">
+      <table className="schedulearn-table">
         <tbody>
           <tr>
             <th>Topic name</th>

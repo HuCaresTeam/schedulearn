@@ -11,6 +11,7 @@ interface TopicListProps {
   disabled?: boolean;
   selectedItemId?: number;
   maxHeight?: number;
+  displayAddOption?: boolean;
 }
 
 export interface TopicListItem extends ListItem<TopicListItem> {
@@ -85,7 +86,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
         rootItem={this.state.rootTopic} 
         onItemClick={this.props.onItemClick} 
         disabled={this.props.disabled}
-        displayAddOption={true}
+        displayAddOption={this.props.displayAddOption ?? true}
         onAddOptionSubmit={this.handleTopicSubmit}
         selectedItemId={this.props.selectedItemId}
         maxHeight={this.props.maxHeight}

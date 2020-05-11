@@ -14,6 +14,7 @@ import {
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
+import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
 import ColorTest from "./ColorTest";
 import "./App.scss";
@@ -30,10 +31,16 @@ export default class App extends React.Component {
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/color-test">Color Test</Link>
+                  <Link to="/topics_by_team">Topics by team view</Link>
                 </li>
                 <li>
-                  <Link to="/views">Views</Link>
+                  <Link to="/members_by_topic">Your team members by topic view</Link>
+                </li>
+                <li>
+                  <Link to="/teams_by_topic">Teams by topic view</Link>
+                </li>
+                <li>
+                  <Link to="/color-test">Color Test</Link>
                 </li>
                 <li>
                   <Link to="/calendar">Calendar</Link>
@@ -50,13 +57,18 @@ export default class App extends React.Component {
               <Route path="/login">
                 <LoginPage />
               </Route>
+              <PrivateRoute path="/topics_by_team">
+                <TopicsByManagerView />
+              </PrivateRoute>
+              <PrivateRoute path="/members_by_topic">
+                <UserLearningDaysByTopicView />
+              </PrivateRoute>
+              <PrivateRoute path="/teams_by_topic">
+                <TeamsByTopicView/>
+              </PrivateRoute>
               <Route path="/color-test">
                 <ColorTest />
               </Route>
-              <PrivateRoute path="/views">
-                <TopicsByManagerView />
-                <UserLearningDaysByTopicView />
-              </PrivateRoute>
               <PrivateRoute path="/calendar">
                 <UserLearningDayCalendar />
               </PrivateRoute>
