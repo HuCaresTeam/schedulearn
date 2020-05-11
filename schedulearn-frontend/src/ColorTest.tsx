@@ -2,7 +2,6 @@
 import React from "react";
 import { ColorMapper } from "./utils/ColorMapper";
 
-
 export default class ColorTest extends React.Component {
   render(): React.ReactNode {
     const colors = [...Array(2000).keys()].map((cId) => ColorMapper.generateColorFromId(cId, "#dddddd"));

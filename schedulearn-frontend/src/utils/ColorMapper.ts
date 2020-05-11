@@ -42,7 +42,7 @@ export class ColorMapper {
   public static generateColorFromId(colorId: number, ethalonColor: string): string {
     const ethalonColorHex = this.getHex(ethalonColor);
     const colorMapped = Constants.colorMapped;
-    const mappedId = colorMapped[colorId];
+    const mappedId = colorMapped[colorId % colorMapped.length];
 
     const mappedColor = Math.floor(((255 * 225 * 255) / colorMapped.length) * mappedId);
     const colorHex = this.decimalToHex(mappedColor, 6);
