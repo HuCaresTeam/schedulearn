@@ -11,10 +11,11 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningDayCalendar";
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
+import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
+import ColorTest from "./ColorTest";
 
 export default class App extends React.Component {
   render(): React.ReactNode {
@@ -28,16 +29,19 @@ export default class App extends React.Component {
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/list_example">Nested List</Link>
+                  <Link to="/color-test">Color Test</Link>
+                </li>
+                <li>
+                  <Link to="/views">Views</Link>
                 </li>
                 <li>
                   <Link to="/calendar">Calendar</Link>
                 </li>
                 <li>
-                  <Link to="/calendar_all">All Calendar</Link>
+                  <Link to="/team-calendar">Team Calendar</Link>
                 </li>
                 <li>
-                  <Link to="/my_limits">My Limits</Link>
+                  <Link to="/my-limits">My Limits</Link>
                 </li>
               </ul>
             </nav>
@@ -45,24 +49,25 @@ export default class App extends React.Component {
               <Route path="/login">
                 <LoginPage />
               </Route>
-              <PrivateRoute path="/list_example">
+              <Route path="/color-test">
+                <ColorTest />
+              </Route>
+              <PrivateRoute path="/views">
                 <TopicsByManagerView />
                 <UserLearningDaysByTopicView />
               </PrivateRoute>
               <PrivateRoute path="/calendar">
                 <UserLearningDayCalendar />
               </PrivateRoute>
-              <PrivateRoute path="/calendar_all">
-                <AllUserLearningDayCalendar />
-              </PrivateRoute>
-              <PrivateRoute path="/my_limits">
+              <PrivateRoute path="/my-limits">
                 <LimitViewer />
+              </PrivateRoute>
+              <PrivateRoute path="/team-calendar">
+                <TeamLearningDayCalendar />
               </PrivateRoute>
             </Switch>
           </div>
         </Router>
-
-
       </UserProvider>
     );
   }

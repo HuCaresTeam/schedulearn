@@ -3,10 +3,10 @@ import { WeekViewCalendar } from "./WeekViewCalendar";
 import { SlotInfo } from "react-big-calendar";
 import { EventModal } from "./EventModal";
 import { LearningDayEvent, EventForm } from "./EventForm";
-import AtLeast from "src/util-types/AtLeast";
+import AtLeast from "src/utils/AtLeast";
 
 export interface LearningDayCalendarPropsBase {
-  learningDayEvents: LearningDayEvent[];
+  learningDayEvents: ColoredLearningDayEvent[];
 }
 
 export interface LearningDayCalendarPropsDisabled extends LearningDayCalendarPropsBase {
@@ -26,6 +26,10 @@ interface LearningDayCalendarState {
   isEventModalOpen: boolean;
   isExistingEventOpened: boolean;
   currentEvent?: AtLeast<LearningDayEvent, "start" | "end" | "userId">;
+}
+
+export interface ColoredLearningDayEvent extends LearningDayEvent {
+  colorId: number;
 }
 
 export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
