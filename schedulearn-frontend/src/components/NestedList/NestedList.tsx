@@ -191,8 +191,6 @@ export class NestedList<TItem extends ListItem<TItem>>
       onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
     />;
 
-    console.log(this.props.disabled);
-
     return (
       <React.Fragment>
         <TopicAddModal
