@@ -37,10 +37,10 @@ export default class App extends React.Component {
                   <ul className="submenu">
                     <li>
                       <Link to="">Create user</Link>
-                    </li>   
+                    </li>
                     <li>
                       <Link to="">Calendar</Link>
-                    </li>      
+                    </li>
                     <li className="dropdown">
                       <Link to="">Views</Link>
                       <ul className="submenu">
@@ -61,13 +61,13 @@ export default class App extends React.Component {
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/topics_by_team">Topics by team view</Link>
+                  <Link to="/topics-by-team">Topics by team view</Link>
                 </li>
                 <li>
-                  <Link to="/members_by_topic">Your team members by topic view</Link>
+                  <Link to="/members-by-topic">Your team members by topic view</Link>
                 </li>
                 <li>
-                  <Link to="/teams_by_topic">Teams by topic view</Link>
+                  <Link to="/teams-by-topic">Teams by topic view</Link>
                 </li>
                 <li>
                   <Link to="/color-test">Color Test</Link>
@@ -86,7 +86,7 @@ export default class App extends React.Component {
             <div className="page-content">
               <Switch>
                 <Route path="/home">
-                  <HomePage/>
+                  <HomePage />
                 </Route>
                 <Route path="/login">
                   <LoginPage />
@@ -94,11 +94,14 @@ export default class App extends React.Component {
                 <Route path="/color-test">
                   <ColorTest />
                 </Route>
-                <PrivateRoute path="/members_by_topic">
+                <PrivateRoute path="/members-by-topic">
                   <UserLearningDaysByTopicView />
                 </PrivateRoute>
-                <PrivateRoute path="/teams_by_topic">
-                  <TeamsByTopicView/>
+                <PrivateRoute path="/teams-by-topic">
+                  <TeamsByTopicView />
+                </PrivateRoute>
+                <PrivateRoute path="/topics-by-team">
+                  <TopicsByManagerView />
                 </PrivateRoute>
                 <PrivateRoute path="/calendar">
                   <UserLearningDayCalendar />
