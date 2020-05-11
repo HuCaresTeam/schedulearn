@@ -25,7 +25,7 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<List<SuggestionForUser>>> GetSuggestionsForSuggestee(int userId)
         {
             var suggestions = await _suggestionService.GetSuggestionsForSuggesteeAsync(userId);
-            return suggestions.Select(s => new SuggestionForUser(s)).ToList(); ;
+            return suggestions.Select(s => new SuggestionForUser(s)).ToList();
         }
 
     }

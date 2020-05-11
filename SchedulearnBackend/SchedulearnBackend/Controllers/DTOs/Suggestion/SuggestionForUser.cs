@@ -5,25 +5,25 @@ namespace SchedulearnBackend.Controllers.DTOs
 {
     public class SuggestionForUser
     {
-        public int topicId;
-        public string topicName;
+        public int TopicId { get; set; }
+        public string TopicName { get; set; }
 
-        public int suggesterId;
-        public string suggesterName;
-        public string suggesterSurname;
+        public int SuggesterId { get; set; }
+        public string SuggesterName { get; set; }
+        public string SuggesterSurname { get; set; }
 
-        public DateTime createdDate;
+        public DateTime CreatedDate { get; set; }
 
         public SuggestionForUser(Suggestion suggestion)
         {
-            topicId = suggestion.Topic.Id;
-            topicName = suggestion.Topic.Name;
+            TopicId = suggestion.Topic.Id;
+            TopicName = suggestion.Topic.Name;
 
-            suggesterId = suggestion.Suggester.Id;
-            suggesterName = suggestion.Suggester.Name;
-            suggesterSurname = suggestion.Suggester.Surname;
+            SuggesterId = suggestion.Suggester.Id;
+            SuggesterName = suggestion.Suggester.Name;
+            SuggesterSurname = suggestion.Suggester.Surname;
 
-            createdDate = suggestion.CreationDate;
+            CreatedDate = suggestion.CreationDate;
         }
     }
 }
