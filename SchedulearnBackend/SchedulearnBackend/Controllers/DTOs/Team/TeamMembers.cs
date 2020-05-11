@@ -11,6 +11,7 @@ namespace SchedulearnBackend.Controllers.DTOs
         public string ManagerName { get; set; }
         public string ManagerSurname { get; set; }
         public List<SimpleUser> Users { get; set; }
+        public int NumberOfTotalMembers { get; set; }
 
         public TeamMembers(Team accessibleTeam, List<User> memebersWhoLearnedTopic)
         {
@@ -19,6 +20,7 @@ namespace SchedulearnBackend.Controllers.DTOs
             ManagerName = accessibleTeam.Manager.Name;
             ManagerSurname = accessibleTeam.Manager.Surname;
             Users = memebersWhoLearnedTopic.Select(u => new SimpleUser(u)).ToList();
+            NumberOfTotalMembers = accessibleTeam.Members.Count;
         }
     }
 }

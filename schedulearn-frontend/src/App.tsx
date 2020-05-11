@@ -11,58 +11,111 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import { AllUserLearningDayCalendar } from "./server-components/AllUserLearningDayCalendar";
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
+import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
+import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
+import ColorTest from "./ColorTest";
+import "./App.scss";
+import HomePage from "./pages/HomePage";
 
 export default class App extends React.Component {
+
   render(): React.ReactNode {
     return (
       <UserProvider>
         <Router>
           <div>
-            <nav>
-              <ul>
+            <nav className="nav-bar">
+              <ul className="menu">
+                <li>
+                  <Link to="/home">Home</Link>
+                </li>
+                <li className="dropdown">
+                  <Link to="">My Team</Link>
+                  <ul className="submenu">
+                    <li>
+                      <Link to="">Create user</Link>
+                    </li>
+                    <li>
+                      <Link to="">Calendar</Link>
+                    </li>
+                    <li className="dropdown">
+                      <Link to="">Views</Link>
+                      <ul className="submenu">
+                        <li className="dropdown">
+                          <Link to="">View 1</Link>
+                        </li>
+                        <li>
+                          <Link to="">View 2</Link>
+                        </li>
+                        <li>
+                          <Link to="">View3</Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
                 <li>
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/list_example">Nested List</Link>
+                  <Link to="/topics-by-team">Topics by team view</Link>
+                </li>
+                <li>
+                  <Link to="/members-by-topic">Your team members by topic view</Link>
+                </li>
+                <li>
+                  <Link to="/teams-by-topic">Teams by topic view</Link>
+                </li>
+                <li>
+                  <Link to="/color-test">Color Test</Link>
                 </li>
                 <li>
                   <Link to="/calendar">Calendar</Link>
                 </li>
                 <li>
-                  <Link to="/calendar_all">All Calendar</Link>
+                  <Link to="/team-calendar">Team Calendar</Link>
                 </li>
                 <li>
-                  <Link to="/my_limits">My Limits</Link>
+                  <Link to="/my-limits">My Limits</Link>
                 </li>
               </ul>
             </nav>
-            <Switch>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <PrivateRoute path="/list_example">
-                <TopicsByManagerView />
-                <UserLearningDaysByTopicView />
-              </PrivateRoute>
-              <PrivateRoute path="/calendar">
-                <UserLearningDayCalendar />
-              </PrivateRoute>
-              <PrivateRoute path="/calendar_all">
-                <AllUserLearningDayCalendar />
-              </PrivateRoute>
-              <PrivateRoute path="/my_limits">
-                <LimitViewer />
-              </PrivateRoute>
-            </Switch>
+            <div className="page-content">
+              <Switch>
+                <Route path="/home">
+                  <HomePage />
+                </Route>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
+                <Route path="/color-test">
+                  <ColorTest />
+                </Route>
+                <PrivateRoute path="/members-by-topic">
+                  <UserLearningDaysByTopicView />
+                </PrivateRoute>
+                <PrivateRoute path="/teams-by-topic">
+                  <TeamsByTopicView />
+                </PrivateRoute>
+                <PrivateRoute path="/topics-by-team">
+                  <TopicsByManagerView />
+                </PrivateRoute>
+                <PrivateRoute path="/calendar">
+                  <UserLearningDayCalendar />
+                </PrivateRoute>
+                <PrivateRoute path="/my-limits">
+                  <LimitViewer />
+                </PrivateRoute>
+                <PrivateRoute path="/team-calendar">
+                  <TeamLearningDayCalendar />
+                </PrivateRoute>
+              </Switch>
+            </div>
           </div>
         </Router>
-
-
       </UserProvider>
     );
   }

@@ -29,6 +29,7 @@ export default class TopicsByManagerView extends React.Component<{}, TopicsByMan
   render(): React.ReactNode {
     return (
       <React.Fragment>
+        <h1>Topics that were and will be learned by a selected team</h1>
         <ManagedTeamsSelect onTeamChange={this.handleTeamClick}/>
         <FlatTopicList topics={this.state.topics ?? []} />
       </React.Fragment>

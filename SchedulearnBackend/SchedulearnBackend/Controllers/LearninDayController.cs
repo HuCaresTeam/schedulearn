@@ -44,11 +44,11 @@ namespace SchedulearnBackend.Controllers
 
 
         // GET: api/LearningDay/User/5
-        [HttpGet("user/{id}")]
-        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByUserId(int id)
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByUserId(int userId)
         {
-            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByUserId {id}");
-            var learningDays = await _learningDayService.GetLearningDaysByUserAsync(id);
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByUserId {userId}");
+            var learningDays = await _learningDayService.GetLearningDaysByUserAsync(userId);
 
             return learningDays
                 .Select(l => new LearningDayWithUser(l))
@@ -56,11 +56,23 @@ namespace SchedulearnBackend.Controllers
         }
 
         // GET: api/LearningDay/Topic/5
-        [HttpGet("topic/{id}")]
-        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTopic(int id)
+        [HttpGet("topic/{topicId}")]
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTopic(int topicId)
         {
-            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {id}");
-            var learningDays = await _learningDayService.GetLearningDaysByTopicAsync(id);
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {topicId}");
+            var learningDays = await _learningDayService.GetLearningDaysByTopicAsync(topicId);
+
+            return learningDays
+                .Select(l => new LearningDayWithUser(l))
+                .ToList();
+        }
+
+        // GET: api/LearningDay/Team/5
+        [HttpGet("team/{teamId}")]
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTeam(int teamId)
+        {
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {teamId}");
+            var learningDays = await _learningDayService.GetLearningDaysByTeamAsync(teamId);
 
             return learningDays
                 .Select(l => new LearningDayWithUser(l))
