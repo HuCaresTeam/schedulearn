@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./EventForm.scss";
 import TopicList, { TopicListItem } from "src/server-components/TopicList";
-import AtLeast from "src/util-types/AtLeast";
+import AtLeast from "src/utils/AtLeast";
 
 export interface EventFormProps {
   isOpen: boolean;
