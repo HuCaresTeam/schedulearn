@@ -43,16 +43,8 @@ export default class TeamsByTopicList extends React.Component<TeamsByTopicListPr
 
   render(): React.ReactNode {
     if (!this.state.teamsByTopic) {
-      return (
-        <table className="worker-table">
-          <tbody>
-            <tr>
-              <th>Team</th>
-              <th>Users who learned this topic</th>
-            </tr>
-          </tbody>
-        </table>
-      );
+      const emptyTeams: TeamByTopic[] = [];
+      this.setState({teamsByTopic: emptyTeams});
     }
 
     return (
