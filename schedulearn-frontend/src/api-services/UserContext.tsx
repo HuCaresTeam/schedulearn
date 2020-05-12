@@ -8,6 +8,7 @@ export interface AuthUser {
   name: string;
   surname: string;
   email: string;
+  limitId?: number; // TODO: Remove this
   token: string;
 }
 

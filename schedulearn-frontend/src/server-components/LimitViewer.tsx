@@ -37,8 +37,8 @@ export default class LimitViewer extends React.Component<LearningLimitsProps, Le
     let limitOrigin: string;
     if (!this.state.limitOfConsecutiveLearningDays)
       limitOrigin = "Unknown";
-    // else if (!UserContext.user?.limitId)
-    //   limitOrigin = "Limits based on team resitrictions";
+    else if (!UserContext.user?.limitId)
+      limitOrigin = "Limits based on team resitrictions";
     else
       limitOrigin = "Limits based on your personal resitrictions";
     return (
