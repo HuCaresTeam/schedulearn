@@ -55,12 +55,12 @@ namespace SchedulearnBackend.Controllers
                 .ToList();
         }
 
-        // GET: api/LearningDay/Topic/5
-        [HttpGet("topic/{topicId}")]
-        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTopic(int topicId)
+        // GET: api/LearningDay/Topic/5/manager/5
+        [HttpGet("topic/{topicId}/manager/{managerId}")]
+        public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTopic(int topicId, int managerId)
         {
-            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {topicId}");
-            var learningDays = await _learningDayService.GetLearningDaysByTopicAsync(topicId);
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {topicId} {managerId}");
+            var learningDays = await _learningDayService.GetLearningDaysByTopicAndManagerAsync(topicId, managerId);
 
             return learningDays
                 .Select(l => new LearningDayWithUser(l))

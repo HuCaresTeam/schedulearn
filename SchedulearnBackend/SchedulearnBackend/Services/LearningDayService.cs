@@ -38,10 +38,11 @@ namespace SchedulearnBackend.Services
                 .ToListAsync();
         }
 
-        public async Task<List<LearningDay>> GetLearningDaysByTopicAsync(int topicId)
+        public async Task<List<LearningDay>> GetLearningDaysByTopicAndManagerAsync(int topicId, int managerId)
         {
             return await _schedulearnContext.LearningDays
                 .Where(l => l.TopicId == topicId)
+                .Where(l => l.User.Team.ManagerId == managerId)
                 .ToListAsync();
         }
 
