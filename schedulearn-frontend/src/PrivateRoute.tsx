@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
-import UserContext from "./UserContext";
+import UserContext from "./api-services/UserContext";
 
 export interface PrivateRouteProps extends RouteProps {
   children: JSX.Element;

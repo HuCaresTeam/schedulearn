@@ -1,7 +1,7 @@
 import React from "react";
-import UserContext from "src/UserContext";
-import User from "src/api-contract/User";
-import { Team } from "src/api-contract/Team";
+import UserContext from "src/api-services/UserContext";
+import User from "src/api-services/api-contract/User";
+import { Team } from "src/api-services/api-contract/Team";
 import UserList from "src/components/Calendar/UserList/UserList";
 
 interface UsersInTeamListProps {
@@ -19,12 +19,6 @@ export default class UsersInTeamList extends React.Component<UsersInTeamListProp
   fetchUsersInTeam(): void {
     UserContext
       .fetch(`api/Team/${this.props.teamId}`)
-      .then((response) => {
-        if (!response.ok)
-          return;
-
-        return response.json();
-      })
       .then((team: Team) => this.setState({ users: team.members }));
   }
 

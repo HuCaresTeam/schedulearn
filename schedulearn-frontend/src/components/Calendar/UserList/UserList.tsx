@@ -1,6 +1,6 @@
 import React from "react";
 import { UserListSelectItem } from "./UserListSelectItem";
-import User from "src/api-contract/User";
+import User from "src/api-services/api-contract/User";
 
 interface TeamListProps {
   users: User[];

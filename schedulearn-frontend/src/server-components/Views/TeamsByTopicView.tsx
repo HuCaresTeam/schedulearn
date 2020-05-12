@@ -1,7 +1,7 @@
 import React from "react";
 import TopicList, { TopicListItem } from "../TopicList";
 import TeamsByTopicList from "../TeamsByTopicList/TeamsByTopicList";
-import TeamByTopic from "src/api-contract/TeamByTopic";
+import TeamByTopic from "src/api-services/api-contract/TeamByTopic";
 
 interface TeamsByTopicViewState {
   teams?: TeamByTopic[];

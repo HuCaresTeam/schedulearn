@@ -3,10 +3,9 @@ import React from "react";
 import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import LoginPage from "./server-components/Login/LoginPage";
-import { UserProvider } from "./components/Contexts/UserContext";
 
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route,
   Link,
@@ -18,70 +17,85 @@ import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
 import ColorTest from "./ColorTest";
 import "./App.scss";
+import UserContext, { AuthUser } from "./api-services/UserContext";
+import { BrowserHistory } from "./api-services/History";
 
-export default class App extends React.Component {
+interface AppState {
+  currentUser?: AuthUser;
+}
+
+export default class App extends React.Component<{}, AppState> {
+  state = {}
+
+  componentDidMount(): void {
+    UserContext.userObservable.subscribe((user) => this.setState({ currentUser: user }));
+  }
+
+  logout(): void {
+    UserContext.logout();
+    BrowserHistory.push("/login");
+  }
+
   render(): React.ReactNode {
     return (
-      <UserProvider>
-        <Router>
-          <div>
-            <nav className="nav-bar">
-              <ul>
-                <li>
-                  <Link to="/login">Login</Link>
-                </li>
-                <li>
-                  <Link to="/topics_by_team">Topics by team view</Link>
-                </li>
-                <li>
-                  <Link to="/members_by_topic">Your team members by topic view</Link>
-                </li>
-                <li>
-                  <Link to="/teams_by_topic">Teams by topic view</Link>
-                </li>
-                <li>
-                  <Link to="/color-test">Color Test</Link>
-                </li>
-                <li>
-                  <Link to="/calendar">Calendar</Link>
-                </li>
-                <li>
-                  <Link to="/team-calendar">Team Calendar</Link>
-                </li>
-                <li>
-                  <Link to="/my-limits">My Limits</Link>
-                </li>
-              </ul>
-            </nav>
-            <Switch>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <PrivateRoute path="/topics_by_team">
-                <TopicsByManagerView />
-              </PrivateRoute>
-              <PrivateRoute path="/members_by_topic">
-                <UserLearningDaysByTopicView />
-              </PrivateRoute>
-              <PrivateRoute path="/teams_by_topic">
-                <TeamsByTopicView/>
-              </PrivateRoute>
-              <Route path="/color-test">
-                <ColorTest />
-              </Route>
-              <PrivateRoute path="/calendar">
-                <UserLearningDayCalendar />
-              </PrivateRoute>
-              <PrivateRoute path="/my-limits">
-                <LimitViewer />
-              </PrivateRoute>
-              <PrivateRoute path="/team-calendar">
-                <TeamLearningDayCalendar />
-              </PrivateRoute>
-            </Switch>
-          </div>
-        </Router>
-      </UserProvider>
+      <Router history={BrowserHistory}>
+        <div>
+          <nav className="nav-bar">
+            <ul>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/topics_by_team">Topics by team view</Link>
+              </li>
+              <li>
+                <Link to="/members_by_topic">Your team members by topic view</Link>
+              </li>
+              <li>
+                <Link to="/teams_by_topic">Teams by topic view</Link>
+              </li>
+              <li>
+                <Link to="/color-test">Color Test</Link>
+              </li>
+              <li>
+                <Link to="/calendar">Calendar</Link>
+              </li>
+              <li>
+                <Link to="/team-calendar">Team Calendar</Link>
+              </li>
+              <li>
+                <Link to="/my-limits">My Limits</Link>
+              </li>
+            </ul>
+          </nav>
+          <Switch>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <PrivateRoute path="/topics_by_team">
+              <TopicsByManagerView />
+            </PrivateRoute>
+            <PrivateRoute path="/members_by_topic">
+              <UserLearningDaysByTopicView />
+            </PrivateRoute>
+            <PrivateRoute path="/teams_by_topic">
+              <TeamsByTopicView />
+            </PrivateRoute>
+            <Route path="/color-test">
+              <ColorTest />
+            </Route>
+            <PrivateRoute path="/calendar">
+              <UserLearningDayCalendar />
+            </PrivateRoute>
+            <PrivateRoute path="/my-limits">
+              <LimitViewer />
+            </PrivateRoute>
+            <PrivateRoute path="/team-calendar">
+              <TeamLearningDayCalendar />
+            </PrivateRoute>
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

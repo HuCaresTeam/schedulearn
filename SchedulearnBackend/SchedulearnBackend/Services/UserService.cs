@@ -33,7 +33,7 @@ namespace SchedulearnBackend.Services
             _limitService = limitService;
         }
 
-        public async Task<string> Authenticate(string userEmail, string userPassword)
+        public async Task<UserWithToken> Authenticate(string userEmail, string userPassword)
         {
             var user = await _schedulearnContext.Users.Where(u => u.Email == userEmail && u.Password == userPassword).FirstOrDefaultAsync();
             if (user == null)
@@ -44,15 +44,15 @@ namespace SchedulearnBackend.Services
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                     new Claim("Id", user.Id.ToString()),
-                    new Claim("Name", user.Name),
-                    new Claim("Surname", user.Surname),
                     new Claim("Email", user.Email)
                    };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+            var securityToken = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: signIn);
+            var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new UserWithToken(user, token);
         }
 
         public async Task<List<User>> AllUsersAsync()
