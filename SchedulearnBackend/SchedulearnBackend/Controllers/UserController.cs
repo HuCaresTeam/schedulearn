@@ -80,7 +80,7 @@ namespace SchedulearnBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(CreateNewUser userToCreate)
         {
-            System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}");
+            System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}, TitleId: {userToCreate.JobTitleId}");
             var newUser = await _userService.AddNewUserAsync(userToCreate);
 
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
