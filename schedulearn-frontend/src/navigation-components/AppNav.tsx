@@ -33,8 +33,8 @@ export default class AppNav extends React.Component<AppProps> {
           <li className="dropdown">
             <NavItem to="">My Team</NavItem>
             <ul className="submenu">
-              <NavItem to="">Create user</NavItem>
-              <NavItem to="">Calendar</NavItem>
+              <NavItem to="/new-user">Create User</NavItem>
+              <NavItem to="/team-calandar">Calendar</NavItem>
               <li className="dropdown">
                 <NavItem to="">Views</NavItem>
                 <ul className="submenu">
@@ -43,6 +43,14 @@ export default class AppNav extends React.Component<AppProps> {
                   <NavItem to="">View 3</NavItem>
                 </ul>
               </li>
+            </ul>
+          </li>
+          <li className="dropdown">
+            <NavItem to="">User</NavItem>
+            <ul className="submenu">
+              <NavItem to="/my-limits">My Limits</NavItem>
+              <NavItem to="/my-suggestions">Suggestions</NavItem>
+              <NavItem to="/">Logout</NavItem>
             </ul>
           </li>
           <NavItem to="/topics-by-team">Topics by team view</NavItem>
