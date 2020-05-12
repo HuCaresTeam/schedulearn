@@ -30,10 +30,10 @@ class UserContextManager {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(response.status) !== -1) {
           this.logout();
-          location.reload(true);
+          window.location.reload(true);
         }
 
-        // Set error
+        // TODO: Set error
 
         const error = (data && data.error) || response.statusText;
         return Promise.reject(error);

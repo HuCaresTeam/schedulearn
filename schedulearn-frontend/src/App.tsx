@@ -8,7 +8,6 @@ import {
   Router,
   Switch,
   Route,
-  Link,
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
@@ -23,13 +22,14 @@ import UserContext, { AuthUser } from "./api-services/UserContext";
 import { BrowserHistory } from "./api-services/History";
 import HomePage from "./pages/HomePage";
 import CreateUserForm from "./server-components/CreateUserForm";
+import AppNav from "./navigation-components/AppNav";
 
 interface AppState {
   currentUser?: AuthUser;
 }
 
 export default class App extends React.Component<{}, AppState> {
-  state = {}
+  state: AppState = {}
 
   componentDidMount(): void {
     UserContext.userObservable.subscribe((user) => this.setState({ currentUser: user }));
@@ -41,84 +41,22 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   render(): React.ReactNode {
+    const { currentUser } = this.state;
+
     return (
       <Router history={BrowserHistory}>
-        <nav className="nav-bar">
-          <ul className="menu">
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li className="dropdown">
-              <Link to="">My Team</Link>
-              <ul className="submenu">
-                <li>
-                  <Link to="">Create user</Link>
-                </li>
-                <li>
-                  <Link to="">Calendar</Link>
-                </li>
-                <li className="dropdown">
-                  <Link to="">Views</Link>
-                  <ul className="submenu">
-                    <li className="dropdown">
-                      <Link to="">View 1</Link>
-                    </li>
-                    <li>
-                      <Link to="">View 2</Link>
-                    </li>
-                    <li>
-                      <Link to="">View3</Link>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/topics-by-team">Topics by team view</Link>
-            </li>
-            <li>
-              <Link to="/members-by-topic">Your team members by topic view</Link>
-            </li>
-            <li>
-              <Link to="/teams-by-topic">Teams by topic view</Link>
-            </li>
-            <li>
-              <Link to="/color-test">Color Test</Link>
-            </li>
-            <li>
-              <Link to="/calendar">Calendar</Link>
-            </li>
-            <li>
-              <Link to="/team-calendar">Team Calendar</Link>
-            </li>
-            <li>
-              <Link to="/user-creation">Create User</Link>
-            </li>
-            <li>
-              <Link to="/my-limits">My Limits</Link>
-            </li>
-            <li>
-              <Link to="/my-suggestions">My Suggestions</Link>
-            </li>
-            <li>
-              <a onClick={this.logout} className="nav-item nav-link">Logout</a>
-            </li>
-          </ul>
-        </nav>
+        <AppNav currentUser={currentUser} />
         <div className="page-content">
           <Switch>
-            <Route path="/home">
-              <HomePage />
-            </Route>
             <Route path="/login">
               <LoginPage />
             </Route>
-            <Route path="/color-test">
+            <PrivateRoute exact path="/">
+              <HomePage />
+            </PrivateRoute>
+            <PrivateRoute path="/color-test">
               <ColorTest />
-            </Route>
+            </PrivateRoute>
             <PrivateRoute path="/members-by-topic">
               <UserLearningDaysByTopicView />
             </PrivateRoute>

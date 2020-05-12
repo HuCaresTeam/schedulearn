@@ -1,5 +1,5 @@
 import React from "react";
-import { SuggestionForUser } from "src/api-contract/SuggestionForUser";
+import { SuggestionForUser } from "src/api-services/api-contract/SuggestionForUser";
 
 interface SuggestionsListProps {
   suggestions: SuggestionForUser[];

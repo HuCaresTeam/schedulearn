@@ -1,7 +1,7 @@
 import React from "react";
-import UserContext from "src/UserContext";
-import SuggestionForUser from "src/api-contract/SuggestionForUser";
 import { SuggestionsList } from "src/components/Suggestions/SuggestionsList";
+import UserContext from "src/api-services/UserContext";
+import SuggestionForUser from "src/api-services/api-contract/SuggestionForUser";
 
 interface SuggestionsState {
   suggestions: SuggestionForUser[];
@@ -9,7 +9,7 @@ interface SuggestionsState {
 
 export default class Suggestions extends React.Component<{}, SuggestionsState> {
   state: SuggestionsState = {
-    suggestions:[],
+    suggestions: [],
   }
   componentDidMount(): void {
     if (!UserContext.user)
@@ -17,21 +17,9 @@ export default class Suggestions extends React.Component<{}, SuggestionsState> {
 
     UserContext
       .fetch(`api/suggestion/user/${UserContext.user.id}`)
-      .then((response) => {
-        if (!response.ok) {
-          //set error
-          return;
-        }
-        
-        return response.json();
-      })
-      .then((suggestions: SuggestionForUser[]) => {
-        this.setState({ 
-          suggestions: suggestions,
-        });
-      });
+      .then((suggestions: SuggestionForUser[]) => this.setState({ suggestions: suggestions }));
   }
-  
+
   render(): JSX.Element {
     return (
       <SuggestionsList suggestions={this.state.suggestions}></SuggestionsList>
