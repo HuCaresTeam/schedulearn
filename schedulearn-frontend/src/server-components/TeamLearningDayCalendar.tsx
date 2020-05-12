@@ -47,8 +47,6 @@ export class TeamLearningDayCalendar extends React.Component<{}, TeamLearningDay
     if (prevState.currentTeamId === this.state.currentTeamId && prevState.currentUserId === this.state.currentUserId)
       return;
 
-    console.log(prevState.currentUserId, this.state.currentUserId);
-
     if (!this.state.currentTeamId) {
       this.setState({ teamLearningDays: undefined });
       return;
