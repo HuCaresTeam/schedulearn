@@ -1,0 +1,21 @@
+.suggestion-field {
+  margin-bottom: 19px;
+  grid-template-columns: 20% 1fr;
+  display: grid;
+}
+
+.suggestion-label {
+  margin-right: 15px;
+}
+
+.suggestion-form {
+  display: grid;
+}
+
+.suggestion-form input {
+  width: 100%;
+}
+
+.suggestion-form .nested-list {
+  width: 100%;
+}
