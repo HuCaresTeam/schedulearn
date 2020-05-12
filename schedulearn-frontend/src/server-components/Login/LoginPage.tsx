@@ -1,6 +1,6 @@
 import React from "react";
 import UserContext from "src/api-services/UserContext";
-import { browserHistory } from "src/api-services/History";
+import { BrowserHistory } from "src/api-services/History";
 
 interface LoginPageState {
   email: string;
@@ -18,7 +18,7 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
 
   handleResponse(): void {
     console.log(`Logged in as ${UserContext.user?.name}`);
-    browserHistory.push("/");
+    BrowserHistory.push("/");
   }
 
   handleEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {

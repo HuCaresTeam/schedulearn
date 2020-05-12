@@ -85,7 +85,7 @@ namespace SchedulearnBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<UserWithoutPassword>> PostUser(CreateNewUser userToCreate)
         {
-            System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}");
+            System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}, TitleId: {userToCreate.JobTitleId}");
             var newUser = await _userService.AddNewUserAsync(userToCreate);
 
             var newUserWithoutPassword = new UserWithoutPassword(newUser);
