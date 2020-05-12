@@ -41,6 +41,18 @@ namespace SchedulearnBackend.Controllers
             return new UserWithoutPassword(currentUser);
         }
 
+        // GET: api/user/1/managed
+        [HttpGet("{managerId}/managed")]
+        public async Task<ActionResult<IEnumerable<UserWithoutPassword>>> GetUserManagedUsers(int managerId)
+        {
+            System.Diagnostics.Debug.WriteLine("GetUserManagedUsers");
+            var users = await _userService.GetAllUsersBelowManager(managerId);
+
+            return users
+                .Select(user => new UserWithoutPassword(user))
+                .ToList();
+        }
+
         // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserWithoutPassword>>> GetUsers()
