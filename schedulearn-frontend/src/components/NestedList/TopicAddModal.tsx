@@ -23,7 +23,7 @@ export class TopicAddModal extends React.PureComponent<TopicAddModalProps> {
         contentLabel="Topic Add Modal"
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
-        style={{ content: { zIndex: 5 }, overlay: { zIndex: 4 } }}
+        style={{ content: { zIndex: 8 }, overlay: { zIndex: 7 } }}
       >
         <TopicAddForm
           isOpen={this.props.isOpen}

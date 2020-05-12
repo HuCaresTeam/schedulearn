@@ -23,9 +23,11 @@ import { BrowserHistory } from "./api-services/History";
 import HomePage from "./pages/HomePage";
 import CreateUserForm from "./server-components/CreateUserForm";
 import AppNav from "./navigation-components/AppNav";
+import AppError from "./navigation-components/AppError";
 
 interface AppState {
   currentUser?: AuthUser;
+  currentError?: string;
 }
 
 export default class App extends React.Component<{}, AppState> {
@@ -33,6 +35,8 @@ export default class App extends React.Component<{}, AppState> {
 
   componentDidMount(): void {
     UserContext.userObservable.subscribe((user) => this.setState({ currentUser: user }));
+    UserContext.errorObservable.subscribe((error) => this.setState({ currentError: error }));
+    BrowserHistory.listen(() => UserContext.setError(undefined));
   }
 
   logout(): void {
@@ -41,11 +45,12 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   render(): React.ReactNode {
-    const { currentUser } = this.state;
+    const { currentUser, currentError } = this.state;
 
     return (
       <Router history={BrowserHistory}>
         <AppNav currentUser={currentUser} />
+        <AppError currentError={currentError} />
         <div className="page-content">
           <Switch>
             <Route path="/login">

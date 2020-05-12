@@ -20,7 +20,7 @@ export class EventModal extends React.PureComponent<EventModalProps> {
         contentLabel="Event modal"
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
-        style={{ content: { zIndex: 5 }, overlay: { zIndex: 4 } }}
+        style={{ content: { zIndex: 8 }, overlay: { zIndex: 7 } }}
       >
         {this.props.children(this.props.isOpen)}
       </Modal>
