@@ -19,8 +19,7 @@ export interface WeekViewCalendarProps<TEvent extends ColoredEvent> {
   disabled?: boolean;
 }
 
-export class WeekViewCalendar<TEvent extends ColoredEvent>
-  extends React.PureComponent<WeekViewCalendarProps<TEvent>> {
+export class WeekViewCalendar<TEvent extends ColoredEvent> extends React.PureComponent<WeekViewCalendarProps<TEvent>> {
   private readonly halfHoursInHour = 48;
 
   constructor(props: WeekViewCalendarProps<TEvent>) {
@@ -41,22 +40,22 @@ export class WeekViewCalendar<TEvent extends ColoredEvent>
     };
   }
 
+
   render(): JSX.Element {
     return (
-      <div>
-        <Calendar
-          selectable={!this.props.disabled}
-          localizer={localizer}
-          culture='en-gb'
-          defaultView={"week"}
-          timeslots={this.props.mergeEveryHalfHour}
-          views={{ week: true }}
-          events={this.props.events}
-          onSelectSlot={this.props.onSelectSlot}
-          onSelectEvent={this.props.onSelectEvent}
-          eventPropGetter={this.assignColorById}
-        />
-      </div>
+      <Calendar
+        selectable={!this.props.disabled}
+        localizer={localizer}
+        culture='en-gb'
+        popup={true}
+        defaultView={"week"}
+        timeslots={this.props.mergeEveryHalfHour}
+        views={{ week: true, month: true }}
+        events={this.props.events}
+        onSelectSlot={this.props.onSelectSlot}
+        onSelectEvent={this.props.onSelectEvent}
+        eventPropGetter={this.assignColorById}
+      />
     );
   }
 }
