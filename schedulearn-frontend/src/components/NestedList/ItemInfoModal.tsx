@@ -29,9 +29,9 @@ export class ItemInfoModal extends React.PureComponent<ItemInfoModalProps> {
         style={{
           content: {
             transform: `translate3d(${this.props.posX + offsetX}px, ${this.props.posY + offsetY}px, 0px)`,
-            zIndex: 7,
+            zIndex: 8,
           },
-          overlay: { zIndex: 6 },
+          overlay: { zIndex: 7 },
         }}
       >
         <div>{this.props.description}</div>

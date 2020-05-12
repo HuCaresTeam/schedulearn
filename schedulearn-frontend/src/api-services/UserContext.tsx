@@ -16,6 +16,19 @@ class UserContextManager {
   private userJson = localStorage.getItem("currentUser");
   private currentUser: AuthUser | undefined = this.userJson ? JSON.parse(this.userJson) : undefined;
   private currentUserSubject = new BehaviorSubject(this.currentUser);
+  private currentErrorSubject = new BehaviorSubject<string | undefined>(undefined);
+
+  public get error(): string | undefined {
+    return this.currentErrorSubject.value;
+  }
+
+  public get errorObservable(): Observable<string | undefined> {
+    return this.currentErrorSubject.asObservable();
+  }
+
+  public setError(error: string | undefined): void {
+    this.currentErrorSubject.next(error);
+  }
 
   public get user(): AuthUser | undefined {
     return this.currentUserSubject.value;
@@ -25,21 +38,21 @@ class UserContextManager {
     return this.currentUserSubject.asObservable();
   }
 
-  private async handleResponse(response: Response): Promise<unknown> {
+  private handleResponse = (response: Response): Promise<unknown> => {
     return response.json().then((data) => {
       if (!response.ok) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(response.status) !== -1) {
           this.logout();
-          window.location.reload(true);
         }
 
-        // TODO: Set error
-
         const error = (data && data.error) || response.statusText;
+        this.currentErrorSubject.next(error);
+
         return Promise.reject(error);
       }
 
+      this.currentErrorSubject.next(undefined);
       return data;
     });
   }
@@ -62,6 +75,8 @@ class UserContextManager {
     });
 
     const user = (await this.handleResponse(response)) as AuthUser;
+    if (!user)
+      return Promise.reject("User was undefined");
 
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
@@ -99,7 +114,9 @@ class UserContextManager {
 
   public logout(): void {
     localStorage.removeItem("currentUser");
-    this.currentUserSubject.next(undefined);
+
+    if (this.user)
+      this.currentUserSubject.next(undefined);
   }
 }
 

@@ -14,6 +14,7 @@ import UserContext, { AuthUser } from "./api-services/UserContext";
 import { BrowserHistory } from "./api-services/History";
 import HomePage from "./pages/HomePage";
 import AppNav from "./navigation-components/AppNav";
+import AppError from "./navigation-components/AppError";
 import NewUserPage from "./pages/NewUserPage";
 import TeamCalandarPage from "./pages/TeamCalandarPage";
 import LimitsPage from "./pages/LimitsPage";
@@ -24,6 +25,7 @@ import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 
 interface AppState {
   currentUser?: AuthUser;
+  currentError?: string;
 }
 
 export default class App extends React.Component<{}, AppState> {
@@ -31,6 +33,8 @@ export default class App extends React.Component<{}, AppState> {
 
   componentDidMount(): void {
     UserContext.userObservable.subscribe((user) => this.setState({ currentUser: user }));
+    UserContext.errorObservable.subscribe((error) => this.setState({ currentError: error }));
+    BrowserHistory.listen(() => UserContext.setError(undefined));
   }
 
   logout(): void {
@@ -39,22 +43,23 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   render(): React.ReactNode {
-    const { currentUser } = this.state;
+    const { currentUser, currentError } = this.state;
 
     return (
       <Router history={BrowserHistory}>
         <AppNav currentUser={currentUser} />
+        <AppError currentError={currentError} />
         <div className="page-content">
           <Switch>
-            <Route path="/login"><LoginPage/></Route>
-            <PrivateRoute exact path="/"><HomePage/></PrivateRoute>
-            <PrivateRoute path="/new-user"><NewUserPage/></PrivateRoute>
-            <PrivateRoute path="/team-calandar"><TeamCalandarPage/></PrivateRoute>
-            <PrivateRoute path="/my-limits"><LimitsPage/></PrivateRoute>
+            <Route path="/login"><LoginPage /></Route>
+            <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
+            <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
+            <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
+            <PrivateRoute path="/my-limits"><LimitsPage /></PrivateRoute>
             <PrivateRoute path="/my-suggestions"><SuggestionsPage /></PrivateRoute>
-            <PrivateRoute path="/members-by-topic"><UserLearningDaysByTopicView/></PrivateRoute>
-            <PrivateRoute path="/teams-by-topic"><TeamsByTopicView/></PrivateRoute>
-            <PrivateRoute path="/topics-by-team"><TopicsByManagerView/></PrivateRoute>
+            <PrivateRoute path="/members-by-topic"><UserLearningDaysByTopicView /></PrivateRoute>
+            <PrivateRoute path="/teams-by-topic"><TeamsByTopicView /></PrivateRoute>
+            <PrivateRoute path="/topics-by-team"><TopicsByManagerView /></PrivateRoute>
           </Switch>
         </div>
       </Router>

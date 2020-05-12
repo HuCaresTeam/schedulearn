@@ -71,7 +71,7 @@ namespace SchedulearnBackend.Controllers
         [HttpGet("team/{teamId}")]
         public async Task<ActionResult<IEnumerable<LearningDayWithUser>>> GetLearningDaysByTeam(int teamId)
         {
-            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTopic {teamId}");
+            System.Diagnostics.Debug.WriteLine($"GetLearningDaysByTeam {teamId}");
             var learningDays = await _learningDayService.GetLearningDaysByTeamAsync(teamId);
 
             return learningDays
