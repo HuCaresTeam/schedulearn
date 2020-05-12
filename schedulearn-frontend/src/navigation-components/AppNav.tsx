@@ -38,9 +38,9 @@ export default class AppNav extends React.Component<AppProps> {
               <li className="dropdown">
                 <NavItem to="">Views</NavItem>
                 <ul className="submenu">
-                  <NavItem to="">View 1</NavItem>
-                  <NavItem to="">View 2</NavItem>
-                  <NavItem to="">View 3</NavItem>
+                  <NavItem to="/topics-by-team">Topics By Team</NavItem>
+                  <NavItem to="/members-by-topic">Team members By Topic</NavItem>
+                  <NavItem to="/teams-by-topic">Teams By Topic</NavItem>
                 </ul>
               </li>
             </ul>
@@ -50,19 +50,9 @@ export default class AppNav extends React.Component<AppProps> {
             <ul className="submenu">
               <NavItem to="/my-limits">My Limits</NavItem>
               <NavItem to="/my-suggestions">Suggestions</NavItem>
-              <NavItem to="/">Logout</NavItem>
+              <NavItem to="/" onClick={this.logout}>Logout</NavItem>
             </ul>
           </li>
-          <NavItem to="/topics-by-team">Topics by team view</NavItem>
-          <NavItem to="/members-by-topic">Your team members by topic view</NavItem>
-          <NavItem to="/teams-by-topic">Teams by topic view</NavItem>
-          <NavItem to="/color-test">Color Test</NavItem>
-          <NavItem to="/calendar">Calendar</NavItem>
-          <NavItem to="/team-calendar">Team Calendar</NavItem>
-          <NavItem to="/user-creation">Create User</NavItem>
-          <NavItem to="/my-limits">My Limits</NavItem>
-          <NavItem to="/my-suggestions">My Suggestions</NavItem>
-          <NavItem to="/" onClick={this.logout}>Logout</NavItem>
         </ul>
       </nav>
     );

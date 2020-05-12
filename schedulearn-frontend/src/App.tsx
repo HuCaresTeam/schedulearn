@@ -1,7 +1,5 @@
 
 import React from "react";
-import { UserLearningDayCalendar } from "./server-components/UserLearningDayCalendar";
-import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import LoginPage from "./server-components/Login/LoginPage";
 
 import {
@@ -10,21 +8,19 @@ import {
   Route,
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
-import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
-import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
-import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
-import ColorTest from "./ColorTest";
 import "./App.scss";
 
 import UserContext, { AuthUser } from "./api-services/UserContext";
 import { BrowserHistory } from "./api-services/History";
 import HomePage from "./pages/HomePage";
-import CreateUserForm from "./server-components/CreateUserForm";
 import AppNav from "./navigation-components/AppNav";
 import NewUserPage from "./pages/NewUserPage";
 import TeamCalandarPage from "./pages/TeamCalandarPage";
 import LimitsPage from "./pages/LimitsPage";
 import SuggestionsPage from "./pages/SuggestionsPage";
+import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
+import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
+import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -56,13 +52,9 @@ export default class App extends React.Component<{}, AppState> {
             <PrivateRoute path="/team-calandar"><TeamCalandarPage/></PrivateRoute>
             <PrivateRoute path="/my-limits"><LimitsPage/></PrivateRoute>
             <PrivateRoute path="/my-suggestions"><SuggestionsPage /></PrivateRoute>
-            <PrivateRoute path="/color-test"><ColorTest/></PrivateRoute>
             <PrivateRoute path="/members-by-topic"><UserLearningDaysByTopicView/></PrivateRoute>
             <PrivateRoute path="/teams-by-topic"><TeamsByTopicView/></PrivateRoute>
             <PrivateRoute path="/topics-by-team"><TopicsByManagerView/></PrivateRoute>
-            <PrivateRoute path="/calendar"><UserLearningDayCalendar/></PrivateRoute>
-            <PrivateRoute path="/user-creation"><CreateUserForm/></PrivateRoute>
-            <PrivateRoute path="/team-calendar"><TeamLearningDayCalendar/></PrivateRoute>
           </Switch>
         </div>
       </Router>
