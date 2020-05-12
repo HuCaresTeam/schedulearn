@@ -9,6 +9,7 @@ export interface User {
   };
   teamId?: number;
   limitId?: number;
+  token?: string;
 }
 
 export default User;

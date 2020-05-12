@@ -1,7 +1,7 @@
 import React from "react";
 import WorkerList from "../components/WorkerList/WorkerList";
-import UserContext from "src/UserContext";
-import LearningDayWithUser from "src/api-contract/LearningDayWithUser";
+import UserContext from "src/api-services/UserContext";
+import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
 
 interface LearningDaysByTopicProps {
   topicId: number;
@@ -25,14 +25,6 @@ export default class LearningDaysByTopic extends React.Component<LearningDaysByT
 
     UserContext
       .fetch(`api/learningDay/topic/${this.props.topicId}`)
-      .then((response) => {
-        if (!response.ok) {
-          //set error
-          return;
-        }
-
-        return response.json();
-      })
       .then((learningDays: LearningDayWithUser[]) => {
         this.setState({ learningDaysByTopic: learningDays });
       });

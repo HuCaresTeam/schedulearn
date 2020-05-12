@@ -1,6 +1,6 @@
 import React from "react";
-import UserContext from "src/UserContext";
-import { isOkStatus, HttpStatusCode } from "src/HttpStatusCode";
+import UserContext from "src/api-services/UserContext";
+import { BrowserHistory } from "src/api-services/History";
 
 interface LoginPageState {
   email: string;
@@ -11,19 +11,14 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
   state = { email: "", password: "" };
 
   componentDidMount(): void {
-    UserContext.pingServer()
-      .then(this.handleResponse);
+    UserContext
+      .pingServer()
+      .then(() => (this.handleResponse));
   }
 
-  handleResponse(status: HttpStatusCode): void {
-    if (!isOkStatus(status)) {
-      // Auth failed. Stay in login page.
-      console.log(`Need to log in ${HttpStatusCode[status]}`);
-      return;
-    }
-
-    // Redirect to home page.
+  handleResponse(): void {
     console.log(`Logged in as ${UserContext.user?.name}`);
+    BrowserHistory.push("/");
   }
 
   handleEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -40,8 +35,8 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
     const email = this.state.email;
     const password = this.state.password;
 
-    const status = await UserContext.login(email, password);
-    this.handleResponse(status);
+    await UserContext.login(email, password);
+    this.handleResponse();
   }
 
   render(): React.ReactNode {

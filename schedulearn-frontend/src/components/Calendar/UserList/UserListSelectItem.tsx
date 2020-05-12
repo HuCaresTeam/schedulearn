@@ -1,5 +1,5 @@
 import React from "react";
-import User from "src/api-contract/User";
+import User from "src/api-services/api-contract/User";
 
 export interface UserListSelectItemProps {
   item: User;

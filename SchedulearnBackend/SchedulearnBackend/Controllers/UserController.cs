@@ -24,43 +24,48 @@ namespace SchedulearnBackend.Controllers
         // POST: api/User/authenticate
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<ActionResult<string>> Authenticate(AuthenticateModel model)
+        public async Task<ActionResult<UserWithToken>> Authenticate(AuthenticateModel model)
         {
             return await _userService.Authenticate(model.Email, model.Password);
         }
 
         // GET: api/User/current
         [HttpGet("current")]
-        public async Task<ActionResult<User>> GetCurrentUser()
+        public async Task<ActionResult<UserWithoutPassword>> GetCurrentUser()
         {
             var id = int.Parse(User.FindFirst("Id").Value);
             var currentUser = await _userService.GetUserAsync(id);
 
             System.Diagnostics.Debug.WriteLine($"Currently logged in user: {currentUser.Id} {currentUser.Email}");
 
-            return currentUser;
+            return new UserWithoutPassword(currentUser);
         }
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserWithoutPassword>>> GetUsers()
         {
             System.Diagnostics.Debug.WriteLine("GetUsers");
-            System.Diagnostics.Debug.WriteLine($"Currently logged in user: {User.FindFirst("Id").Value} {User.FindFirst("Name").Value} {User.FindFirst("Surname").Value} {User.FindFirst("Email").Value}");
-            return await _userService.AllUsersAsync();
+
+            var users = await _userService.AllUsersAsync();
+            return users
+                .Select(u => new UserWithoutPassword(u))
+                .ToList();
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserWithoutPassword>> GetUser(int id)
         {
             System.Diagnostics.Debug.WriteLine("GetUser " + id);
-            return await _userService.GetUserAsync(id);
+            var user = await _userService.GetUserAsync(id);
+
+            return new UserWithoutPassword(user);
         }
 
         // PUT: api/User/5/limits
         [HttpPut("{id}/limits")]
-        public async Task<ActionResult<User>> PutUserLimits(int id, LimitsToApply limits)
+        public async Task<ActionResult> PutUserLimits(int id, LimitsToApply limits)
         {
             System.Diagnostics.Debug.WriteLine($"PutUserLimits: UserId: {id}, LimitId: {limits.LimitId}");
             await _userService.ChangeLimitsForUserAsync(id, limits);
@@ -69,7 +74,7 @@ namespace SchedulearnBackend.Controllers
 
         // PUT: api/User/5/transfer
         [HttpPut("{id}/transfer")]
-        public async Task<ActionResult<User>> TransferUserTeam(int id, TeamTransfer transfer)
+        public async Task<ActionResult> TransferUserTeam(int id, TeamTransfer transfer)
         {
             System.Diagnostics.Debug.WriteLine($"TransferUserTeam: UserId: {id}, NewTeamId: {transfer.NewTeamId}");
             await _userService.TransferUserToNewTeamAsync(id, transfer);
@@ -78,12 +83,13 @@ namespace SchedulearnBackend.Controllers
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(CreateNewUser userToCreate)
+        public async Task<ActionResult<UserWithoutPassword>> PostUser(CreateNewUser userToCreate)
         {
             System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}, TitleId: {userToCreate.JobTitleId}");
             var newUser = await _userService.AddNewUserAsync(userToCreate);
 
-            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
+            var newUserWithoutPassword = new UserWithoutPassword(newUser);
+            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUserWithoutPassword);
         }
     }
 }

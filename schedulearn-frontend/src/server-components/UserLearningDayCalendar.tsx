@@ -1,9 +1,9 @@
 import React from "react";
 import { LearningDayCalendar, ColoredLearningDayEvent } from "src/components/Calendar/LearningDayCalendar";
-import UserContext from "src/UserContext";
-import LearningDayWithUser from "src/api-contract/LearningDayWithUser";
+import UserContext from "src/api-services/UserContext";
+import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
 import { LearningDayEvent } from "src/components/Calendar/EventForm";
-import CreateNewLearningDay from "src/api-contract/CreateNewLearningDay";
+import CreateNewLearningDay from "src/api-services/api-contract/CreateNewLearningDay";
 
 export interface LearningDayState {
   userLearningDays?: ColoredLearningDayEvent[];
@@ -41,12 +41,6 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
 
     UserContext
       .fetch(`api/learningDay/user/${UserContext.user.id}`)
-      .then((response) => {
-        if (!response.ok)
-          return;
-
-        return response.json();
-      })
       .then((learningDays: LearningDayWithUser[]) => {
         const learningDayEvents = learningDays.map(this.learningDayToEvent);
         this.setState({ userLearningDays: learningDayEvents });
@@ -60,20 +54,15 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   handleEventSubmit = (learningDayEvent: LearningDayEvent): void => {
     const learningDay = this.eventToNewLearningDay(learningDayEvent);
 
-    UserContext
-      .fetch("api/learningDay", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(learningDay),
-      })
-      .then((response) => {
-        if (!response.ok)
-          return;
-
-        this.fetchUserLearningDays();
-      });
+    UserContext.fetch("api/learningDay", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(learningDay),
+    }).then(() => {
+      this.fetchUserLearningDays();
+    });
   }
 
   handleEventModify = (learningDayEvent: LearningDayEvent): void => {
@@ -83,20 +72,15 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
       return;
     }
 
-    UserContext
-      .fetch(`api/learningDay/${learningDayEvent.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ description: learningDay.description }),
-      })
-      .then((response) => {
-        if (!response.ok)
-          return;
-
-        this.fetchUserLearningDays();
-      });
+    UserContext.fetch(`api/learningDay/${learningDayEvent.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ description: learningDay.description }),
+    }).then(() => {
+      this.fetchUserLearningDays();
+    });
   }
 
 

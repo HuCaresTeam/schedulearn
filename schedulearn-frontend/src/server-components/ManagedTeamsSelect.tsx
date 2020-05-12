@@ -1,6 +1,6 @@
 import React from "react";
 import { TeamListItem } from "src/components/TeamsList/TeamListSelectItem";
-import UserContext from "src/UserContext";
+import UserContext from "src/api-services/UserContext";
 import TeamList from "src/components/TeamsList/TeamList";
 
 interface ManagedTeamsSelectProps {
@@ -13,27 +13,19 @@ interface ManagedTeamsSelectState {
 }
 
 export default class ManagedTeamsSelect extends React.Component<ManagedTeamsSelectProps, ManagedTeamsSelectState> {
-  state: ManagedTeamsSelectState = {teamId: 0, teams: []}
+  state: ManagedTeamsSelectState = { teamId: 0, teams: [] }
   componentDidMount(): void {
     if (UserContext.user?.id !== undefined) {
       UserContext
         .fetch(`api/Team/manager/${UserContext.user.id}/accessible`)
-        .then((response) => {
-          if (!response.ok) {
-          //set error
-            return;
-          }
-
-          return response.json();
-        })
         .then((accessibleTeams: TeamListItem[]) => {
-          this.setState({teams: accessibleTeams});
+          this.setState({ teams: accessibleTeams });
         });
     }
   }
-  
+
   handleTeamClick = (teamId: number): void => {
-    this.setState({ teamId: teamId});
+    this.setState({ teamId: teamId });
   }
 
   render(): React.ReactNode {
