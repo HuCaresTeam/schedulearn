@@ -24,7 +24,7 @@ export default class LearningDaysByTopic extends React.Component<LearningDaysByT
       throw new Error("Should never reach this calendar when not logged in");
 
     UserContext
-      .fetch(`api/learningDay/topic/${this.props.topicId}`)
+      .fetch(`api/learningDay/topic/${this.props.topicId}/manager/${UserContext.user.id}`)
       .then((learningDays: LearningDayWithUser[]) => {
         this.setState({ learningDaysByTopic: learningDays });
       });
