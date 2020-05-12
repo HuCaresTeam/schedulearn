@@ -16,6 +16,7 @@ import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import LimitViewer from "./server-components/LimitViewer";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import { TeamLearningDayCalendar } from "./server-components/TeamLearningDayCalendar";
+import Suggestions from "./server-components/Suggestions";
 import ColorTest from "./ColorTest";
 import "./App.scss";
 import HomePage from "./pages/HomePage";
@@ -81,6 +82,9 @@ export default class App extends React.Component {
                 <li>
                   <Link to="/my-limits">My Limits</Link>
                 </li>
+                <li>
+                  <Link to="/my-suggestions">My Suggestions</Link>
+                </li>
               </ul>
             </nav>
             <div className="page-content">
@@ -111,6 +115,9 @@ export default class App extends React.Component {
                 </PrivateRoute>
                 <PrivateRoute path="/team-calendar">
                   <TeamLearningDayCalendar />
+                </PrivateRoute>
+                <PrivateRoute path="/my-suggestions">
+                  <Suggestions />
                 </PrivateRoute>
               </Switch>
             </div>
