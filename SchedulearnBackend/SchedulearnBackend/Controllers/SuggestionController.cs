@@ -28,5 +28,18 @@ namespace SchedulearnBackend.Controllers
             return suggestions.Select(s => new SuggestionForUser(s)).ToList();
         }
 
+        // POST: api/Suggestion/
+        // TODO: Check if the Suggester can suggest a topic to the Suggestee
+        // TODO: Check if the Suggester is the sending user. Can I get the user from authentication?
+        [HttpPost]
+        public async Task<ActionResult<List<SuggestionForUser>>> PostSuggestion(CreateNewSuggestion suggestionToCreate)
+        {
+            System.Diagnostics.Debug.WriteLine($"PostSuggestion: User {suggestionToCreate.SuggesterId} creating suggestion for user {suggestionToCreate.SuggesteeId} for topic: {suggestionToCreate.TopicId}");
+
+            var newSuggestion = await _suggestionService.AddNewSuggestionAsync(suggestionToCreate);
+
+            return NoContent();
+        }
+
     }
 }

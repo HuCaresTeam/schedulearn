@@ -38,5 +38,26 @@ namespace SchedulearnBackend.Services
                 .ToListAsync();
         }
 
+        public async Task<Suggestion> AddNewSuggestionAsync(CreateNewSuggestion suggestionToCreate)
+        {
+            var topic = await _schedulearnContext.Topics.FindAsync(suggestionToCreate.TopicId);
+            var suggester = await _schedulearnContext.Users.FindAsync(suggestionToCreate.SuggesterId);
+            var suggestee = await _schedulearnContext.Users.FindAsync(suggestionToCreate.SuggesteeId);
+
+            if (topic == null)
+                throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(suggestionToCreate.TopicId));
+            if (suggester == null)
+                throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(suggestionToCreate.SuggesterId));
+            if (suggestee == null)
+                throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(suggestionToCreate.SuggesteeId));
+
+            var newSuggestion = suggestionToCreate.CreateSuggestion();
+
+            await _schedulearnContext.Suggestions.AddAsync(newSuggestion);
+            await _schedulearnContext.SaveChangesAsync();
+            await _schedulearnContext.Entry(newSuggestion).ReloadAsync();
+
+            return newSuggestion;
+        }
     }
 }
