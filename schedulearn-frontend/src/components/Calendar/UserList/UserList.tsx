@@ -9,6 +9,11 @@ interface TeamListProps {
 
 export default class UserList extends React.Component<TeamListProps, {}>{
   handleSelect = (e: React.FormEvent<HTMLSelectElement>): void => {
+    if (!e.currentTarget.value) {
+      this.props.onChange(undefined);
+      return;
+    }
+
     this.props.onChange(parseInt(e.currentTarget.value));
   }
 
@@ -19,7 +24,7 @@ export default class UserList extends React.Component<TeamListProps, {}>{
 
     return (
       <select onChange={this.handleSelect}>
-        <option selected> -- Team View -- </option>
+        <option label="-- Team View --" selected />
         {teamOptionsList};
       </select>
     );

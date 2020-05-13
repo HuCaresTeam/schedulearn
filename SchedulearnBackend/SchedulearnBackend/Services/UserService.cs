@@ -112,5 +112,13 @@ namespace SchedulearnBackend.Services
 
             return user;
         }
+
+        public async Task<IEnumerable<User>> GetAllUsersBelowManager(int managerId)
+        {
+            var managedTeams = await _teamService.GetManagedTeams(managerId);
+            var managedUsers = managedTeams.SelectMany((team) => team.Members);
+
+            return managedUsers;
+        }
     }
 }
