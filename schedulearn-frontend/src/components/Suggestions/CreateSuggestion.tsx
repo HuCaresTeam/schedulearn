@@ -4,6 +4,7 @@ import { SuggestionForm } from "./SuggestionForm";
 import ManagedTeamsSelect from "../../server-components/ManagedTeamsSelect";
 import UsersInTeamList from "../../server-components/UsersInTeamList";
 import UserContext from "src/api-services/UserContext";
+import CreateNewSuggestion from "src/api-services/api-contract/CreateNewSuggestion";
 
 export interface NewSuggestion {
   topicId?: number;
@@ -11,17 +12,19 @@ export interface NewSuggestion {
   suggesteeId?: number;
 }
 
+export interface CreateSuggestionProps {
+  onSubmit: (newSuggestion: CreateNewSuggestion) => void; 
+}
+
 interface CreateSuggestionState {
   newSuggestion?: NewSuggestion;
   isSuggestionModalOpen: boolean;
   currentTeamId?: number;
-  currentUserId?: number;
 }
 
-export class CreateSuggestion extends React.Component<{}, CreateSuggestionState> {
+export class CreateSuggestion extends React.Component<CreateSuggestionProps, CreateSuggestionState> {
   public state: CreateSuggestionState = {
     isSuggestionModalOpen: false,
-    currentUserId: UserContext.user?.id,
   }
   
   handleModalClose = (): void => {
@@ -30,28 +33,37 @@ export class CreateSuggestion extends React.Component<{}, CreateSuggestionState>
     });
   }
 
-  handleEventSubmit = (suggestion: NewSuggestion): void => {
-    console.log(this.state.newSuggestion);
-    this.setState({
-      newSuggestion: suggestion,
+  handleEventSubmit = (topicId: number): void => {
+    if (topicId === undefined)
+      return;
+
+    if (this.state.newSuggestion?.suggesteeId === undefined)
+      return;
+
+    if (this.state.newSuggestion.suggesterId === undefined)
+      return;
+
+    this.props.onSubmit({
+      topicId: topicId,
+      suggesteeId: this.state.newSuggestion.suggesteeId,
+      suggesterId: this.state.newSuggestion.suggesterId,
     });
-    console.log(this.state.newSuggestion);
-    // TODO: Send the suggestion to backend
+
+    this.setState({
+      currentTeamId: undefined,
+      newSuggestion: undefined,
+      isSuggestionModalOpen: false,
+    });
   }
 
   handleTeamSelect = (teamId: number): void => {
-    this.setState({ currentTeamId: teamId, currentUserId: undefined });
+    this.setState({ currentTeamId: teamId });
   }
 
   handleUserSelect = (userId?: number): void => {
-    console.log(this.state);
-
-    if (this.state.currentUserId === undefined)
-      return;
-
     this.setState({
       newSuggestion: {
-        suggesterId: this.state.currentUserId,
+        suggesterId: UserContext.user?.id,
         suggesteeId: userId,
       },
       isSuggestionModalOpen: true,
@@ -61,7 +73,10 @@ export class CreateSuggestion extends React.Component<{}, CreateSuggestionState>
   render(): JSX.Element {
     let usersInTeamList;
     if (this.state.currentTeamId)
-      usersInTeamList = <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />;
+      usersInTeamList = <div>
+        <div>Select a member to make a suggestion:</div>
+        <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />
+      </div>;
 
     return (
       <React.Fragment>
@@ -79,12 +94,10 @@ export class CreateSuggestion extends React.Component<{}, CreateSuggestionState>
           }
         </EventModal>
         
-        <div>
-          Select a team for which member you'd like to make a suggestion:
-        </div>
+        <div>Select a team to make a suggestion:</div>
         <ManagedTeamsSelect onTeamChange={this.handleTeamSelect} />
-        {usersInTeamList}
 
+        {usersInTeamList}
       </React.Fragment>
     );
   }

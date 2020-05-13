@@ -7,7 +7,7 @@ export interface SuggestionFormProps {
   isOpen: boolean;
   suggestion?: NewSuggestion;
   submitText?: string;
-  onEventSubmit: (event: NewSuggestion) => void;
+  onEventSubmit: (topicId: number) => void;
 }
 
 export interface SuggestionFormState {
@@ -28,11 +28,9 @@ export class SuggestionForm extends React.Component<SuggestionFormProps, Suggest
     };
   }
 
-  handleSubmit = (): void => {
-    this.props.onEventSubmit({
-      topicId: this.state.topicId,
-      suggesteeId: this.state.suggesteeId,
-    });
+  handleSubmit = (event: React.MouseEvent<HTMLInputElement, MouseEvent>): void => {
+    event.preventDefault();
+    this.props.onEventSubmit(this.state.topicId);
   }
 
   componentDidUpdate(prevProps: SuggestionFormProps): void {
@@ -44,7 +42,6 @@ export class SuggestionForm extends React.Component<SuggestionFormProps, Suggest
   }
 
   onTopicSelectChange = (topic: TopicListItem): void => {
-    // TODO: Figure out if parent topic id is what we want
     if (topic.parentTopicId !== undefined)
       this.setState({ topicId: topic.parentTopicId });
     else
