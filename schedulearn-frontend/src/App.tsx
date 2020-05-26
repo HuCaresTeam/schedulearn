@@ -22,6 +22,7 @@ import SuggestionsPage from "./pages/SuggestionsPage";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
+import RegisterUser from "./server-components/RegisterUser";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -52,6 +53,7 @@ export default class App extends React.Component<{}, AppState> {
         <div className="page-content">
           <Switch>
             <Route path="/login"><LoginPage /></Route>
+            <Route path="/register"><RegisterUser /></Route>
             <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
             <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
