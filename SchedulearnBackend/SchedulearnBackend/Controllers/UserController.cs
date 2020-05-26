@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,17 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<UserWithToken>> Authenticate(AuthenticateModel model)
         {
             return await _userService.Authenticate(model.Email, model.Password);
+        }
+
+        // GET: api/User/unregistered/00000000-0000-0000-0000-000000000000
+        [AllowAnonymous]
+        [HttpGet("unregistered/{guid}")]
+        public async Task<ActionResult<UserWithGuid>> GetUserByGuid(Guid guid)
+        {
+            var user = await _userService.GetUserByGuidAsync(guid);
+            System.Diagnostics.Debug.WriteLine($"GetUserByGuid: {guid}");
+
+            return new UserWithGuid(user, guid);
         }
 
         // GET: api/User/current
@@ -75,6 +87,16 @@ namespace SchedulearnBackend.Controllers
             return new UserWithoutPassword(user);
         }
 
+        // PUT: api/User/00000000-0000-0000-0000-000000000000/register
+        [AllowAnonymous]
+        [HttpPut("{guid}/register")]
+        public async Task<ActionResult<UserWithoutPassword>> PutUserPassword(Guid guid, UserPassword userPassword)
+        {
+            System.Diagnostics.Debug.WriteLine($"PutUserPassword: UserId: {guid}");
+            var user = await _userService.SetUserPassword(guid, userPassword);
+            return new UserWithoutPassword(user);
+        }
+
         // PUT: api/User/5/limits
         [HttpPut("{id}/limits")]
         public async Task<ActionResult> PutUserLimits(int id, LimitsToApply limits)
@@ -98,7 +120,7 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<UserWithoutPassword>> PostUser(CreateNewUser userToCreate)
         {
             System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}, TitleId: {userToCreate.JobTitleId}");
-            var newUser = await _userService.AddNewUserAsync(userToCreate);
+            var newUser = await _userService.AddNewUserSendEmailAsync(userToCreate);
 
             var newUserWithoutPassword = new UserWithoutPassword(newUser);
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUserWithoutPassword);

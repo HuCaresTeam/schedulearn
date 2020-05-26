@@ -13,6 +13,7 @@ namespace SchedulearnBackend.Controllers.DTOs
         public string Email { get; set; }
         public int JobTitleId { get; set; }
         public int ManagingUserId { get; set; }
+        public string RegisterAddress { get; set; }
 
         public User CreateUser() { 
             return new User()
