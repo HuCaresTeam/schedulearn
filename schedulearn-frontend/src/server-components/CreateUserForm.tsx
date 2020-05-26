@@ -1,6 +1,7 @@
 import React from "react";
 import { CreateUser, CreateUserState } from "src/components/ManagedTeam/CreateUser";
 import UserContext from "src/api-services/UserContext";
+import { Redirect } from "react-router-dom";
 
 
 export interface JobTitle {
@@ -9,10 +10,11 @@ export interface JobTitle {
 }
 export interface JobTitleState {
   jobTitle?: JobTitle[];
+  redirectHome: boolean;
 }
 
 export default class CreateUserForm extends React.Component<{}, JobTitleState> {
-  state: JobTitleState = {}
+  state: JobTitleState = { redirectHome: false }
 
   getJobTitles(): void {
     if (!UserContext.user)
@@ -38,13 +40,16 @@ export default class CreateUserForm extends React.Component<{}, JobTitleState> {
         },
         body: JSON.stringify({ ...user, managingUserId: UserContext.user.id }),
       })
-      .then(() => this.getJobTitles());
+      .then(() => this.setState({redirectHome: true}));
   }
 
 
   render(): React.ReactNode {
     if (!this.state.jobTitle)
       return <></>;
+    if (this.state.redirectHome === true) {
+      return <Redirect to="/" />;
+    }
     return (
       <CreateUser
         jobTitles={this.state.jobTitle}
