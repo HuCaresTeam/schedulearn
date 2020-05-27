@@ -22,6 +22,7 @@ import SuggestionsPage from "./pages/SuggestionsPage";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
+import ManageLimitsPage from "./pages/ManageLimitsPage";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -60,6 +61,7 @@ export default class App extends React.Component<{}, AppState> {
             <PrivateRoute path="/members-by-topic"><UserLearningDaysByTopicView /></PrivateRoute>
             <PrivateRoute path="/teams-by-topic"><TeamsByTopicView /></PrivateRoute>
             <PrivateRoute path="/topics-by-team"><TopicsByManagerView /></PrivateRoute>
+            <PrivateRoute path="/manage-limits"><ManageLimitsPage /></PrivateRoute>
           </Switch>
         </div>
       </Router>
