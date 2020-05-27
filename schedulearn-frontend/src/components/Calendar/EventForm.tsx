@@ -108,7 +108,8 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
 
           <Form.Group as={Row}>
             <Form.Label column sm="2">Start Time:</Form.Label>
-            <Col sm="8"><DatePicker className="event-start-timer-picker"
+            <Col sm="8"><DatePicker 
+              className={disabledForms?.datePickDisabled ? "event-start-timer-picker-off" : "event-start-timer-picker-on" }
               selected={this.state.start}
               onChange={this.onStartDateChange}
               showTimeSelect
@@ -119,7 +120,8 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
 
           <Form.Group as={Row}>
             <Form.Label column sm="2">End Time:</Form.Label>
-            <Col sm="8"><DatePicker className="event-start-timer-picker"
+            <Col sm="8"><DatePicker 
+              className={disabledForms?.datePickDisabled ? "event-start-timer-picker-off" : "event-start-timer-picker-on"}
               selected={this.state.end}
               onChange={this.onEndDateChange}
               showTimeSelect
