@@ -4,7 +4,6 @@ import { TopicAddModal } from "./TopicAddModal";
 import { TopicForm } from "./TopicAddForm";
 import "./NestedList.scss";
 import arrow from "./back.svg";
-import { ItemInfoModal } from "./ItemInfoModal";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import { ReactComponent as Info } from "./info.svg";
 
@@ -178,14 +177,6 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption : undefined;
 
-    const modal = <ItemInfoModal
-      isOpen={this.state.modalVisible}
-      onRequestClose={this.handleModalClose}
-      description={this.state.modalDescription}
-      posX={this.state.posX}
-      posY={this.state.posY}
-    />;
-
     const popover = (
       <Popover id="title-popup">
         <Popover.Title as="h4">Description</Popover.Title>
@@ -209,7 +200,7 @@ export class NestedList<TItem extends ListItem<TItem>>
           onRequestClose={this.onTopicAddClose}
           onEventSubmit={this.onTopicAddSubmit}
         />
-
+        
         <div className={className} style={{ width: this.props.width }}>
           <div className="nested-list-title">
             <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
@@ -234,8 +225,7 @@ export class NestedList<TItem extends ListItem<TItem>>
               />
             ))}
           </div>
-          {modal}
-          {showAddNewOption}
+          {showAddNewOption}       
         </div>
       </React.Fragment>
     );

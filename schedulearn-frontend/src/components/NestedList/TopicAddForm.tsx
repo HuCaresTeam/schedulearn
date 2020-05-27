@@ -1,5 +1,6 @@
 import React from "react";
 import "./TopicAddForm.scss";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 export interface TopicAddFormProps {
   isOpen: boolean;
@@ -58,32 +59,45 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
 
   render(): JSX.Element {
     return (
-      <form className="topic-form">
-        <div className="topic-field">
-          <label className="topic-name">
-            Name:
-          </label>
-          <input type="text"
-            disabled={this.props.disabled}
-            placeholder="Name of the topic"
-            onChange={this.onNameChange}
-            value={this.state.name}
-            required={true}
-          />
+      <Form>
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">
+          Name:
+          </Form.Label>
+          <Col sm="10">
+            <Form.Control type="text"
+              disabled={this.props.disabled}
+              placeholder="Name of the topic"
+              onChange={this.onNameChange}
+              value={this.state.name}
+              required={true}
+            />
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">
+          Description:
+          </Form.Label>
+          <Col sm="10">
+            <Form.Control style={{minHeight: "100px"}}
+              as="textarea"
+              rows={3}
+              value={this.state.description}
+              onChange={this.onDescriptionChange}
+              disabled={this.props.disabled}
+              placeholder="Please describe the topic in detail to avoid any fatal confusion"
+            />
+          </Col>
+        </Form.Group>
+        <div style={{textAlign: "center"}}>
+          <Button style={{width: "150px"}}
+            variant="primary"
+            type="submit"
+            onClick={this.handleSubmit}
+          >Submit</Button>
         </div>
-        <div className="topic-field topic-description">
-          <label className="topic-label">
-            Description:
-          </label>
-          <textarea
-            value={this.state.description}
-            onChange={this.onDescriptionChange}
-            disabled={this.props.disabled}
-            placeholder="Please describe the topic in detail to avoid any fatal confusion"
-          />
-        </div>
-        <input type="submit" value="Submit" onClick={this.handleSubmit} />
-      </form>
+      </Form>
     );
   }
 }

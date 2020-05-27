@@ -1,9 +1,7 @@
 import React from "react";
-import Modal, { setAppElement } from "react-modal";
-import { TopicAddForm, TopicForm } from "./TopicAddForm";
+import { TopicForm, TopicAddForm } from "./TopicAddForm";
 import "./TopicAddModal.scss";
-
-setAppElement("#root");
+import { Modal } from "react-bootstrap";
 
 export interface TopicAddModalProps {
   isOpen: boolean;
@@ -16,22 +14,19 @@ export interface TopicAddModalProps {
 export class TopicAddModal extends React.PureComponent<TopicAddModalProps> {
   render(): JSX.Element {
     return (
-      <Modal
-        portalClassName="topic-add-modal ReactModalPortal"
-        isOpen={this.props.isOpen}
-        onRequestClose={this.props.onRequestClose}
-        contentLabel="Topic Add Modal"
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        style={{ content: { zIndex: 8 }, overlay: { zIndex: 7 } }}
-      >
-        <TopicAddForm
-          isOpen={this.props.isOpen}
-          disabled={this.props.disabled}
-          onEventSubmit={this.props.onEventSubmit}
-          onRequestClose={this.props.onRequestClose}
-          newTopic={this.props.topic}
-        />
+      <Modal size="lg" show={this.props.isOpen} onHide={this.props.onRequestClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Topic Add Modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <TopicAddForm
+            isOpen={this.props.isOpen}
+            disabled={this.props.disabled}
+            onEventSubmit={this.props.onEventSubmit}
+            onRequestClose={this.props.onRequestClose}
+            newTopic={this.props.topic}
+          />
+        </Modal.Body>
       </Modal>
     );
   }
