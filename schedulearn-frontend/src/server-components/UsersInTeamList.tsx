@@ -6,7 +6,7 @@ import UserList from "src/components/Calendar/UserList/UserList";
 
 interface UsersInTeamListProps {
   teamId: number;
-  onUserChange(userId: number): void;
+  onUserChange(userId: number | undefined): void;
 }
 
 interface UsersInTeamListState {

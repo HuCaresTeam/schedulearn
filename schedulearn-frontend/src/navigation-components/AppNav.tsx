@@ -35,6 +35,7 @@ export default class AppNav extends React.Component<AppProps> {
             <ul className="submenu">
               <NavItem to="/new-user">Create User</NavItem>
               <NavItem to="/team-calandar">Calendar</NavItem>
+              <NavItem to="/team-learning-tree">Learning Tree</NavItem>
               <li className="dropdown">
                 <NavItem to="">Views</NavItem>
                 <ul className="submenu">

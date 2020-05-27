@@ -4,7 +4,7 @@ import { UserContext } from "src/api-services/UserContext";
 import "./TeamsByTopicsList.scss";
 
 interface TeamsByTopicListProps {
-  topicId: number;
+  topicId?: number;
 }
 
 interface TeamByTopicListState {
@@ -17,6 +17,10 @@ export default class TeamsByTopicList extends React.Component<TeamsByTopicListPr
   fetchTeamsByTopic(): void {
     if (!UserContext.user)
       throw new Error("Should never reach this view when not logged in");
+
+    if (!this.props.topicId){
+      this.setState({teamsByTopic: []});
+    }
 
     UserContext
       .fetch(`api/Team/manager/${UserContext.user?.id}/topic/${this.props.topicId}`)
@@ -35,7 +39,6 @@ export default class TeamsByTopicList extends React.Component<TeamsByTopicListPr
   }
 
   render(): React.ReactNode {
-
     let teams = this.state.teamsByTopic;
     if (!teams) {
       teams = [];
