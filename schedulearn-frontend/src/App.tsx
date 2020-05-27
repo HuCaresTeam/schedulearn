@@ -22,6 +22,7 @@ import SuggestionsPage from "./pages/SuggestionsPage";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
+import RootTopicTree from "./server-components/RootTopicTree";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -51,6 +52,7 @@ export default class App extends React.Component<{}, AppState> {
         <AppError currentError={currentError} />
         <div className="page-content">
           <Switch>
+            <Route path="/test"><RootTopicTree/></Route>
             <Route path="/login"><LoginPage /></Route>
             <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
