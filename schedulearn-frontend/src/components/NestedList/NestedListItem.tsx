@@ -1,7 +1,6 @@
 import React from "react";
 import "./NestedListItem.scss";
-import arrow from "./next.svg";
-import info from "./info.svg";
+import { ReactComponent as Info } from "./info.svg";
 
 export interface ListItem<TItem> {
   id: number;
@@ -30,23 +29,13 @@ export class NestedListItem<TItem extends ListItem<TItem>> extends React.PureCom
   }
 
   render(): JSX.Element {
-    let arrowIcon;
-    if (this.props.item.subItems.length && !this.props.disabled) {
-      arrowIcon = <img className="nested-list-forward-icon" src={arrow} alt="arrow" />;
-    }
-
-    const infoIcon = <img className="nested-list-info-icon" src={info} alt="info"onClick={this.infoClick} />;
-
     let className = "nested-list-item";
     className += this.props.disabled ? " disabled" : " enabled";
 
     return (
-      <div className={className}
-        onClick={this.props.disabled ? undefined : this.itemClick}
-      >
+      <div className={className} onClick={this.props.disabled ? undefined : this.itemClick} >
         {this.props.item.label}
-        {infoIcon}
-        {arrowIcon}
+        <div onClick={this.infoClick}><Info className="nested-list-info-icon"/></div>
       </div>
     );
   }

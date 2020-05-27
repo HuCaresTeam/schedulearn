@@ -7,8 +7,7 @@
   display: grid;
   grid-template-columns: max-content 1fr 40px;
   align-items: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 8px;
 }
 
 .nested-list-back-icon {
@@ -66,12 +65,12 @@
   cursor: pointer;
 }
 .nested-list-info-icon {
-  width: 20px;
-  height: 20px;
-  padding: 10px;
+  width: 40px;
+  height: 40px;
+  padding: 9px;
 }
 
 .nested-list-info-icon:hover {
-  background-color: darkgray;
+  background-color: darkgrey;
   border-radius: 5px;
 }
