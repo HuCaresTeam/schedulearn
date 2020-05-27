@@ -24,6 +24,7 @@ import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import RootTopicTree from "./server-components/UserTopicTree";
 import RegisterUser from "./server-components/RegisterUser";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 interface AppState {
   currentUser?: AuthUser;
