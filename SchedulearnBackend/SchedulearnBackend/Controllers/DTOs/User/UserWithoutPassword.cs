@@ -1,4 +1,5 @@
 ﻿using SchedulearnBackend.Models;
+using System;
 
 namespace SchedulearnBackend.Controllers.DTOs
 {
@@ -40,5 +41,19 @@ namespace SchedulearnBackend.Controllers.DTOs
         }
 
         public string Token { get; set; }
+    }
+
+    public class UserWithGuid : UserWithoutPassword
+    {
+        public UserWithGuid()
+        {
+        }
+
+        public UserWithGuid(User user, Guid registrationGuid) : base(user)
+        {
+            RegistrationGuid = registrationGuid;
+        }
+
+        public Guid RegistrationGuid { get; set; }
     }
 }
