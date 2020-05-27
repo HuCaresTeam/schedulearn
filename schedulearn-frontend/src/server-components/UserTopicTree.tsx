@@ -9,7 +9,7 @@ export interface RootTopicTreeState {
   learnedTopicIds: number[];
 }
 
-export default class RootTopicTree extends React.Component<{}, RootTopicTreeState> {
+export default class UserTopicTree extends React.Component<{}, RootTopicTreeState> {
   state: RootTopicTreeState = {
     learnedTopicIds: [],
   }

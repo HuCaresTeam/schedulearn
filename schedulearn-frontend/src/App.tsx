@@ -52,8 +52,8 @@ export default class App extends React.Component<{}, AppState> {
         <AppError currentError={currentError} />
         <div className="page-content">
           <Switch>
-            <Route path="/test"><RootTopicTree/></Route>
             <Route path="/login"><LoginPage /></Route>
+            <PrivateRoute path="/my-learning-tree"><RootTopicTree/></PrivateRoute>
             <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
             <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
