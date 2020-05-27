@@ -4,8 +4,9 @@ import { TopicAddModal } from "./TopicAddModal";
 import { TopicForm } from "./TopicAddForm";
 import "./NestedList.scss";
 import arrow from "./back.svg";
-import info from "./info.svg";
 import { ItemInfoModal } from "./ItemInfoModal";
+import { Popover, OverlayTrigger } from "react-bootstrap";
+import { ReactComponent as Info } from "./info.svg";
 
 export interface NestedListProps<TItem extends ListItem<TItem>> {
   rootItem: TItem;
@@ -185,11 +186,14 @@ export class NestedList<TItem extends ListItem<TItem>>
       posY={this.state.posY}
     />;
 
-    const infoIcon = <img className="nested-list-info-icon"
-      src={info}
-      alt="info"
-      onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
-    />;
+    const popover = (
+      <Popover id="title-popup">
+        <Popover.Title as="h4">Description</Popover.Title>
+        <Popover.Content>
+          {this.state.currentItem.description}
+        </Popover.Content>
+      </Popover>
+    );
 
     let className = "nested-list";
     if (this.props.disabled) {
@@ -212,7 +216,9 @@ export class NestedList<TItem extends ListItem<TItem>>
               {showButton && !this.props.disabled ? backButton : undefined}
             </div>
             <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
-            {infoIcon}
+            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+              <Info className="nested-list-info-icon"/>
+            </OverlayTrigger>
           </div>
 
           <div style={{ overflow: "auto", maxHeight: this.props.maxHeight }}>
