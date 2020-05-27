@@ -124,6 +124,10 @@
   <data name="Email_SubjectText" xml:space="preserve">
     <value>Registration to Schedulearn</value>
   </data>
+  <data name="Error_EmailNotSent" xml:space="preserve">
+    <value>Error sending email to {0}</value>
+    <comment>0 - receiver email</comment>
+  </data>
   <data name="Error_LearningDayNotFound" xml:space="preserve">
     <value>Learning day with id ({0}) does not exist.</value>
     <comment>0 - learning day id</comment>

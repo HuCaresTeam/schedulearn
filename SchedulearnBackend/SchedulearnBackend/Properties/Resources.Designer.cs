@@ -79,6 +79,15 @@ namespace SchedulearnBackend.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error sending email to {0}.
+        /// </summary>
+        internal static string Error_EmailNotSent {
+            get {
+                return ResourceManager.GetString("Error_EmailNotSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learning day with id ({0}) does not exist..
         /// </summary>
         internal static string Error_LearningDayNotFound {

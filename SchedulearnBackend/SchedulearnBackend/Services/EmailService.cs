@@ -53,7 +53,7 @@ namespace SchedulearnBackend.Services
             }
             catch (Exception e)
             {
-                throw new EmailException($"Error sending email to {receiverEmail}: {e.Message}");
+                throw new EmailException(Error_EmailNotSent.ReplaceArgs(receiverEmail), e);
             }
         }
     }
