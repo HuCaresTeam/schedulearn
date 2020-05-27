@@ -6,7 +6,7 @@ export interface CreateLimitProps {
 }
 
 export interface CreateLimitState {
-  name: string;
+  name?: string;
   limitOfConsecutiveLearningDays?: number;
   limitOfLearningDaysPerMonth?: number;
   limitOfLearningDaysPerQuarter?: number;
@@ -59,25 +59,41 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
             <label>
               Name of limit 
             </label>
-            <input type="text" placeholder="Limit name" onChange={this.onNameChange} value={this.state.name} />
+            <input type="text" 
+              placeholder="Limit name" 
+              onChange={this.onNameChange} 
+              value={this.state.name} 
+            />
           </div>
           <div>
             <label>
               Limit Of Consecutive Learning Days 
             </label>
-            <input type="text" placeholder="Consecutive Learning Days" onChange={this.onLimitOfConsecutiveLearningDaysChange} value={this.state.limitOfConsecutiveLearningDays} />
+            <input type="text" 
+              placeholder="Consecutive Learning Days" 
+              onChange={this.onLimitOfConsecutiveLearningDaysChange} 
+              value={this.state.limitOfConsecutiveLearningDays} 
+            />
           </div>
           <div>
             <label>
               Limit Of Learning Days Per Month 
             </label>
-            <input type="text" placeholder="Per Month" onChange={this.onLimitOfLearningDaysPerMonthChange} value={this.state.limitOfLearningDaysPerMonth} />
+            <input type="text" 
+              placeholder="Per Month" 
+              onChange={this.onLimitOfLearningDaysPerMonthChange} 
+              value={this.state.limitOfLearningDaysPerMonth} 
+            />
           </div>
           <div>
             <label>
               Limit Of Learning Days Per Quarter 
             </label>
-            <input type="text" placeholder="Per Quarter" onChange={this.onLimitOfLearningDaysPerQuarterChange} value={this.state.limitOfLearningDaysPerQuarter} />
+            <input type="text" 
+              placeholder="Per Quarter" 
+              onChange={this.onLimitOfLearningDaysPerQuarterChange} 
+              value={this.state.limitOfLearningDaysPerQuarter} 
+            />
           </div>
           <div>
             <label>
