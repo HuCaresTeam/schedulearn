@@ -69,13 +69,16 @@ namespace SchedulearnBackend.Services
             return user ?? throw new NotFoundException($"User with id ({id}) does not exist");
         }
 
-        public async Task<User> GetUserByGuidAsync(Guid guid)
+        public async Task<User> GetUnregisteredUsersByGuidAsync(Guid guid)
         {
-            var user = await _schedulearnContext.Users.Where(u => u.RegistrationGuid == guid).FirstOrDefaultAsync();
+            var user = await _schedulearnContext.Users
+                .Where(u => u.RegistrationGuid == guid)
+                .Where(u => u.Password == null)
+                .FirstOrDefaultAsync();
             return user ?? throw new NotFoundException($"User with guid ({guid}) does not exist");
         }
 
-        public async Task<User> AddNewUserSendEmailAsync(CreateNewUser userData)
+        public async Task<User> AddNewUserAsync(CreateNewUser userData)
         {
             var manager = await GetUserAsync(userData.ManagingUserId);
             if (manager == null)
@@ -107,15 +110,14 @@ namespace SchedulearnBackend.Services
 
         public async Task<User> SetUserPassword(Guid userGuid, UserPassword userPassword)
         {
-            var user = await GetUserByGuidAsync(userGuid);
-            if (user.Password == null)
-            {
-                user.Password = userPassword.Password;
-                user.Name = userPassword.Name;
-                user.Surname = userPassword.Surname;
-                _schedulearnContext.Update(user);
-                await _schedulearnContext.SaveChangesAsync();
-            }
+            var user = await GetUnregisteredUsersByGuidAsync(userGuid);
+
+            user.Password = userPassword.Password;
+            user.Name = userPassword.Name;
+            user.Surname = userPassword.Surname;
+            _schedulearnContext.Update(user);
+            await _schedulearnContext.SaveChangesAsync();
+
             return user;
         }
 

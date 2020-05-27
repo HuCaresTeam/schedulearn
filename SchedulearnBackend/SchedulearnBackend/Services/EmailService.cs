@@ -1,11 +1,13 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using SchedulearnBackend.Extensions;
 using SchedulearnBackend.UserFriendlyExceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.Services
 {
@@ -20,8 +22,10 @@ namespace SchedulearnBackend.Services
 
         public async Task SendRegistrationEmail(string receiverEmail, string userName, string managerName, string linkToRegister)
         {
-            var messageText = $"Hi {userName},<br/>Your manager {managerName} asked You to join his team in Schedulearn app.<br/>Please complete the registration here: <a href=\"{ linkToRegister }\">Registartion to Schedulearn</a>";
-            await SendEmailAsync(receiverEmail, "Registration to Schedulearn", messageText);
+            var subjectText = Email_SubjectText;
+            var bodyText = Email_BodyText.ReplaceArgs(userName, managerName, linkToRegister);
+            System.Diagnostics.Debug.WriteLine($"Body text: {bodyText}");
+            await SendEmailAsync(receiverEmail, subjectText, bodyText);
         }
 
         private async Task SendEmailAsync(string receiverEmail, string subject, string message)

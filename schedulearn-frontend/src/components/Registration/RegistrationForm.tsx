@@ -15,6 +15,10 @@ export interface RegistrationFormProps {
 export class RegistrationForm extends React.Component<RegistrationFormProps, RegistrationFormState> {
   state: RegistrationFormState = {name: this.props.name, surname: this.props.surname, password: ""}
 
+  static getDerivedStateFromProps(props: RegistrationFormProps): RegistrationFormState {
+    return { name: props.name, surname: props.surname, password: "" };
+  }
+  
   handleSubmit = (): void => {
     this.props.onSubmitClick({
       name: this.state.name,

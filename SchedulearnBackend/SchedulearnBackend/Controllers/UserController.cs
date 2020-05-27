@@ -30,12 +30,12 @@ namespace SchedulearnBackend.Controllers
             return await _userService.Authenticate(model.Email, model.Password);
         }
 
-        // GET: api/User/unregistered/00000000-0000-0000-0000-000000000000
+        // GET: api/User/00000000-0000-0000-0000-000000000000/unregistered
         [AllowAnonymous]
-        [HttpGet("unregistered/{guid}")]
+        [HttpGet("{guid}/unregistered")]
         public async Task<ActionResult<UserWithGuid>> GetUserByGuid(Guid guid)
         {
-            var user = await _userService.GetUserByGuidAsync(guid);
+            var user = await _userService.GetUnregisteredUsersByGuidAsync(guid);
             System.Diagnostics.Debug.WriteLine($"GetUserByGuid: {guid}");
 
             return new UserWithGuid(user, guid);
@@ -120,7 +120,7 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<UserWithoutPassword>> PostUser(CreateNewUser userToCreate)
         {
             System.Diagnostics.Debug.WriteLine($"PostUser: Name: {userToCreate.Name}, Surname {userToCreate.Surname}, ManagerId: {userToCreate.ManagingUserId}, TitleId: {userToCreate.JobTitleId}");
-            var newUser = await _userService.AddNewUserSendEmailAsync(userToCreate);
+            var newUser = await _userService.AddNewUserAsync(userToCreate);
 
             var newUserWithoutPassword = new UserWithoutPassword(newUser);
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUserWithoutPassword);

@@ -118,13 +118,7 @@ class UserContextManager {
       input = urljoin(Constants.host, input);
     }
 
-    if (init !== undefined)
-      return fetch(input, {
-        ...init,
-      }).then(this.handleResponse);
-    else
-      return fetch(input)
-        .then(this.handleResponse);
+    return fetch(input, init).then(this.handleResponse);
   }
 
   public logout(): void {

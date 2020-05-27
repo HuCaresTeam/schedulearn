@@ -61,6 +61,24 @@ namespace SchedulearnBackend.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hi {0},&lt;br/&gt;Your manager {1} asked You to join his team in Schedulearn app.&lt;br/&gt;Please complete the registration here: &lt;a href=&quot;{2}&quot;&gt;Registration to Schedulearn&lt;/a&gt;.
+        /// </summary>
+        internal static string Email_BodyText {
+            get {
+                return ResourceManager.GetString("Email_BodyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration to Schedulearn.
+        /// </summary>
+        internal static string Email_SubjectText {
+            get {
+                return ResourceManager.GetString("Email_SubjectText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learning day with id ({0}) does not exist..
         /// </summary>
         internal static string Error_LearningDayNotFound {

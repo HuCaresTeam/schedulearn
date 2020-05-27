@@ -2,26 +2,27 @@ import React from "react";
 import UserContext from "src/api-services/UserContext";
 import { RegistrationForm, RegistrationFormState } from "src/components/Registration/RegistrationForm";
 import SimpleUser from "src/api-services/api-contract/SimpleUser";
-import { Redirect } from "react-router-dom";
+import { BrowserHistory } from "src/api-services/History";
 
 export interface RegisterUserState {
   user?: SimpleUser;
-  redirectHome: boolean;
 }
 
 export default class RegisterUser extends React.Component<{}, RegisterUserState> {
-  state: RegisterUserState = {redirectHome: false};
+  state: RegisterUserState = {};
 
   componentDidMount(): void {
     const windowUrl = window.location.search;
     const params = new URLSearchParams(windowUrl);
     const guid = params.get("id");
 
-    if (guid === null)
-      this.setState({redirectHome: true});
+    if (guid === null) {
+      BrowserHistory.push("/login");
+      return;
+    }
 
     UserContext
-      .fetchWithoutToken(`api/User/unregistered/${guid}`)
+      .fetchWithoutToken(`api/User/${guid}/unregistered`)
       .then((data: SimpleUser) => this.setState({ user: data }));
   }
 
@@ -35,20 +36,15 @@ export default class RegisterUser extends React.Component<{}, RegisterUserState>
           },
           body: JSON.stringify({ name: user.name, surname: user.surname, password: user.password }),
         })
-        .then(() => this.setState({redirectHome: true}));
+        .then(() => BrowserHistory.push("/login"));
     }
   }
 
   render(): React.ReactNode {
-    if (!this.state.user)
-      return <></>;
-    if (this.state.redirectHome === true) {
-      return <Redirect to="/login" />;
-    }
     return (
       <RegistrationForm
-        name={this.state.user.name}
-        surname={this.state.user.surname}
+        name={this.state.user?.name ?? ""}
+        surname={this.state.user?.surname ?? ""}
         onSubmitClick={this.handleRegisterSubmit}
       />
     );
