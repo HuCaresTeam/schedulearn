@@ -56,6 +56,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
   }
   render(): JSX.Element {
     return (<div>
+      <legend className="border-bottom mb-4">Create new user:</legend>
       <Form style={{ width: "50%"}}>
         <Form.Group>
           <Form.Label>Name</Form.Label>
@@ -80,7 +81,6 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
         </Form.Group>
         <Button variant="primary" type="submit" onClick={this.handleSubmit}>Create</Button>
       </Form>
-    </div>
-    );
+    </div>);
   }
 }
