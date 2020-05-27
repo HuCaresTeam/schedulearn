@@ -2,11 +2,13 @@
   border-bottom: 1px solid #95a5a6;
   border-collapse: collapse;
   width: inherit;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   display: grid;
   grid-template-columns: max-content 1fr 40px;
   align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .nested-list-back-icon {
@@ -42,16 +44,18 @@
 }
 
 .nested-list {
-  border: 1px solid #95a5a6;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }
 
 .nested-list.disabled {
   color: rgb(84, 84, 84);
-  background-color: rgb(235, 235, 228);
+  background-color: #e9ecef;
 }
 
 .create-new-item {
   padding: 8px;
+  font-size: 16px;
   display: grid;
   grid-template-columns: 1fr 30px;
   border-top: 1px solid #dddddd;

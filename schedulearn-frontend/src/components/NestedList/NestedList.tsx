@@ -206,7 +206,6 @@ export class NestedList<TItem extends ListItem<TItem>>
           onEventSubmit={this.onTopicAddSubmit}
         />
 
-
         <div className={className} style={{ width: this.props.width }}>
           <div className="nested-list-title">
             <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
