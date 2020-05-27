@@ -49,6 +49,7 @@ export default class AppNav extends React.Component<AppProps> {
             <NavItem to="">User</NavItem>
             <ul className="submenu">
               <NavItem to="/my-limits">My Limits</NavItem>
+              <NavItem to="/my-learning-tree">My Learning Tree</NavItem>
               <NavItem to="/my-suggestions">Suggestions</NavItem>
               <NavItem to="/" onClick={this.logout}>Logout</NavItem>
             </ul>
