@@ -14,6 +14,7 @@ export interface CreateUserState {
   surname: string;
   email: string;
   jobTitleId: number;
+  registerAddress: string;
 }
 
 export class CreateUser extends React.Component<CreateUserProps, CreateUserState> {
@@ -22,6 +23,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
     surname: "",
     email: "",
     jobTitleId: 0,
+    registerAddress: "",
   }
   public constructor(props: CreateUserProps) {
     super(props);
@@ -33,6 +35,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
       surname: this.state.surname,
       email: this.state.email,
       jobTitleId: this.state.jobTitleId,
+      registerAddress: "http://localhost:3000/register?id={GUID}",
     });
   }
 

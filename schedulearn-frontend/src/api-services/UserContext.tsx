@@ -112,6 +112,15 @@ class UserContextManager {
     }).then(this.handleResponse);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchWithoutToken(input: RequestInfo, init?: RequestInit): Promise<any> {
+    if (typeof (input) === "string" && !input.includes("http")) {
+      input = urljoin(Constants.host, input);
+    }
+
+    return fetch(input, init).then(this.handleResponse);
+  }
+
   public logout(): void {
     localStorage.removeItem("currentUser");
 

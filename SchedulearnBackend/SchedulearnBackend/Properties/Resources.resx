@@ -117,6 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Email_BodyText" xml:space="preserve">
+    <value>Hi {0},&lt;br/&gt;Your manager {1} asked You to join his team in Schedulearn app.&lt;br/&gt;Please complete the registration here: &lt;a href="{2}"&gt;Registration to Schedulearn&lt;/a&gt;</value>
+    <comment>0 - user name, 1 - manager name, 2 - link to registration</comment>
+  </data>
+  <data name="Email_SubjectText" xml:space="preserve">
+    <value>Registration to Schedulearn</value>
+  </data>
+  <data name="Error_EmailNotSent" xml:space="preserve">
+    <value>Error sending email to {0}</value>
+    <comment>0 - receiver email</comment>
+  </data>
   <data name="Error_LearningDayNotFound" xml:space="preserve">
     <value>Learning day with id ({0}) does not exist.</value>
     <comment>0 - learning day id</comment>

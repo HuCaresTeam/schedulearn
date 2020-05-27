@@ -23,6 +23,7 @@ import UserLearningDaysByTopicView from "./server-components/Views/UserLearningD
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import RootTopicTree from "./server-components/UserTopicTree";
+import RegisterUser from "./server-components/RegisterUser";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -53,6 +54,7 @@ export default class App extends React.Component<{}, AppState> {
         <div className="page-content">
           <Switch>
             <Route path="/login"><LoginPage /></Route>
+            <Route path="/register"><RegisterUser /></Route>
             <PrivateRoute path="/my-learning-tree"><RootTopicTree/></PrivateRoute>
             <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
