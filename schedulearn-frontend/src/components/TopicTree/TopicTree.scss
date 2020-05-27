@@ -1,3 +1,13 @@
 path.link {
   stroke: #bdc3c7 !important;
 }
+
+path.link.highlighted {
+  stroke: #1abc9c !important;
+  stroke-width: 2.5px;
+}
+
+g.node.learned circle {
+  fill: #1abc9c;
+	stroke-width: 1.5px;
+}

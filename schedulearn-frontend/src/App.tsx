@@ -22,7 +22,7 @@ import SuggestionsPage from "./pages/SuggestionsPage";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
-import RootTopicTree from "./server-components/RootTopicTree";
+import RootTopicTree from "./server-components/UserTopicTree";
 
 interface AppState {
   currentUser?: AuthUser;
