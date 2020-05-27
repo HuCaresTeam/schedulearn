@@ -22,8 +22,9 @@ import SuggestionsPage from "./pages/SuggestionsPage";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
-import RootTopicTree from "./server-components/UserTopicTree";
+import UserTopicTree from "./server-components/UserTopicTree";
 import RegisterUser from "./server-components/RegisterUser";
+import TeamTopicTree from "./server-components/TeamTopicTree";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -55,8 +56,9 @@ export default class App extends React.Component<{}, AppState> {
           <Switch>
             <Route path="/login"><LoginPage /></Route>
             <Route path="/register"><RegisterUser /></Route>
-            <PrivateRoute path="/my-learning-tree"><RootTopicTree/></PrivateRoute>
             <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
+            <PrivateRoute path="/my-learning-tree"><UserTopicTree/></PrivateRoute>
+            <PrivateRoute path="/team-learning-tree"><TeamTopicTree/></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
             <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
             <PrivateRoute path="/my-limits"><LimitsPage /></PrivateRoute>

@@ -103,7 +103,7 @@ export class TopicTree extends React.Component<TopicTreeProps, TopicTreeState> {
     return (
       <div style={{overflowY: "auto"}}>
         <Tree
-          data={this.state.topicHierarchy ?? {}}
+          data={this.state.topicHierarchy}
           height={1800}
           width={1800}
           nodeOffset={30}
