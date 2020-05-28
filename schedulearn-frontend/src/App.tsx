@@ -26,6 +26,7 @@ import ManageLimitsPage from "./pages/ManageLimitsPage";
 import NewSuggestion from "./server-components/Suggestion/NewSuggestions";
 import UserTopicTree from "./server-components/UserTopicTree";
 import RegisterUser from "./server-components/RegisterUser";
+import "bootstrap/dist/css/bootstrap.min.css";
 import TeamTopicTree from "./server-components/TeamTopicTree";
 
 interface AppState {

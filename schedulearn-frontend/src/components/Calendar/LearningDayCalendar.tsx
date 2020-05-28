@@ -77,9 +77,7 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
     this.setState({ isEventModalOpen: false });
   }
 
-  handleModalClose = (event: React.MouseEvent | React.KeyboardEvent): void => {
-    event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
+  handleModalClose = (): void => {
     this.setState({ isEventModalOpen: false });
   }
 

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Form, Col, Row, Button } from "react-bootstrap";
 
 export interface CreateLimitProps {
   onLimitSubmit: (event: CreateLimitState) => void;
@@ -57,69 +57,68 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
 
   render(): JSX.Element {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <label>
-            Create new limit:
-          </label>
-          <div>
-            <label>
-              Name of limit 
-            </label>
-            <input type="text" 
+      <Form onSubmit={this.handleSubmit} style={{marginBottom: "20px"}}>
+        <legend className="border-bottom mb-4">Create new limit</legend>
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">Name of limit</Form.Label>
+          <Col sm="10">
+            <Form.Control type="text" 
               placeholder="Limit name" 
               onChange={this.onNameChange} 
-              value={this.state.name} 
+              value={this.state.name}
             />
-          </div>
-          <div>
-            <label>
-              Limit Of Consecutive Learning Days 
-            </label>
-            <input type="text" 
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">Limit Of Consecutive Learning Days</Form.Label>
+          <Col sm="10">
+            <Form.Control type="number" 
               placeholder="Consecutive Learning Days" 
               onChange={this.onLimitOfConsecutiveLearningDaysChange} 
               value={this.state.limitOfConsecutiveLearningDays} 
               required
             />
-          </div>
-          <div>
-            <label>
-              Limit Of Learning Days Per Month 
-            </label>
-            <input type="text" 
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">Limit Of Learning Days Per Month</Form.Label>
+          <Col sm="10">
+            <Form.Control type="number" 
               placeholder="Per Month" 
               onChange={this.onLimitOfLearningDaysPerMonthChange} 
               value={this.state.limitOfLearningDaysPerMonth} 
               required
             />
-          </div>
-          <div>
-            <label>
-              Limit Of Learning Days Per Quarter 
-            </label>
-            <input type="text" 
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">Limit Of Learning Days Per Quarter</Form.Label>
+          <Col sm="10">
+            <Form.Control type="number" 
               placeholder="Per Quarter" 
               onChange={this.onLimitOfLearningDaysPerQuarterChange} 
               value={this.state.limitOfLearningDaysPerQuarter} 
               required
             />
-          </div>
-          <div>
-            <label>
-              Limit Of Learning Days Per Year 
-            </label>
-            <input type="text" 
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">Limit Of Learning Days Per Year</Form.Label>
+          <Col sm="10">
+            <Form.Control type="number" 
               placeholder="Per Year" 
               onChange={this.onLimitOfLearningDaysPerYearChange} 
               value={this.state.limitOfLearningDaysPerYear}
               required 
             />
-          </div>
-        </div>
-        <button type="submit">Create</button>
-      </form>
-
+          </Col>
+        </Form.Group>
+        <Button style={{width: "100px"}} type="submit">Create</Button>
+      </Form>
     );
   }
 }

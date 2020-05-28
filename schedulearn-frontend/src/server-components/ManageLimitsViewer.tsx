@@ -101,7 +101,8 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
           <CreateLimits
             onLimitSubmit={this.handleLimitSubmit}
           />
-          
+
+          <legend className="border-bottom mb-4">Assign Limit</legend>
           <ManagedTeamsSelect onTeamChange={this.handleTeamSelect} />
           {usersInTeamList}
           
@@ -109,6 +110,7 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
             limits={this.state.limits}
             onLimitUpdate={this.handleLimitUpdate}
             undefinedLimitEnabled={!!this.state.currentUserId}
+            disabled={!this.state.currentTeamId}
           />
         </React.Fragment>
       );

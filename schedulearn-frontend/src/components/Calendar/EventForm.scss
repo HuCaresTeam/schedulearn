@@ -27,6 +27,18 @@
   overflow-y: scroll;
 }
 
-.event-start-timer-picker {
+.event-start-timer-picker-on {
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  z-index: 10;
+}
+
+.event-start-timer-picker-off {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
   z-index: 10;
 }

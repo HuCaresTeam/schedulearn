@@ -52,13 +52,24 @@ export class RegistrationForm extends React.Component<RegistrationFormProps, Reg
             <label>
               Surname:
             </label>
-            <input type="text" placeholder={this.props.surname} onChange={this.onSurnameChange} value={this.state.surname} autoComplete="off"/>
+            <input type="text"
+              placeholder={this.props.surname}
+              onChange={this.onSurnameChange} 
+              value={this.state.surname}
+              autoComplete="off"
+            />
           </div>
           <div>
             <label>
               Password:
             </label>
-            <input type="password" placeholder="Password" onChange={this.onPasswordChange} value={this.state.password} autoComplete="new-password" required={true}/>
+            <input type="password"
+              placeholder="Password"
+              onChange={this.onPasswordChange} 
+              value={this.state.password}
+              autoComplete="new-password"
+              required={true}
+            />
           </div>
         </div>
         <button type="submit" onClick={this.handleSubmit}>Register</button>

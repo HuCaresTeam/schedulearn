@@ -2,8 +2,8 @@
 import React from "react";
 import { BrowserHistory } from "../api-services/History";
 import UserContext, { AuthUser } from "../api-services/UserContext";
-import NavItem from "./NavItem";
 import "./AppNav.scss";
+import { Navbar, Nav, NavDropdown, DropdownButton, Dropdown } from "react-bootstrap";
 
 export interface AppProps {
   currentUser?: AuthUser;
@@ -18,47 +18,50 @@ export default class AppNav extends React.Component<AppProps> {
   render(): React.ReactNode {
     if (!this.props.currentUser) {
       return (
-        <nav className="nav-bar">
-          <ul className="menu">
-            <NavItem to="/login">Login</NavItem>
-          </ul>
-        </nav>
+        <Navbar bg="dark" expand="lg" variant="dark">
+          <Navbar.Brand href="/login">Schedulearn</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="/login">Login</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       );
     }
 
     return (
-      <nav className="nav-bar">
-        <ul className="menu">
-          <NavItem to="/">Home</NavItem>
-          <li className="dropdown">
-            <NavItem to="">My Team</NavItem>
-            <ul className="submenu">
-              <NavItem to="/new-user">Create User</NavItem>
-              <NavItem to="/manage-limits">Manage Limits</NavItem>
-              <NavItem to="/team-calandar">Calendar</NavItem>
-              <NavItem to="/team-learning-tree">Learning Tree</NavItem>
-              <NavItem to="/make-suggestions">Make Suggestions</NavItem>
-              <li className="dropdown">
-                <NavItem to="">Views</NavItem>
-                <ul className="submenu">
-                  <NavItem to="/topics-by-team">Topics By Team</NavItem>
-                  <NavItem to="/members-by-topic">Team members By Topic</NavItem>
-                  <NavItem to="/teams-by-topic">Teams By Topic</NavItem>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li className="dropdown">
-            <NavItem to="">User</NavItem>
-            <ul className="submenu">
-              <NavItem to="/my-limits">My Limits</NavItem>
-              <NavItem to="/my-learning-tree">My Learning Tree</NavItem>
-              <NavItem to="/my-suggestions">Suggestions</NavItem>
-              <NavItem to="/" onClick={this.logout}>Logout</NavItem>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+      <Navbar bg="dark" expand="lg" variant="dark">
+        <Navbar.Brand href="/">Schedulearn</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <NavDropdown title="My Team" id="team-dropdown">
+              <NavDropdown.Item href="/new-user">Create User</NavDropdown.Item>
+              <NavDropdown.Item href="/manage-limits">Manage Limits</NavDropdown.Item>
+              <NavDropdown.Item href="/team-calandar">Calandar</NavDropdown.Item>
+              <NavDropdown.Item href="/team-learning-tree">Learning Tree</NavDropdown.Item>
+              <NavDropdown.Item href="/make-suggestions">Make Suggestions</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/topics-by-team">Topics By Team</NavDropdown.Item>
+              <NavDropdown.Item href="/members-by-topic">Team members By Topic</NavDropdown.Item>
+              <NavDropdown.Item href="/teams-by-topic">Teams By Topic</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <DropdownButton alignRight
+            id="dropdown-menu-align-right"
+            title={`${UserContext.user?.name}
+           ${UserContext.user?.surname}`}
+          >
+            <Dropdown.Item href="/my-limits">My Limits</Dropdown.Item>
+            <Dropdown.Item href="/my-learning-tree">My Learning Tree</Dropdown.Item>
+            <Dropdown.Item href="/my-suggestions">Suggestions</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item href="/" onClick={this.logout}>Logout</Dropdown.Item>
+          </DropdownButton>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Form } from "react-bootstrap";
 
 export interface TeamListItem {
   teamId: number;
@@ -13,7 +14,7 @@ interface TeamListProps {
 }
 
 export default class TeamList extends React.Component<TeamListProps, {}>{
-  onChange = (e: React.FormEvent<HTMLSelectElement>): void => {
+  onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const index = parseInt(e.currentTarget.value);
     this.props.onChange(this.props.teams[index]);
   }
@@ -23,11 +24,12 @@ export default class TeamList extends React.Component<TeamListProps, {}>{
       (<option key={team.teamId} label={`${team.managerName} ${team.managerSurname} team`} value={index}/>),
     );
 
-    return (
-      <select onChange={this.onChange}>
-        <option disabled selected> -- Select a team -- </option>
-        { teamOptionsList };
-      </select>
-    );
+    return <Form.Control style={{width: "300px", marginBottom: "20px"}}
+      as="select"
+      onChange={this.onChange}
+    >
+      <option disabled selected> -- Select a team -- </option>
+      { teamOptionsList };
+    </Form.Control>;
   }
 }
