@@ -59,14 +59,15 @@ namespace SchedulearnBackend
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    serviceScope.ServiceProvider.GetService<SchedulearnContext>().Database.Migrate();
-                }
             }
             else
             {
                 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<SchedulearnContext>().Database.Migrate();
             }
 
             app.UseCors(builder => builder

@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace SchedulearnBackend.Services
 {
@@ -36,9 +37,19 @@ namespace SchedulearnBackend.Services
             _emailService = emailService;
         }
 
+        private string GetHashed(string password) {
+            return Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: new byte[0],
+                prf: KeyDerivationPrf.HMACSHA512,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+        }
+
         public async Task<UserWithToken> Authenticate(string userEmail, string userPassword)
         {
-            var user = await _schedulearnContext.Users.Where(u => u.Email == userEmail && u.Password == userPassword).FirstOrDefaultAsync();
+            var hashed = GetHashed(userPassword);
+            var user = await _schedulearnContext.Users.Where(u => u.Email == userEmail && u.Password == hashed).FirstOrDefaultAsync();
             if (user == null)
                 throw new UnauthorizedException($"Username or password is incorrect");
 
@@ -112,7 +123,7 @@ namespace SchedulearnBackend.Services
         {
             var user = await GetUnregisteredUsersByGuidAsync(userGuid);
 
-            user.Password = userPassword.Password;
+            user.Password = GetHashed(userPassword.Password);
             user.Name = userPassword.Name;
             user.Surname = userPassword.Surname;
             _schedulearnContext.Update(user);
