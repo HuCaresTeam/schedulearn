@@ -30,13 +30,13 @@ namespace SchedulearnBackend
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
-            services.AddScoped<UserService>();
-            services.AddScoped<EmailService>();
-            services.AddScoped<LimitService>();
-            services.AddScoped<TeamService>();
-            services.AddScoped<TopicService>();
-            services.AddScoped<LearningDayService>();
-            services.AddScoped<SuggestionService>();
+            services.AddTransient<EmailService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<LimitService>();
+            services.AddTransient<TeamService>();
+            services.AddTransient<TopicService>();
+            services.AddTransient<LearningDayService>();
+            services.AddTransient<SuggestionService>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -59,14 +59,15 @@ namespace SchedulearnBackend
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    serviceScope.ServiceProvider.GetService<SchedulearnContext>().Database.Migrate();
-                }
             }
             else
             {
                 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<SchedulearnContext>().Database.Migrate();
             }
 
             app.UseCors(builder => builder

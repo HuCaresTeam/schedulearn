@@ -1,7 +1,7 @@
 import React from "react";
 import "./NestedListItem.scss";
-import arrow from "./next.svg";
-import info from "./info.svg";
+import { ReactComponent as Info } from "./info.svg";
+import { Popover, OverlayTrigger } from "react-bootstrap";
 
 export interface ListItem<TItem> {
   id: number;
@@ -26,27 +26,27 @@ export class NestedListItem<TItem extends ListItem<TItem>> extends React.PureCom
 
   infoClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>): void => {
     e.stopPropagation();
-    this.props.infoCallback(e, this.props.item);
   }
 
   render(): JSX.Element {
-    let arrowIcon;
-    if (this.props.item.subItems.length && !this.props.disabled) {
-      arrowIcon = <img className="nested-list-forward-icon" src={arrow} alt="arrow" />;
-    }
-
-    const infoIcon = <img className="nested-list-info-icon" src={info} alt="info"onClick={this.infoClick} />;
-
     let className = "nested-list-item";
     className += this.props.disabled ? " disabled" : " enabled";
 
+    const popover = (
+      <Popover id="list-item-popup">
+        <Popover.Title as="h4">Description</Popover.Title>
+        <Popover.Content>
+          {this.props.item.description}
+        </Popover.Content>
+      </Popover>
+    );
+
     return (
-      <div className={className}
-        onClick={this.props.disabled ? undefined : this.itemClick}
-      >
+      <div className={className} onClick={this.props.disabled ? undefined : this.itemClick} >
         {this.props.item.label}
-        {infoIcon}
-        {arrowIcon}
+        <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+          <div onClick={this.infoClick}><Info className="nested-list-info-icon"/></div>
+        </OverlayTrigger>
       </div>
     );
   }

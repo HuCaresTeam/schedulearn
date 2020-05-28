@@ -21,7 +21,7 @@ export default class TeamsByTopicView extends React.Component<{}, TeamsByTopicVi
 
     return (
       <React.Fragment>
-        <h1>Teams, that have or will learn a selected topic</h1>
+        <legend className="border-bottom mb-4">Teams, that have or will learn a selected topic</legend>
         <TopicList onItemClick={this.handleItemClick} maxHeight={250} displayAddOption={false} />
         {teamsByTopic}
       </React.Fragment>

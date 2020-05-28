@@ -209,6 +209,9 @@ namespace SchedulearnBackend.Migrations
                     b.Property<int>("LimitOfLearningDaysPerYear")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Limits");
@@ -220,7 +223,8 @@ namespace SchedulearnBackend.Migrations
                             LimitOfConsecutiveLearningDays = 3,
                             LimitOfLearningDaysPerMonth = 2,
                             LimitOfLearningDaysPerQuarter = 3,
-                            LimitOfLearningDaysPerYear = 4
+                            LimitOfLearningDaysPerYear = 4,
+                            Name = "Programer's limits"
                         },
                         new
                         {
@@ -228,7 +232,8 @@ namespace SchedulearnBackend.Migrations
                             LimitOfConsecutiveLearningDays = 2,
                             LimitOfLearningDaysPerMonth = 1,
                             LimitOfLearningDaysPerQuarter = 3,
-                            LimitOfLearningDaysPerYear = 3
+                            LimitOfLearningDaysPerYear = 3,
+                            Name = "Accountant's limits"
                         },
                         new
                         {
@@ -236,7 +241,8 @@ namespace SchedulearnBackend.Migrations
                             LimitOfConsecutiveLearningDays = 1,
                             LimitOfLearningDaysPerMonth = 2,
                             LimitOfLearningDaysPerQuarter = 2,
-                            LimitOfLearningDaysPerYear = 2
+                            LimitOfLearningDaysPerYear = 2,
+                            Name = "Financial analyst limits"
                         });
                 });
 
@@ -520,7 +526,7 @@ namespace SchedulearnBackend.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("JobTitleId")
                         .HasColumnType("int");
@@ -547,6 +553,9 @@ namespace SchedulearnBackend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("JobTitleId");
 
                     b.HasIndex("LimitId");
@@ -562,7 +571,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Vadovu.Vadovas@schedulearn.com",
                             JobTitleId = 1,
                             Name = "Vadovu",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("e4e131ee-6a7b-40d6-a6a8-cfbd32997a2a"),
                             Surname = "Vadovas"
                         },
@@ -572,7 +581,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Technologiju.Vadovas@schedulearn.com",
                             JobTitleId = 2,
                             Name = "Technologiju",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("5f4bfdaf-8b11-4df1-becf-fd31b1c47f6a"),
                             Surname = "Vadovas",
                             TeamId = 1
@@ -583,7 +592,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Finansu.Vadovas@schedulearn.com",
                             JobTitleId = 3,
                             Name = "Finansu",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("3dcbf76f-45cf-404e-9270-9f947fd68b9b"),
                             Surname = "Vadovas",
                             TeamId = 1
@@ -594,7 +603,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Vardenis.Pavardenis@schedulearn.com",
                             JobTitleId = 4,
                             Name = "Vardenis",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("41584cd2-08fb-4b9f-8f43-080cb62bc07a"),
                             Surname = "Pavardenis",
                             TeamId = 2
@@ -605,7 +614,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Petras.Petrauskas@schedulearn.com",
                             JobTitleId = 4,
                             Name = "Petras",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("1effd040-aed1-42b4-9379-7cc72f218a56"),
                             Surname = "Petrauskas",
                             TeamId = 2
@@ -617,7 +626,7 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 5,
                             LimitId = 3,
                             Name = "Jonas",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("78b1ea94-52f7-4066-936c-3861d2062305"),
                             Surname = "Jonauskas",
                             TeamId = 2
@@ -628,7 +637,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "Tomas.Tomauskas@schedulearn.com",
                             JobTitleId = 6,
                             Name = "Tomas",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("cb26fa8c-70c2-4922-ac4c-09dcfc6285f9"),
                             Surname = "Tomauskas",
                             TeamId = 3
@@ -639,7 +648,7 @@ namespace SchedulearnBackend.Migrations
                             Email = "John.Cena@schedulearn.com",
                             JobTitleId = 7,
                             Name = "John",
-                            Password = "123",
+                            Password = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=",
                             RegistrationGuid = new Guid("f23c837c-8992-495c-a092-9f54c2fcdbaf"),
                             Surname = "Cena",
                             TeamId = 3

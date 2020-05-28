@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Table } from "react-bootstrap";
 
 interface LearningLimitsProps {
   limitOrigin: string;
@@ -17,13 +17,28 @@ export class LearningLimits extends React.Component<LearningLimitsProps> {
   render(): JSX.Element {
     return (
       <div className="user-limits">
-        <div>{this.props.limitOrigin}</div>
-        <div>Limit of consecutive learning days</div><div>{this.props.limitOfConsecutiveLearningDays}</div>
-        <div>Limit of learning days per month</div><div>{this.props.limitOfLearningDaysPerMonth}</div>
-        <div>Limit of learning days per quarter</div><div>{this.props.limitOfLearningDaysPerQuarter}</div>
-        <div>Limit of learning days per year</div><div>{this.props.limitOfLearningDaysPerYear}</div>
+        <legend className="border-bottom mb-4">{this.props.limitOrigin}</legend>
+        <Table striped bordered hover style={{width: "auto"}}>
+          <tbody>
+            <tr>
+              <td>Limit of consecutive learning days</td>
+              <td>{this.props.limitOfConsecutiveLearningDays}</td>
+            </tr>
+            <tr>
+              <td>Limit of learning days per month</td>
+              <td>{this.props.limitOfLearningDaysPerMonth}</td>
+            </tr>
+            <tr>
+              <td>Limit of learning days per quarter</td>
+              <td>{this.props.limitOfLearningDaysPerQuarter}</td>
+            </tr>
+            <tr>
+              <td>Limit of learning days per year</td>
+              <td>{this.props.limitOfLearningDaysPerYear}</td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
-
     );
   }
 }

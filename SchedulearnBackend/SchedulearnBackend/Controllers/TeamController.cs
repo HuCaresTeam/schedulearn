@@ -46,7 +46,7 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<IEnumerable<FlatTeam>>> GetAccessibleTeams(int id)
         {
             System.Diagnostics.Debug.WriteLine("GetAccessibleTeams " + id);
-            var teams = await _teamService.GetAccessibleTeams(id);
+            var teams = await _teamService.GetAllTeamsBelowTeam(id);
             return teams
                 .Select(t => new FlatTeam(t))
                 .ToList();
@@ -57,7 +57,7 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<IEnumerable<FlatTeam>>> GetManagedTeams(int managerId)
         {
             System.Diagnostics.Debug.WriteLine("GetManagedTeams " + managerId);
-            var teams = await _teamService.GetManagedTeams(managerId);
+            var teams = await _teamService.GetAllTeamsBelowManager(managerId);
             return teams
                 .Select(t => new FlatTeam(t))
                 .ToList();

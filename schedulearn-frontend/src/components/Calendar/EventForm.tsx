@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./EventForm.scss";
 import TopicList, { TopicListItem } from "src/server-components/TopicList";
 import AtLeast from "src/utils/AtLeast";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 export interface EventFormProps {
   isOpen: boolean;
@@ -101,60 +102,66 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
     const submitDisabled = disabledForms?.datePickDisabled && disabledForms.descriptionDisabled && disabledForms.topicPickDisabled;
 
     return (
-      <form className="event-form">
-        <div className="event-field event-title">
-          <label className="eventLabel">
-            Title:
-          </label>
-          <input type="text" disabled={true} placeholder="Event title" value={this.state.title} />
-        </div>
-        <div className="event-field event-start-time">
-          <label className="event-label">
-            Start Time:
-          </label>
-          <DatePicker className="event-start-timer-picker"
-            selected={this.state.start}
-            onChange={this.onStartDateChange}
-            showTimeSelect
-            dateFormat="Pp"
-            disabled={disabledForms?.datePickDisabled}
-          />
-        </div>
-        <div className="event-field event-end-time">
-          <label className="event-label">
-            End Time:
-          </label>
-          <DatePicker className="event-start-timer-picker"
-            selected={this.state.end}
-            onChange={this.onEndDateChange}
-            showTimeSelect
-            dateFormat="Pp"
-            disabled={disabledForms?.datePickDisabled}
-          />
-        </div>
-        <div className="event-field event-topic-selector">
-          <label className="event-label">
-            Learning topic:
-          </label>
-          <TopicList
-            onItemClick={this.onTopicSelectChange}
-            disabled={disabledForms?.topicPickDisabled}
-            selectedItemId={this.props.learningDayEvent?.topicId}
-            maxHeight={250}
-          />
-        </div>
-        <div className="event-field event-description">
-          <label className="event-label">
-            Description:
-          </label>
-          <textarea
-            value={this.state.description}
-            onChange={this.onDescriptionChange}
-            disabled={disabledForms?.descriptionDisabled}
-          />
-        </div>
-        {submitDisabled ? undefined : <input type="submit" onClick={this.handleSubmit} value={this.props.submitText ?? "Submit"} />}
-      </form>
+      <div>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Title:</Form.Label>
+            <Col sm="8"><Form.Control disabled placeholder="Event title" value={this.state.title} /></Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Start Time:</Form.Label>
+            <Col sm="8"><DatePicker 
+              className={disabledForms?.datePickDisabled ? "event-start-timer-picker-off" : "event-start-timer-picker-on" }
+              selected={this.state.start}
+              onChange={this.onStartDateChange}
+              showTimeSelect
+              dateFormat="Pp"
+              disabled={disabledForms?.datePickDisabled}
+            /></Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">End Time:</Form.Label>
+            <Col sm="8"><DatePicker 
+              className={disabledForms?.datePickDisabled ? "event-start-timer-picker-off" : "event-start-timer-picker-on"}
+              selected={this.state.end}
+              onChange={this.onEndDateChange}
+              showTimeSelect
+              dateFormat="Pp"
+              disabled={disabledForms?.datePickDisabled}
+            /></Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Learning topic:</Form.Label>
+            <Col sm="8"><TopicList
+              onItemClick={this.onTopicSelectChange}
+              disabled={disabledForms?.topicPickDisabled}
+              selectedItemId={this.props.learningDayEvent?.topicId}
+              maxHeight={250}
+            /></Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Description:</Form.Label>
+            <Col sm="8"><Form.Control as="textarea"
+              rows={3}
+              style={{minHeight: "100px", maxHeight: "300px"}}
+              value={this.state.description}
+              onChange={this.onDescriptionChange}
+              disabled={disabledForms?.descriptionDisabled}
+            /></Col>
+          </Form.Group>
+          <div style={{textAlign: "center"}}>
+            {submitDisabled ? undefined :
+              <Button style={{width: "150px"}}variant="primary" type="submit" >
+                {this.props.submitText ?? "Submit"}
+              </Button>
+            }
+          </div>
+        </Form>
+      </div>
     );
   }
 }

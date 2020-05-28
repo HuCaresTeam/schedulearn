@@ -1,6 +1,7 @@
 import React from "react";
 import { UserListSelectItem } from "./UserListSelectItem";
 import User from "src/api-services/api-contract/User";
+import { Form } from "react-bootstrap";
 
 interface TeamListProps {
   users: User[];
@@ -8,7 +9,7 @@ interface TeamListProps {
 }
 
 export default class UserList extends React.Component<TeamListProps, {}>{
-  handleSelect = (e: React.FormEvent<HTMLSelectElement>): void => {
+  handleSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.currentTarget.value) {
       this.props.onChange(undefined);
       return;
@@ -22,11 +23,9 @@ export default class UserList extends React.Component<TeamListProps, {}>{
       (<UserListSelectItem item={user} key={user.id} />),
     );
 
-    return (
-      <select onChange={this.handleSelect}>
-        <option label="-- Team View --" selected />
-        {teamOptionsList};
-      </select>
-    );
+    return <Form.Control style={{width: "300px", marginBottom: "20px"}} as="select" onChange={this.handleSelect} >
+      <option label="-- Team View --" selected />
+      {teamOptionsList};
+    </Form.Control>;
   }
 }

@@ -3,6 +3,7 @@
     public class Limit
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public int LimitOfConsecutiveLearningDays { get; set; }
         public int LimitOfLearningDaysPerMonth { get; set; }
         public int LimitOfLearningDaysPerQuarter { get; set; }

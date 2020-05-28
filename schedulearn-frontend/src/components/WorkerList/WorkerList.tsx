@@ -1,5 +1,6 @@
 import React from "react";
 import "./WorkerList.scss";
+import { Table } from "react-bootstrap";
 
 export interface WorkerListItem {
   userId: number;
@@ -18,22 +19,26 @@ interface WorkerListProps {
 export default class WorkerList extends React.Component<WorkerListProps, {}> {
   render(): JSX.Element {
     return (
-      <table className="schedulearn-table" style={{ width: this.props.width }}>
-        <tr>
-          <th>Full Name</th>
-          <th>Job Title</th>
-          <th>Date From</th>
-          <th>Date To</th>
-        </tr>
-        {this.props.items.map((item: WorkerListItem, index: number) => (
-          <tr key={index}>
-            <td>{item.name} {item.surname}</td>
-            <td>{item.jobTitle}</td>
-            <td>{new Date(item.dateFrom).toLocaleString()}</td>
-            <td>{new Date(item.dateTo).toLocaleString()}</td>
+      <Table striped bordered hover style={{marginTop: "20px", width: this.props.width}}>
+        <thead>
+          <tr>
+            <th style={{width: "25%"}}>Full Name</th>
+            <th style={{width: "25%"}}>Job Title</th>
+            <th style={{width: "25%"}}>Date From</th>
+            <th style={{width: "25%"}}>Date To</th>
           </tr>
-        ))}
-      </table>
+        </thead>
+        <tbody>
+          {this.props.items.map((item: WorkerListItem, index: number) => (
+            <tr key={index}>
+              <td>{item.name} {item.surname}</td>
+              <td>{item.jobTitle}</td>
+              <td>{new Date(item.dateFrom).toLocaleString()}</td>
+              <td>{new Date(item.dateTo).toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     );
   }
 }

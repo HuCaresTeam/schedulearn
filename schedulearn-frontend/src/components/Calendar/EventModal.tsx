@@ -1,8 +1,6 @@
 import React from "react";
-import Modal, { setAppElement } from "react-modal";
 import "./EventModal.scss";
-
-setAppElement("#root");
+import { Modal } from "react-bootstrap";
 
 export interface EventModalProps {
   isOpen: boolean;
@@ -13,16 +11,11 @@ export interface EventModalProps {
 export class EventModal extends React.PureComponent<EventModalProps> {
   render(): JSX.Element {
     return (
-      <Modal
-        portalClassName="event-add-modal ReactModalPortal"
-        isOpen={this.props.isOpen}
-        onRequestClose={this.props.onRequestClose}
-        contentLabel="Event modal"
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        style={{ content: { zIndex: 8 }, overlay: { zIndex: 7 } }}
-      >
-        {this.props.children(this.props.isOpen)}
+      <Modal size="lg" show={this.props.isOpen} onHide={this.props.onRequestClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Event</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{this.props.children(this.props.isOpen)}</Modal.Body>
       </Modal>
     );
   }

@@ -4,8 +4,8 @@ import { TopicAddModal } from "./TopicAddModal";
 import { TopicForm } from "./TopicAddForm";
 import "./NestedList.scss";
 import arrow from "./back.svg";
-import info from "./info.svg";
-import { ItemInfoModal } from "./ItemInfoModal";
+import { Popover, OverlayTrigger } from "react-bootstrap";
+import { ReactComponent as Info } from "./info.svg";
 
 export interface NestedListProps<TItem extends ListItem<TItem>> {
   rootItem: TItem;
@@ -177,19 +177,14 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     const showAddNewOption = (!this.props.disabled && this.props.displayAddOption) ? addNewOption : undefined;
 
-    const modal = <ItemInfoModal
-      isOpen={this.state.modalVisible}
-      onRequestClose={this.handleModalClose}
-      description={this.state.modalDescription}
-      posX={this.state.posX}
-      posY={this.state.posY}
-    />;
-
-    const infoIcon = <img className="nested-list-info-icon"
-      src={info}
-      alt="info"
-      onClick={(event): void => this.onInfoItemClick(event, this.state.currentItem)}
-    />;
+    const popover = (
+      <Popover id="title-popup">
+        <Popover.Title as="h4">Description</Popover.Title>
+        <Popover.Content>
+          {this.state.currentItem.description}
+        </Popover.Content>
+      </Popover>
+    );
 
     let className = "nested-list";
     if (this.props.disabled) {
@@ -205,15 +200,16 @@ export class NestedList<TItem extends ListItem<TItem>>
           onRequestClose={this.onTopicAddClose}
           onEventSubmit={this.onTopicAddSubmit}
         />
-
-
+        
         <div className={className} style={{ width: this.props.width }}>
           <div className="nested-list-title">
             <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>
               {showButton && !this.props.disabled ? backButton : undefined}
             </div>
             <div className="nested-list-label-cell">{this.state.currentItem.label}</div>
-            {infoIcon}
+            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+              <Info className="nested-list-info-icon"/>
+            </OverlayTrigger>
           </div>
 
           <div style={{ overflow: "auto", maxHeight: this.props.maxHeight }}>
@@ -229,8 +225,7 @@ export class NestedList<TItem extends ListItem<TItem>>
               />
             ))}
           </div>
-          {modal}
-          {showAddNewOption}
+          {showAddNewOption}       
         </div>
       </React.Fragment>
     );

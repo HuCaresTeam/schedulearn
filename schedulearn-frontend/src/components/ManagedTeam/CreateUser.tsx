@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Form } from "react-bootstrap";
 
 export interface JobTitle {
   id: number;
@@ -29,7 +30,8 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
     super(props);
   }
 
-  handleSubmit = (): void => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     this.props.onUserSubmit({
       name: this.state.name,
       surname: this.state.surname,
@@ -50,45 +52,40 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
   onEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ email: event.target.value });
   }
+
   onJobTitleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     this.setState({ jobTitleId: parseInt(event.target.value) });
   }
+
   render(): JSX.Element {
     return (
-      <form onSubmit={(e): void => e.preventDefault()}>
-        <div>
-          <label>
-            Create new user:
-          </label>
-          <div>
-            <label>
-              Name:
-            </label>
-            <input type="text" placeholder="Name" onChange={this.onNameChange} value={this.state.name} />
-          </div>
-          <div>
-            <label>
-              Surname:
-            </label>
-            <input type="text" placeholder="Surname" onChange={this.onSurnameChange} value={this.state.surname} />
-          </div>
-          <div>
-            <label>
-              Email:
-            </label>
-            <input type="email" placeholder="Email" onChange={this.onEmailChange} value={this.state.email} />
-          </div>
-          <div>
-            <select id="jobs" onChange={this.onJobTitleChange}>
-              <option value = {"test"} label = "Select job title" selected disabled/>
+      <div>
+        <legend className="border-bottom mb-4">Create new user:</legend>
+        <Form onSubmit={this.handleSubmit} style={{ width: "50%"}}>
+          <Form.Group>
+            <Form.Label>Name</Form.Label>
+            <Form.Control placeholder="Enter your name" onChange={this.onNameChange} required/>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Surname</Form.Label>
+            <Form.Control placeholder="Enter your surname" onChange={this.onSurnameChange} required/>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Email</Form.Label>
+            <Form.Control type="email" placeholder="Enter your email" onChange={this.onEmailChange} required/>
+          </Form.Group>
+          <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Label>Select job title</Form.Label>
+            <Form.Control as="select" onChange={this.onJobTitleChange} required>
+              <option label = "Select job title" selected disabled/>
               {this.props.jobTitles.map((title): React.ReactNode => {
                 return (<option value = {title.id} key = {title.id} label = {title.title} />);
               })}
-            </select>
-          </div>
-        </div>
-        <button type="submit" onClick={this.handleSubmit}>Create</button>
-      </form>
+            </Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit">Create</Button>
+        </Form>
+      </div>
     );
   }
 }

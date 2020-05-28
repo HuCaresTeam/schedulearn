@@ -1,6 +1,7 @@
 import React from "react";
 import UserContext from "src/api-services/UserContext";
 import { BrowserHistory } from "src/api-services/History";
+import { Form, Button } from "react-bootstrap";
 
 interface LoginPageState {
   email: string;
@@ -41,19 +42,26 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
 
   render(): React.ReactNode {
     return (
-      <div>
-        <form onSubmit={this.handleLogin}>
-          <div>
-            <label>Email: </label>
-            <input type="email" placeholder="name@domain.com" value={this.state.email} onChange={this.handleEmail} />
-          </div>
-          <div>
-            <label>Password: </label>
-            <input type="password" value={this.state.password} onChange={this.handlePassword} />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      </div>
+      <Form onSubmit={this.handleLogin} style={{width: "50%"}}>
+        <Form.Group>
+          <Form.Label>Email</Form.Label>
+          <Form.Control required
+            type="email"
+            placeholder="name@domain.com"
+            value={this.state.email}
+            onChange={this.handleEmail}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Password</Form.Label>
+          <Form.Control required
+            type="password"
+            value={this.state.password}
+            onChange={this.handlePassword}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">Login</Button>
+      </Form>
     );
   }
 }
