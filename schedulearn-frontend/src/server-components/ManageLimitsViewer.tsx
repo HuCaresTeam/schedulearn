@@ -7,14 +7,6 @@ import UsersInTeamList from "./UsersInTeamList";
 import { AssignLimits} from "src/components/LearningLimits/AssignLimits";
 import { Limit } from "src/api-services/api-contract/Limit";
 
-// export interface LimitInfo {
-//   name: string;
-//   limitOfConsecutiveLearningDays: number;
-//   limitOfLearningDaysPerMonth: number;
-//   limitOfLearningDaysPerQuarter: number;
-//   limitOfLearningDaysPerYear: number;
-// }
-
 
 export interface LimitInfoState {
   limits?: Limit[];
@@ -74,24 +66,6 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
       .then(() => this.getLimits());
   }
 
-  // handleLimit = (limit: AssignLimitState): void => {
-  //   if (!UserContext.user)
-  //     throw new Error("Should never reach this User Form when not logged in");
-  //   this.setState({ limitId: limit.limitId});
-  //   if(this.state.currentUserId)
-  //   {
-  //     UserContext
-  //       .fetch(`api/User/${this.state.currentUserId}/limits`, {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(limit),
-  //       })
-  //       .then(() => this.getLimits());
-  //   }
-    
-  // }
 
   handleLimitUpdate = (limitId: number | undefined): void => {
     if (!UserContext.user)

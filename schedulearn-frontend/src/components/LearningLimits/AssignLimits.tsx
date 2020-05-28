@@ -1,9 +1,6 @@
 import React from "react";
 import { Limit } from "src/api-services/api-contract/Limit";
 
-// export interface Limits extends CreateLimitState {
-//   id: number;
-// }
 
 export interface AssignLimitProps {
   limits: Limit[];
@@ -11,17 +8,9 @@ export interface AssignLimitProps {
   undefinedLimitEnabled?: boolean;
 }
 
-// export interface CreateUserState {
-//   name: string;
-//   surname: string;
-//   email: string;
-//   jobTitleId: number;
-// }
+
 export interface AssignLimitState {
   limitId?: number;
-  //teamId: number;
-  //userId?: number;
- // onLimitUpdate: (event: CreateLimitState) => void;
 }
 
 export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitState> {
@@ -32,7 +21,6 @@ export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitS
   }
 
   handleSubmit = (): void => {
-    //if (this.state.limitId)
     this.props.onLimitUpdate(this.state.limitId);
   }
 
