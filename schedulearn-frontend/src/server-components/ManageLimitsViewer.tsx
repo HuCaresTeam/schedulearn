@@ -29,15 +29,6 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
       .then((data: Limit[]) => this.setState({ limits: data }));
   }
 
-  getLimit(): void {
-    if (!UserContext.user)
-      throw new Error("Should never reach Manage Limits view when not logged in");
-
-    UserContext
-      .fetch(`api/user/${this.state.limitId}`)
-      .then((data: Limit[]) => this.setState({ limits: data }));
-    
-  }
 
   handleTeamSelect = (team: TeamListItem): void => {
     this.setState({ currentTeamId: team.teamId, currentUserId: undefined });
@@ -71,7 +62,6 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
   handleLimitUpdate = (limitId: number | undefined): void => {
     if (!UserContext.user)
       throw new Error("Should never reach this User Form when not logged in");
-    //console.log(this.state.currentUserId);
     if(this.state.currentUserId === undefined)
     {
       UserContext

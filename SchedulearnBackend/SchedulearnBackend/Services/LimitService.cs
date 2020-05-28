@@ -5,7 +5,6 @@ using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
 using System;
 using System.Collections.Generic;
-//using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 

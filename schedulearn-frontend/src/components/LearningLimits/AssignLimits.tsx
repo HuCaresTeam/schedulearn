@@ -38,25 +38,17 @@ export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitS
         <div>
           <div>
             <select id="limits" onChange={this.onLimitChange}>
-              <option value = {undefined} label = "Select limit" selected disabled={!this.props.undefinedLimitEnabled}/>
+              <option value = {undefined} label = "No Limit" selected disabled={!this.props.undefinedLimitEnabled}/>
               {this.props.limits.map((limit): React.ReactNode => {
-                if(limit.name)
-                  return (<option value = {limit.id} 
-                    key = {limit.id} 
-                    label = {limit.name 
-                      + " CD:" + limit.limitOfConsecutiveLearningDays 
-                      + " M:" + limit.limitOfLearningDaysPerMonth 
-                      + " Q:" + limit.limitOfLearningDaysPerQuarter 
-                      + " Y:" + limit.limitOfLearningDaysPerYear} 
-                  />);
-                else
-                  return (<option value = {limit.id} 
-                    key = {limit.id} 
-                    label = {"CD:" + limit.limitOfConsecutiveLearningDays
-                     + " M:" + limit.limitOfLearningDaysPerMonth 
-                     + " Q:" + limit.limitOfLearningDaysPerQuarter 
-                     + " Y:" + limit.limitOfLearningDaysPerYear} 
-                  />);
+                return (<option value = {limit.id} 
+                  key = {limit.id} 
+                  label = {`${limit.name ? `${limit.name} `: "" }`
+                    + `CD: ${limit.limitOfConsecutiveLearningDays} ` 
+                    + `M: ${limit.limitOfLearningDaysPerMonth} `
+                    + `Q: ${limit.limitOfLearningDaysPerQuarter} `
+                    + `Y: ${limit.limitOfLearningDaysPerYear} `
+                  }
+                />);
               })}
             </select>
           </div>

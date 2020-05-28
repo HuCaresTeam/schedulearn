@@ -18,7 +18,8 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
   state: CreateLimitState = {
     name: "",
   }
-  handleSubmit = (): void => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
     this.props.onLimitSubmit({
       name: this.state.name,
       limitOfConsecutiveLearningDays: this.state.limitOfConsecutiveLearningDays,
@@ -32,25 +33,31 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
     this.setState({ name: event.target.value });
   }
 
+  getNumberOrUndefined = (value: string): number | undefined => {
+    if(!value)
+      return undefined;
+    return parseInt(value);
+  }
+
   onLimitOfConsecutiveLearningDaysChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ limitOfConsecutiveLearningDays: parseInt(event.target.value) });
+    this.setState({ limitOfConsecutiveLearningDays: this.getNumberOrUndefined(event.target.value) });
   }
 
   onLimitOfLearningDaysPerMonthChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ limitOfLearningDaysPerMonth: parseInt(event.target.value) });
+    this.setState({ limitOfLearningDaysPerMonth: this.getNumberOrUndefined(event.target.value) });
   }
 
   onLimitOfLearningDaysPerQuarterChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ limitOfLearningDaysPerQuarter: parseInt(event.target.value) });
+    this.setState({ limitOfLearningDaysPerQuarter: this.getNumberOrUndefined(event.target.value) });
   }
   
   onLimitOfLearningDaysPerYearChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ limitOfLearningDaysPerYear: parseInt(event.target.value) });
+    this.setState({ limitOfLearningDaysPerYear: this.getNumberOrUndefined(event.target.value) });
   }
 
   render(): JSX.Element {
     return (
-      <form onSubmit={(e): void => e.preventDefault()}>
+      <form onSubmit={this.handleSubmit}>
         <div>
           <label>
             Create new limit:
@@ -73,6 +80,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
               placeholder="Consecutive Learning Days" 
               onChange={this.onLimitOfConsecutiveLearningDaysChange} 
               value={this.state.limitOfConsecutiveLearningDays} 
+              required
             />
           </div>
           <div>
@@ -83,6 +91,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
               placeholder="Per Month" 
               onChange={this.onLimitOfLearningDaysPerMonthChange} 
               value={this.state.limitOfLearningDaysPerMonth} 
+              required
             />
           </div>
           <div>
@@ -93,16 +102,22 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
               placeholder="Per Quarter" 
               onChange={this.onLimitOfLearningDaysPerQuarterChange} 
               value={this.state.limitOfLearningDaysPerQuarter} 
+              required
             />
           </div>
           <div>
             <label>
               Limit Of Learning Days Per Year 
             </label>
-            <input type="text" placeholder="Per Year" onChange={this.onLimitOfLearningDaysPerYearChange} value={this.state.limitOfLearningDaysPerYear} />
+            <input type="text" 
+              placeholder="Per Year" 
+              onChange={this.onLimitOfLearningDaysPerYearChange} 
+              value={this.state.limitOfLearningDaysPerYear}
+              required 
+            />
           </div>
         </div>
-        <button type="submit" onClick={this.handleSubmit}>Create</button>
+        <button type="submit">Create</button>
       </form>
 
     );
