@@ -9,5 +9,6 @@ namespace SchedulearnBackend.Controllers.DTOs
     {
         public byte[] RowVersion { get; set; }
         public string Description { get; set; }
+        public bool? ForceWrite { get; set; }
     }
 }

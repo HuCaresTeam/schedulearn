@@ -79,7 +79,8 @@ namespace SchedulearnBackend.Services
             if (learningDay == null)
                 throw new NotFoundException(Error_LearningDayNotFound.ReplaceArgs(id));
 
-            _schedulearnContext.Entry(learningDay).Property("RowVersion").OriginalValue = learningDayToModify.RowVersion;
+            if (!learningDayToModify.ForceWrite ?? true)
+                _schedulearnContext.Entry(learningDay).Property("RowVersion").OriginalValue = learningDayToModify.RowVersion;
 
             learningDay.Description = learningDayToModify.Description;
             _schedulearnContext.Update(learningDay);

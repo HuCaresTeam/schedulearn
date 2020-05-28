@@ -79,14 +79,10 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ rowVersion: learningDay.rowVersion, description: learningDay.description }),
-    }).then(
-      () => {
-        this.fetchUserLearningDays();
-      },
-      () => {
-        
-      });
+      body: JSON.stringify({ rowVersion: learningDay.rowVersion, description: learningDay.description, forceWrite: true }),
+    }).then(() => {
+      this.fetchUserLearningDays();
+    });
   }
 
 
