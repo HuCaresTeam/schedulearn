@@ -6,8 +6,8 @@ export interface AssignLimitProps {
   limits: Limit[];
   onLimitUpdate: (limitId: number | undefined) => void;
   undefinedLimitEnabled?: boolean;
+  disabled: boolean;
 }
-
 
 export interface AssignLimitState {
   limitId?: number;
@@ -54,7 +54,7 @@ export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitS
         </Form.Control>
         <Button style={{width: "100px"}}
           type="submit" 
-          disabled={!this.props.undefinedLimitEnabled && !this.state.limitId}
+          disabled={(!this.props.undefinedLimitEnabled && !this.state.limitId) || this.props.disabled}
         > Assign</Button>
       </Form>
     );

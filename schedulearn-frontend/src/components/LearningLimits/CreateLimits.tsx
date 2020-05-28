@@ -73,7 +73,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
         <Form.Group as={Row}>
           <Form.Label column sm="2">Limit Of Consecutive Learning Days</Form.Label>
           <Col sm="10">
-            <Form.Control type="text" 
+            <Form.Control type="number" 
               placeholder="Consecutive Learning Days" 
               onChange={this.onLimitOfConsecutiveLearningDaysChange} 
               value={this.state.limitOfConsecutiveLearningDays} 
@@ -85,7 +85,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
         <Form.Group as={Row}>
           <Form.Label column sm="2">Limit Of Learning Days Per Month</Form.Label>
           <Col sm="10">
-            <Form.Control type="text" 
+            <Form.Control type="number" 
               placeholder="Per Month" 
               onChange={this.onLimitOfLearningDaysPerMonthChange} 
               value={this.state.limitOfLearningDaysPerMonth} 
@@ -97,7 +97,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
         <Form.Group as={Row}>
           <Form.Label column sm="2">Limit Of Learning Days Per Quarter</Form.Label>
           <Col sm="10">
-            <Form.Control type="text" 
+            <Form.Control type="number" 
               placeholder="Per Quarter" 
               onChange={this.onLimitOfLearningDaysPerQuarterChange} 
               value={this.state.limitOfLearningDaysPerQuarter} 
@@ -109,7 +109,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
         <Form.Group as={Row}>
           <Form.Label column sm="2">Limit Of Learning Days Per Year</Form.Label>
           <Col sm="10">
-            <Form.Control type="text" 
+            <Form.Control type="number" 
               placeholder="Per Year" 
               onChange={this.onLimitOfLearningDaysPerYearChange} 
               value={this.state.limitOfLearningDaysPerYear}

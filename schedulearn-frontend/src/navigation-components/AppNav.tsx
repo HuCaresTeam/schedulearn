@@ -49,7 +49,11 @@ export default class AppNav extends React.Component<AppProps> {
               <NavDropdown.Item href="/teams-by-topic">Teams By Topic</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <DropdownButton alignRight id="dropdown-menu-align-right" title="User">
+          <DropdownButton alignRight
+            id="dropdown-menu-align-right"
+            title={`${UserContext.user?.name}
+           ${UserContext.user?.surname}`}
+          >
             <Dropdown.Item href="/my-limits">My Limits</Dropdown.Item>
             <Dropdown.Item href="/my-learning-tree">My Learning Tree</Dropdown.Item>
             <Dropdown.Item href="/my-suggestions">Suggestions</Dropdown.Item>
