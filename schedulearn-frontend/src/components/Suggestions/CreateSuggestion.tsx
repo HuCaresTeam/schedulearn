@@ -5,6 +5,8 @@ import ManagedTeamsSelect from "../../server-components/ManagedTeamsSelect";
 import UsersInTeamList from "../../server-components/UsersInTeamList";
 import UserContext from "src/api-services/UserContext";
 import CreateNewSuggestion from "src/api-services/api-contract/CreateNewSuggestion";
+import { TeamListItem } from "src/components/TeamsList/TeamList";
+
 
 export interface NewSuggestion {
   topicId?: number;
@@ -56,8 +58,8 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
     });
   }
 
-  handleTeamSelect = (teamId: number): void => {
-    this.setState({ currentTeamId: teamId });
+  handleTeamSelect = (team: TeamListItem): void => {
+    this.setState({ currentTeamId: team.teamId });
   }
 
   handleUserSelect = (userId?: number): void => {
