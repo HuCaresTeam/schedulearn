@@ -1,11 +1,11 @@
 import React from "react";
 import { NestedListItem, ListItem } from "./NestedListItem";
-import { TopicAddModal } from "./TopicAddModal";
-import { TopicForm } from "./TopicAddForm";
+import { TopicForm, TopicAddForm } from "./TopicAddForm";
 import "./NestedList.scss";
 import arrow from "./back.svg";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import { ReactComponent as Info } from "./info.svg";
+import { CustomModal } from "../Modal/CustomModal";
 
 export interface NestedListProps<TItem extends ListItem<TItem>> {
   rootItem: TItem;
@@ -193,14 +193,20 @@ export class NestedList<TItem extends ListItem<TItem>>
 
     return (
       <React.Fragment>
-        <TopicAddModal
+        <CustomModal 
+          title="Add Topic"
           isOpen={this.state.isTopicModalOpen}
-          disabled={this.state.isTopicModalDisabled}
-          topic={this.state.newTopic}
           onRequestClose={this.onTopicAddClose}
-          onEventSubmit={this.onTopicAddSubmit}
-        />
-        
+        >
+          {(isOpen: boolean): React.ReactNode => (
+            <TopicAddForm
+              isOpen={isOpen}
+              disabled={this.state.isTopicModalDisabled}
+              onEventSubmit={this.onTopicAddSubmit}
+              newTopic={this.state.newTopic}
+            />
+          )}
+        </CustomModal>  
         <div className={className} style={{ width: this.props.width }}>
           <div className="nested-list-title">
             <div className="nested-list-back-icon-cell" onClick={this.onBackClick}>

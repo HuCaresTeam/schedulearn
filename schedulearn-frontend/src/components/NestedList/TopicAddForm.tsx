@@ -7,7 +7,6 @@ export interface TopicAddFormProps {
   disabled: boolean;
   newTopic?: TopicForm;
   onEventSubmit: (event: TopicForm) => void;
-  onRequestClose: () => void;
 }
 
 export interface TopicForm {
