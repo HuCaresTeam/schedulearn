@@ -4,7 +4,8 @@ import UserContext from "src/api-services/UserContext";
 import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
 
 interface LearningDaysByTopicProps {
-  topicId: number;
+  topicId?: number;
+  managerId?: number;
 }
 
 interface LearningDaysByTopicState {
@@ -23,8 +24,13 @@ export default class LearningDaysByTopic extends React.Component<LearningDaysByT
     if (!UserContext.user)
       throw new Error("Should never reach this calendar when not logged in");
 
+    if (!this.props.topicId){
+      this.setState({learningDaysByTopic: []});
+      return;
+    }
+
     UserContext
-      .fetch(`api/learningDay/topic/${this.props.topicId}/manager/${UserContext.user.id}`)
+      .fetch(`api/learningDay/topic/${this.props.topicId}/manager/${this.props.managerId ?? UserContext.user.id}`)
       .then((learningDays: LearningDayWithUser[]) => {
         this.setState({ learningDaysByTopic: learningDays });
       });
@@ -35,7 +41,7 @@ export default class LearningDaysByTopic extends React.Component<LearningDaysByT
   }
 
   componentDidUpdate(prevProps: LearningDaysByTopicProps): void {
-    if (prevProps.topicId !== this.props.topicId) {
+    if (prevProps.topicId !== this.props.topicId || prevProps.managerId !== this.props.managerId) {
       this.fetchLearningDaysByTopic();
     }
   }

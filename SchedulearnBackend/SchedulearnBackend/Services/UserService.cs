@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SchedulearnBackend.Services
@@ -24,13 +25,15 @@ namespace SchedulearnBackend.Services
         private readonly SchedulearnContext _schedulearnContext;
         private readonly TeamService _teamService;
         private readonly LimitService _limitService;
+        private readonly EmailService _emailService;
 
-        public UserService(IConfiguration configuration, TeamService teamService, LimitService limitService, SchedulearnContext schedulearnContext)
+        public UserService(IConfiguration configuration, TeamService teamService, LimitService limitService, EmailService emailService, SchedulearnContext schedulearnContext)
         {
             _configuration = configuration;
             _schedulearnContext = schedulearnContext;
             _teamService = teamService;
             _limitService = limitService;
+            _emailService = emailService;
         }
 
         public async Task<UserWithToken> Authenticate(string userEmail, string userPassword)
@@ -66,6 +69,15 @@ namespace SchedulearnBackend.Services
             return user ?? throw new NotFoundException($"User with id ({id}) does not exist");
         }
 
+        public async Task<User> GetUnregisteredUsersByGuidAsync(Guid guid)
+        {
+            var user = await _schedulearnContext.Users
+                .Where(u => u.RegistrationGuid == guid)
+                .Where(u => u.Password == null)
+                .FirstOrDefaultAsync();
+            return user ?? throw new NotFoundException($"User with guid ({guid}) does not exist");
+        }
+
         public async Task<User> AddNewUserAsync(CreateNewUser userData)
         {
             var manager = await GetUserAsync(userData.ManagingUserId);
@@ -83,10 +95,30 @@ namespace SchedulearnBackend.Services
                 newUser.TeamId = manager.ManagedTeam.Id;
             }
 
+            Guid newUserGuid = Guid.NewGuid();
+            newUser.RegistrationGuid = newUserGuid;
+
+            var link = Regex.Replace(userData.RegisterAddress, "{GUID}", newUserGuid.ToString());
+
+            await _emailService.SendRegistrationEmail(newUser.Email, newUser.Name, manager.Name, link);
+
             await _schedulearnContext.Users.AddAsync(newUser);
             await _schedulearnContext.SaveChangesAsync();
 
             return newUser;
+        }
+
+        public async Task<User> SetUserPassword(Guid userGuid, UserPassword userPassword)
+        {
+            var user = await GetUnregisteredUsersByGuidAsync(userGuid);
+
+            user.Password = userPassword.Password;
+            user.Name = userPassword.Name;
+            user.Surname = userPassword.Surname;
+            _schedulearnContext.Update(user);
+            await _schedulearnContext.SaveChangesAsync();
+
+            return user;
         }
 
         public async Task<User> ChangeLimitsForUserAsync(int userId, UserLimitsToApply limitsToApply)

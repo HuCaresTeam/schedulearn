@@ -2,6 +2,7 @@ import React from "react";
 import ManagedTeamsSelect from "../ManagedTeamsSelect";
 import FlatTopicList, { FlatTopicListItem } from "src/components/FlatTopicList/FlatTopicList";
 import UserContext from "src/api-services/UserContext";
+import { TeamListItem } from "src/components/TeamsList/TeamList";
 
 interface TopicsByManagerViewState {
   topics?: FlatTopicListItem[];
@@ -10,9 +11,9 @@ interface TopicsByManagerViewState {
 export default class TopicsByManagerView extends React.Component<{}, TopicsByManagerViewState> {
   state: TopicsByManagerViewState = {}
 
-  handleTeamClick = (teamId: number): void => {
+  handleTeamClick = (team: TeamListItem): void => {
     UserContext
-      .fetch(`api/Topic/team/${teamId}`)
+      .fetch(`api/Topic/team/${team.teamId}`)
       .then((teamsTopics: FlatTopicListItem[]) => {
         this.setState({ topics: teamsTopics });
       });

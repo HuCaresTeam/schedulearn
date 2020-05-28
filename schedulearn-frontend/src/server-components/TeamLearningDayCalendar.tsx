@@ -2,13 +2,11 @@ import React from "react";
 import { LearningDayCalendar, ColoredLearningDayEvent } from "src/components/Calendar/LearningDayCalendar";
 import UserContext from "src/api-services/UserContext";
 import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
-import ManagedTeamsSelect from "./ManagedTeamsSelect";
-import UsersInTeamList from "./UsersInTeamList";
+import { TeamUserSelector } from "./TeamUserSelector";
+import { TeamListItem } from "src/components/TeamsList/TeamList";
 
 export interface TeamLearningDayCalendarState {
   teamLearningDays?: ColoredLearningDayEvent[];
-  currentTeamId?: number;
-  currentUserId?: number;
 }
 
 export class TeamLearningDayCalendar extends React.Component<{}, TeamLearningDayCalendarState> {
@@ -27,14 +25,6 @@ export class TeamLearningDayCalendar extends React.Component<{}, TeamLearningDay
     };
   }
 
-  handleTeamSelect = (teamId: number): void => {
-    this.setState({ currentTeamId: teamId, currentUserId: undefined });
-  }
-
-  handleUserSelect = (userId?: number): void => {
-    this.setState({ currentUserId: userId });
-  }
-
   fetchByTeamId(teamId: number): Promise<LearningDayWithUser[]> {
     return UserContext.fetch(`api/learningDay/team/${teamId}`);
   }
@@ -43,16 +33,13 @@ export class TeamLearningDayCalendar extends React.Component<{}, TeamLearningDay
     return UserContext.fetch(`api/learningDay/user/${userId}`);
   }
 
-  componentDidUpdate(_: {}, prevState: TeamLearningDayCalendarState): void {
-    if (prevState.currentTeamId === this.state.currentTeamId && prevState.currentUserId === this.state.currentUserId)
-      return;
-
-    if (!this.state.currentTeamId) {
+  onSelect = (team?: TeamListItem, userId?: number): void => {
+    if (!team) {
       this.setState({ teamLearningDays: undefined });
       return;
     }
 
-    const fetch = this.state.currentUserId ? this.fetchByUserId(this.state.currentUserId) : this.fetchByTeamId(this.state.currentTeamId);
+    const fetch = userId ? this.fetchByUserId(userId) : this.fetchByTeamId(team.teamId);
     fetch.then((learningDays: LearningDayWithUser[]) => {
       const learningDayEvents = learningDays.map(this.learningDayToEvent);
       this.setState({ teamLearningDays: learningDayEvents });
@@ -60,14 +47,9 @@ export class TeamLearningDayCalendar extends React.Component<{}, TeamLearningDay
   }
 
   render(): React.ReactNode {
-    let usersInTeamList;
-    if (this.state.currentTeamId)
-      usersInTeamList = <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />;
-
     return (
       <React.Fragment>
-        <ManagedTeamsSelect onTeamChange={this.handleTeamSelect} />
-        {usersInTeamList}
+        <TeamUserSelector onSelect={this.onSelect}/>
         <LearningDayCalendar
           learningDayEvents={this.state.teamLearningDays ?? []}
           disabled={true}

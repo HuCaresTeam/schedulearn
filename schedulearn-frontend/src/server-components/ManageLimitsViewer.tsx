@@ -6,6 +6,7 @@ import ManagedTeamsSelect from "./ManagedTeamsSelect";
 import UsersInTeamList from "./UsersInTeamList";
 import { AssignLimits} from "src/components/LearningLimits/AssignLimits";
 import { Limit } from "src/api-services/api-contract/Limit";
+import { TeamListItem } from "src/components/TeamsList/TeamList";
 
 
 export interface LimitInfoState {
@@ -38,8 +39,8 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
     
   }
 
-  handleTeamSelect = (teamId: number): void => {
-    this.setState({ currentTeamId: teamId, currentUserId: undefined });
+  handleTeamSelect = (team: TeamListItem): void => {
+    this.setState({ currentTeamId: team.teamId, currentUserId: undefined });
   }
 
   handleUserSelect = (userId?: number): void => {

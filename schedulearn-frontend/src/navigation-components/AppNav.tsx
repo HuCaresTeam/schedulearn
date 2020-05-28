@@ -36,6 +36,8 @@ export default class AppNav extends React.Component<AppProps> {
               <NavItem to="/new-user">Create User</NavItem>
               <NavItem to="/manage-limits">Manage Limits</NavItem>
               <NavItem to="/team-calandar">Calendar</NavItem>
+              <NavItem to="/team-learning-tree">Learning Tree</NavItem>
+              <NavItem to="/make-suggestions">Make Suggestions</NavItem>
               <li className="dropdown">
                 <NavItem to="">Views</NavItem>
                 <ul className="submenu">
@@ -50,6 +52,7 @@ export default class AppNav extends React.Component<AppProps> {
             <NavItem to="">User</NavItem>
             <ul className="submenu">
               <NavItem to="/my-limits">My Limits</NavItem>
+              <NavItem to="/my-learning-tree">My Learning Tree</NavItem>
               <NavItem to="/my-suggestions">Suggestions</NavItem>
               <NavItem to="/" onClick={this.logout}>Logout</NavItem>
             </ul>

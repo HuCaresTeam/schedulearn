@@ -23,6 +23,10 @@ import UserLearningDaysByTopicView from "./server-components/Views/UserLearningD
 import TeamsByTopicView from "./server-components/Views/TeamsByTopicView";
 import TopicsByManagerView from "./server-components/Views/TopicsByManagerView";
 import ManageLimitsPage from "./pages/ManageLimitsPage";
+import NewSuggestion from "./server-components/Suggestion/NewSuggestions";
+import UserTopicTree from "./server-components/UserTopicTree";
+import RegisterUser from "./server-components/RegisterUser";
+import TeamTopicTree from "./server-components/TeamTopicTree";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -53,7 +57,10 @@ export default class App extends React.Component<{}, AppState> {
         <div className="page-content">
           <Switch>
             <Route path="/login"><LoginPage /></Route>
+            <Route path="/register"><RegisterUser /></Route>
             <PrivateRoute exact path="/"><HomePage /></PrivateRoute>
+            <PrivateRoute path="/my-learning-tree"><UserTopicTree/></PrivateRoute>
+            <PrivateRoute path="/team-learning-tree"><TeamTopicTree/></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
             <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
             <PrivateRoute path="/my-limits"><LimitsPage /></PrivateRoute>
@@ -62,6 +69,7 @@ export default class App extends React.Component<{}, AppState> {
             <PrivateRoute path="/teams-by-topic"><TeamsByTopicView /></PrivateRoute>
             <PrivateRoute path="/topics-by-team"><TopicsByManagerView /></PrivateRoute>
             <PrivateRoute path="/manage-limits"><ManageLimitsPage /></PrivateRoute>
+            <PrivateRoute path="/make-suggestions"><NewSuggestion/></PrivateRoute>
           </Switch>
         </div>
       </Router>
