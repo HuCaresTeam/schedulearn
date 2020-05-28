@@ -19,7 +19,7 @@ export default class AppNav extends React.Component<AppProps> {
     if (!this.props.currentUser) {
       return (
         <Navbar bg="dark" expand="lg" variant="dark">
-          <Navbar.Brand href="/login">Silicone Valley Inc.</Navbar.Brand>
+          <Navbar.Brand href="/login">Schedulearn</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
@@ -32,7 +32,7 @@ export default class AppNav extends React.Component<AppProps> {
 
     return (
       <Navbar bg="dark" expand="lg" variant="dark">
-        <Navbar.Brand href="/">Silicone Valley Inc.</Navbar.Brand>
+        <Navbar.Brand href="/">Schedulearn</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
