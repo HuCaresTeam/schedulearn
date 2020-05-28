@@ -79,6 +79,15 @@ namespace SchedulearnBackend.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The record was already edited.
+        /// </summary>
+        internal static string Error_ConcurrencyException {
+            get {
+                return ResourceManager.GetString("Error_ConcurrencyException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error sending email to {0}.
         /// </summary>
         internal static string Error_EmailNotSent {

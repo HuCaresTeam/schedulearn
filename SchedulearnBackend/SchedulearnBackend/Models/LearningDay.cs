@@ -18,5 +18,8 @@ namespace SchedulearnBackend.Models
 
         public virtual Topic Topic { get; set; }
         public virtual User User { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

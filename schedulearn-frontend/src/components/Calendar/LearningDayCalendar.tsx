@@ -4,6 +4,7 @@ import { SlotInfo } from "react-big-calendar";
 import { EventModal } from "./EventModal";
 import { LearningDayEvent, EventForm } from "./EventForm";
 import AtLeast from "src/utils/AtLeast";
+import { BrowserHistory } from "src/api-services/History";
 
 export interface LearningDayCalendarPropsBase {
   learningDayEvents: ColoredLearningDayEvent[];
@@ -24,6 +25,7 @@ type LearningDayCalendarProps = LearningDayCalendarPropsEnabled | LearningDayCal
 
 interface LearningDayCalendarState {
   isEventModalOpen: boolean;
+  isConcurencyModalOpen: boolean;
   isExistingEventOpened: boolean;
   currentEvent?: AtLeast<LearningDayEvent, "start" | "end" | "userId">;
 }
@@ -35,6 +37,7 @@ export interface ColoredLearningDayEvent extends LearningDayEvent {
 export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
   public state: LearningDayCalendarState = {
     isEventModalOpen: false,
+    isConcurencyModalOpen: false,
     isExistingEventOpened: true,
   }
 
@@ -90,6 +93,10 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
         isExistingEventOpened: true,
         currentEvent: event,
       });
+  }
+
+  handleConcurencyUpdate = (): void => {
+    BrowserHistory.push("/");
   }
 
   render(): React.ReactNode {

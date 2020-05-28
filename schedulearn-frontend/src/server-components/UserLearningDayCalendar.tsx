@@ -15,6 +15,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   private learningDayToEvent(learningDay: LearningDayWithUser): ColoredLearningDayEvent {
     return {
       id: learningDay.id,
+      rowVersion: learningDay.rowVersion,
       title: learningDay.topicTitle,
       start: new Date(learningDay.dateFrom),
       end: new Date(learningDay.dateTo),
@@ -27,6 +28,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
 
   private eventToNewLearningDay(learningDay: LearningDayEvent): CreateNewLearningDay {
     return {
+      rowVersion: learningDay.rowVersion ?? "",
       userId: learningDay.userId,
       topicId: learningDay.topicId,
       description: learningDay.description,
@@ -67,7 +69,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
 
   handleEventModify = (learningDayEvent: LearningDayEvent): void => {
     const learningDay = this.eventToNewLearningDay(learningDayEvent);
-    if (!learningDayEvent.id) {
+    if (!learningDayEvent.id || !learningDayEvent.rowVersion) {
       // Cannot modify without id. Set error.
       return;
     }
@@ -77,10 +79,14 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ description: learningDay.description }),
-    }).then(() => {
-      this.fetchUserLearningDays();
-    });
+      body: JSON.stringify({ rowVersion: learningDay.rowVersion, description: learningDay.description }),
+    }).then(
+      () => {
+        this.fetchUserLearningDays();
+      },
+      () => {
+        
+      });
   }
 
 

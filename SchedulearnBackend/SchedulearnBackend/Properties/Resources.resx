@@ -124,6 +124,9 @@
   <data name="Email_SubjectText" xml:space="preserve">
     <value>Registration to Schedulearn</value>
   </data>
+  <data name="Error_ConcurrencyException" xml:space="preserve">
+    <value>The record was already edited</value>
+  </data>
   <data name="Error_EmailNotSent" xml:space="preserve">
     <value>Error sending email to {0}</value>
     <comment>0 - receiver email</comment>

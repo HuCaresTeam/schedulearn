@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulearnBackend.Models;
+using SchedulearnBackend.UserFriendlyExceptions;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.DataAccessLayer
 {
@@ -118,5 +119,16 @@ namespace SchedulearnBackend.DataAccessLayer
 
         }
 
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new ConcurrencyException(Error_ConcurrencyException, ex);
+            }
+        }
     }
 }

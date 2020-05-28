@@ -91,6 +91,7 @@ namespace SchedulearnBackend.Controllers
             return CreatedAtAction(nameof(GetLearningDay), new { id = learningDayWithUser.Id }, learningDayWithUser);
         }
 
+        // PUT: api/LearningDay/5
         [HttpPut("{id}")]
         public async Task<ActionResult<LearningDayWithUser>> PutLearningDay(int id, ModifyLearningDay learningDayToCreate)
         {

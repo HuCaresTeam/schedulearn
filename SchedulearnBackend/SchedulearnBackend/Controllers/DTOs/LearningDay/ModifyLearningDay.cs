@@ -7,6 +7,7 @@ namespace SchedulearnBackend.Controllers.DTOs
 {
     public class ModifyLearningDay
     {
+        public byte[] RowVersion { get; set; }
         public string Description { get; set; }
     }
 }
