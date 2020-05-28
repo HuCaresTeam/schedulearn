@@ -20,7 +20,7 @@ namespace SchedulearnBackend.Controllers.DTOs
             {
                 Name = Name,
                 Surname = Surname,
-                Email = Email,
+                Email = Email.ToLower(),
                 JobTitleId = JobTitleId,
             };
         }
