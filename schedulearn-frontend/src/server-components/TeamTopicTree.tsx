@@ -4,9 +4,9 @@ import { Topic } from "src/api-services/api-contract/Topic";
 import TopicTree from "src/components/TopicTree/TopicTree";
 import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
 import { TeamUserSelector } from "./TeamUserSelector";
-import { EventModal } from "src/components/Calendar/EventModal";
 import LearningDaysByTopic from "./LearningDaysByTopic";
 import { TeamListItem } from "src/components/TeamsList/TeamList";
+import { CustomModal } from "src/components/Modal/CustomModal";
 
 export interface RootTopicTreeState {
   rootTopic?: Topic;
@@ -81,14 +81,15 @@ export default class TeamTopicTree extends React.Component<{}, RootTopicTreeStat
   render(): React.ReactNode {      
     return (
       <React.Fragment>
-        <EventModal
+        <CustomModal
+          title="Topic Learning Days"
           isOpen={this.state.isModalOpen}
           onRequestClose={this.handleModalClose}
         >
           {(): React.ReactNode => (
             <LearningDaysByTopic topicId={this.state.topicId} managerId={this.state.currentTeam?.managerId}/>
           )}
-        </EventModal>
+        </CustomModal>
         <div style={{maxHeight: (this.state.height - 100), overflow: "auto"}}>
           <TeamUserSelector onSelect={this.onSelect}/>
           <TopicTree 

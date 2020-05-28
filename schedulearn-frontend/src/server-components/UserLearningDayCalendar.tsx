@@ -4,13 +4,19 @@ import UserContext from "src/api-services/UserContext";
 import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
 import { LearningDayEvent } from "src/components/Calendar/EventForm";
 import CreateNewLearningDay from "src/api-services/api-contract/CreateNewLearningDay";
+import { CustomModal } from "src/components/Modal/CustomModal";
+import { Button } from "react-bootstrap";
 
 export interface LearningDayState {
   userLearningDays?: ColoredLearningDayEvent[];
+  learningDayForConcurency?: LearningDayEvent;
+  isConcurencyResolverOpen: boolean;
 }
 
 export class UserLearningDayCalendar extends React.Component<{}, LearningDayState> {
-  state: LearningDayState = {};
+  state: LearningDayState = {
+    isConcurencyResolverOpen: false,
+  };
 
   private learningDayToEvent(learningDay: LearningDayWithUser): ColoredLearningDayEvent {
     return {
@@ -67,7 +73,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     });
   }
 
-  handleEventModify = (learningDayEvent: LearningDayEvent): void => {
+  modifylearningDay = (learningDayEvent: LearningDayEvent, forceWrite: boolean): void => {
     const learningDay = this.eventToNewLearningDay(learningDayEvent);
     if (!learningDayEvent.id || !learningDayEvent.rowVersion) {
       // Cannot modify without id. Set error.
@@ -79,12 +85,44 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ rowVersion: learningDay.rowVersion, description: learningDay.description, forceWrite: true }),
-    }).then(() => {
-      this.fetchUserLearningDays();
-    });
+      body: JSON.stringify({ rowVersion: learningDay.rowVersion, description: learningDay.description, forceWrite }),
+    }).then(
+      () => this.fetchUserLearningDays(), 
+      (reject: {statusCode: number}) => this.handleReject(learningDayEvent, reject.statusCode),
+    );
   }
 
+  handleReject = (learningDayEvent: LearningDayEvent, statusCode: number): void => {
+    // Handle Optimistic Lock Conflict
+    if(statusCode === 409) {
+      this.openConcurencyResolver(learningDayEvent);
+    }
+  }
+
+  handleEventModify = (learningDayEvent: LearningDayEvent): void => {
+    this.modifylearningDay(learningDayEvent, false);
+  }
+
+  openConcurencyResolver = (learningDay: LearningDayEvent): void => {
+    this.setState({isConcurencyResolverOpen: true, learningDayForConcurency: learningDay});
+  }
+
+  onConcurencyResolverClose = (): void => {
+    this.setState({isConcurencyResolverOpen: false});
+  }
+
+  onRefresh = (): void => {
+    this.fetchUserLearningDays();
+    this.onConcurencyResolverClose();
+  }
+  
+  onOverride = (): void => {
+    if (!this.state.learningDayForConcurency)
+      return;
+
+    this.modifylearningDay(this.state.learningDayForConcurency, true);
+    this.onConcurencyResolverClose();
+  }
 
   render(): React.ReactNode {
     if (!UserContext.user || !this.state.userLearningDays) {
@@ -97,12 +135,41 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     }
 
     return (
-      <LearningDayCalendar
-        learningDayEvents={this.state.userLearningDays}
-        handleEventSubmit={this.handleEventSubmit}
-        handleEventModify={this.handleEventModify}
-        currentUserId={UserContext.user.id}
-      />
+      <React.Fragment>
+        <CustomModal
+          title="Concurency Resolver"
+          isOpen={this.state.isConcurencyResolverOpen}
+          onRequestClose={this.onConcurencyResolverClose}
+        >
+          {(): React.ReactNode => (
+            <div className="text-center">
+              <Button className="mr-3"
+                size="lg"
+                variant="primary"
+                type="button"
+                onClick={this.onRefresh}
+              >
+                Refresh
+              </Button>
+              <Button className="ml-3"
+                size="lg"
+                variant="warning"
+                type="button"
+                onClick={this.onOverride}
+              >
+                Override
+              </Button>
+            </div>
+          )}
+        </CustomModal>
+  
+        <LearningDayCalendar
+          learningDayEvents={this.state.userLearningDays}
+          handleEventSubmit={this.handleEventSubmit}
+          handleEventModify={this.handleEventModify}
+          currentUserId={UserContext.user.id}
+        />
+      </React.Fragment>
     );
   }
 }

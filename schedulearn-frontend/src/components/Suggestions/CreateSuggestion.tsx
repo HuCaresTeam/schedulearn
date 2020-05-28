@@ -1,11 +1,11 @@
 import React from "react";
-import { EventModal } from "../Calendar/EventModal";
 import { SuggestionForm } from "./SuggestionForm";
 import ManagedTeamsSelect from "../../server-components/ManagedTeamsSelect";
 import UsersInTeamList from "../../server-components/UsersInTeamList";
 import UserContext from "src/api-services/UserContext";
 import CreateNewSuggestion from "src/api-services/api-contract/CreateNewSuggestion";
 import { TeamListItem } from "src/components/TeamsList/TeamList";
+import { CustomModal } from "../Modal/CustomModal";
 
 
 export interface NewSuggestion {
@@ -79,7 +79,8 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
 
     return (
       <React.Fragment>
-        <EventModal
+        <CustomModal
+          title="New suggestion"
           isOpen={this.state.isSuggestionModalOpen}
           onRequestClose={this.handleModalClose}
         >
@@ -91,7 +92,7 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
               submitText={"Add Suggestion"}
             />)
           }
-        </EventModal>
+        </CustomModal>
         
         <legend className="border-bottom mb-4">Select a team to make a suggestion</legend>
         <ManagedTeamsSelect onTeamChange={this.handleTeamSelect} />

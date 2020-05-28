@@ -1,9 +1,9 @@
 import React from "react";
 import { WeekViewCalendar } from "./WeekViewCalendar";
 import { SlotInfo } from "react-big-calendar";
-import { EventModal } from "./EventModal";
 import { LearningDayEvent, EventForm } from "./EventForm";
 import AtLeast from "src/utils/AtLeast";
+import { CustomModal } from "../Modal/CustomModal";
 
 export interface LearningDayCalendarPropsBase {
   learningDayEvents: ColoredLearningDayEvent[];
@@ -24,7 +24,6 @@ type LearningDayCalendarProps = LearningDayCalendarPropsEnabled | LearningDayCal
 
 interface LearningDayCalendarState {
   isEventModalOpen: boolean;
-  isConcurencyModalOpen: boolean;
   isExistingEventOpened: boolean;
   currentEvent?: AtLeast<LearningDayEvent, "start" | "end" | "userId">;
 }
@@ -36,7 +35,6 @@ export interface ColoredLearningDayEvent extends LearningDayEvent {
 export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
   public state: LearningDayCalendarState = {
     isEventModalOpen: false,
-    isConcurencyModalOpen: false,
     isExistingEventOpened: true,
   }
 
@@ -101,7 +99,8 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
 
     return (
       <React.Fragment>
-        <EventModal
+        <CustomModal
+          title="Event"
           isOpen={this.state.isEventModalOpen}
           onRequestClose={this.handleModalClose}
         >
@@ -114,7 +113,7 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
               submitText={this.state.isExistingEventOpened ? "Modify" : "Submit"}
             />)
           }
-        </EventModal>
+        </CustomModal>
         <WeekViewCalendar
           events={this.props.learningDayEvents}
           onSelectSlot={this.handleSelectSlot}
