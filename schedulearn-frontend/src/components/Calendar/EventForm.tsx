@@ -100,7 +100,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
 
     return (
       <div>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group as={Row}>
             <Form.Label column sm="2">Title:</Form.Label>
             <Col sm="8"><Form.Control disabled placeholder="Event title" value={this.state.title} /></Col>
@@ -144,7 +144,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
             <Form.Label column sm="2">Description:</Form.Label>
             <Col sm="8"><Form.Control as="textarea"
               rows={3}
-              style={{minHeight: "100px"}}
+              style={{minHeight: "100px", maxHeight: "300px"}}
               value={this.state.description}
               onChange={this.onDescriptionChange}
               disabled={disabledForms?.descriptionDisabled}
@@ -152,7 +152,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
           </Form.Group>
           <div style={{textAlign: "center"}}>
             {submitDisabled ? undefined :
-              <Button style={{width: "150px"}}variant="primary" type="submit" onClick={this.handleSubmit} >
+              <Button style={{width: "150px"}}variant="primary" type="submit" >
                 {this.props.submitText ?? "Submit"}
               </Button>
             }

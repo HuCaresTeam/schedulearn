@@ -80,7 +80,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
           Description:
           </Form.Label>
           <Col sm="10">
-            <Form.Control style={{minHeight: "100px"}}
+            <Form.Control style={{minHeight: "100px", maxHeight: "300px"}}
               as="textarea"
               rows={3}
               value={this.state.description}

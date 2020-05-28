@@ -58,7 +58,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
     return (
       <div>
         <legend className="border-bottom mb-4">Create new user:</legend>
-        <Form style={{ width: "50%"}}>
+        <Form onSubmit={this.handleSubmit} style={{ width: "50%"}}>
           <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control placeholder="Enter your name" onChange={this.onNameChange} required/>
@@ -80,7 +80,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
               })}
             </Form.Control>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={this.handleSubmit}>Create</Button>
+          <Button variant="primary" type="submit">Create</Button>
         </Form>
       </div>
     );

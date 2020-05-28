@@ -7,12 +7,18 @@ import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUs
 export interface RootTopicTreeState {
   rootTopic?: Topic;
   learnedTopicIds: number[];
+  height: number;
 }
 
 export default class UserTopicTree extends React.Component<{}, RootTopicTreeState> {
   state: RootTopicTreeState = {
     learnedTopicIds: [],
+    height: window.innerHeight,
   }
+
+  updateDimensions = (): void => {
+    this.setState({height: window.innerHeight });
+  };
 
   getTopicsFromRoot = (): void => {
     if (!UserContext.user) 
@@ -36,7 +42,12 @@ export default class UserTopicTree extends React.Component<{}, RootTopicTreeStat
   }
 
   componentDidMount(): void {
+    window.addEventListener("resize", this.updateDimensions);
     this.getTopicsFromRoot();
+  }
+
+  componentWillUnmount = (): void => {
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   render(): React.ReactNode {
@@ -47,10 +58,12 @@ export default class UserTopicTree extends React.Component<{}, RootTopicTreeStat
     }
 
     return (
-      <TopicTree 
-        rootTopic={this.state.rootTopic}
-        learnedTopicIds={this.state.learnedTopicIds}
-      />
+      <div style={{maxHeight: (this.state.height - 100), overflow: "auto"}}>
+        <TopicTree 
+          rootTopic={this.state.rootTopic}
+          learnedTopicIds={this.state.learnedTopicIds}
+        />
+      </div>
     );
   }
 }

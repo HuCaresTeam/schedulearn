@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserHistory } from "../api-services/History";
 import UserContext, { AuthUser } from "../api-services/UserContext";
 import "./AppNav.scss";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, DropdownButton, Dropdown } from "react-bootstrap";
 
 export interface AppProps {
   currentUser?: AuthUser;
@@ -48,14 +48,14 @@ export default class AppNav extends React.Component<AppProps> {
               <NavDropdown.Item href="/members-by-topic">Team members By Topic</NavDropdown.Item>
               <NavDropdown.Item href="/teams-by-topic">Teams By Topic</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="User" id="user-dropdown">
-              <NavDropdown.Item href="/my-limits">My Limits</NavDropdown.Item>
-              <NavDropdown.Item href="/my-learning-tree">My Learning Tree</NavDropdown.Item>
-              <NavDropdown.Item href="/my-suggestions">Suggestions</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/" onClick={this.logout}>Logout</NavDropdown.Item>
-            </NavDropdown>
           </Nav>
+          <DropdownButton alignRight id="dropdown-menu-align-right" title="User">
+            <Dropdown.Item href="/my-limits">My Limits</Dropdown.Item>
+            <Dropdown.Item href="/my-learning-tree">My Learning Tree</Dropdown.Item>
+            <Dropdown.Item href="/my-learning-tree">Suggestions</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item href="/" onClick={this.logout}>Logout</Dropdown.Item>
+          </DropdownButton>
         </Navbar.Collapse>
       </Navbar>
     );

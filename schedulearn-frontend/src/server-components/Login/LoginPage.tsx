@@ -45,11 +45,20 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
       <Form onSubmit={this.handleLogin} style={{width: "50%"}}>
         <Form.Group>
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="name@domain.com" value={this.state.email} onChange={this.handleEmail} />
+          <Form.Control required
+            type="email"
+            placeholder="name@domain.com"
+            value={this.state.email}
+            onChange={this.handleEmail}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" value={this.state.password} onChange={this.handlePassword} />
+          <Form.Control required
+            type="password"
+            value={this.state.password}
+            onChange={this.handlePassword}
+          />
         </Form.Group>
         <Button variant="primary" type="submit">Login</Button>
       </Form>
