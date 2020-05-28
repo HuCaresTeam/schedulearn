@@ -30,7 +30,8 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
     super(props);
   }
 
-  handleSubmit = (): void => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     this.props.onUserSubmit({
       name: this.state.name,
       surname: this.state.surname,
@@ -51,9 +52,11 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
   onEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ email: event.target.value });
   }
+
   onJobTitleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     this.setState({ jobTitleId: parseInt(event.target.value) });
   }
+
   render(): JSX.Element {
     return (
       <div>
@@ -73,8 +76,8 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Select job title</Form.Label>
-            <Form.Control as="select" required>
-              <option value = {"test"} label = "Select job title" selected disabled/>
+            <Form.Control as="select" onChange={this.onJobTitleChange} required>
+              <option label = "Select job title" selected disabled/>
               {this.props.jobTitles.map((title): React.ReactNode => {
                 return (<option value = {title.id} key = {title.id} label = {title.title} />);
               })}

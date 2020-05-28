@@ -95,6 +95,10 @@ namespace SchedulearnBackend.Services
             if (manager == null)
                 throw new NotFoundException($"Manager with id ({userData.ManagingUserId}) does not exist");
 
+            var userWithEmail = await _schedulearnContext.Users.Where(user => user.Email == userData.Email.ToLower()).FirstOrDefaultAsync();
+            if (userWithEmail != null)
+                throw new UniqueConstraintViolatedException("User with this email already exists");
+
             User newUser = userData.CreateUser();
             if (manager.ManagedTeam == null)
             {
@@ -111,10 +115,10 @@ namespace SchedulearnBackend.Services
 
             var link = Regex.Replace(userData.RegisterAddress, "{GUID}", newUserGuid.ToString());
 
-            await _emailService.SendRegistrationEmail(newUser.Email, newUser.Name, manager.Name, link);
-
             await _schedulearnContext.Users.AddAsync(newUser);
             await _schedulearnContext.SaveChangesAsync();
+
+            await _emailService.SendRegistrationEmail(newUser.Email, newUser.Name, manager.Name, link);
 
             return newUser;
         }
