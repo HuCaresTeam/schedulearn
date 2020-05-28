@@ -42,6 +42,9 @@ namespace SchedulearnBackend.DataAccessLayer
                 .HasForeignKey(e => e.SuggesterId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelbuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
 
             var defaultPassword = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=";
 

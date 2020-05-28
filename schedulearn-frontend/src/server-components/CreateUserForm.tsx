@@ -31,6 +31,7 @@ export default class CreateUserForm extends React.Component<{}, JobTitleState> {
   handleUserSubmit = (user: CreateUserState): void => {
     if (!UserContext.user)
       throw new Error("Should never reach this User Form when not logged in");
+      
     UserContext
       .fetch("api/user", {
         method: "POST",

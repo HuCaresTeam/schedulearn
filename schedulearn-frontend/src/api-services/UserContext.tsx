@@ -76,8 +76,6 @@ class UserContextManager {
   };
 
   public async login(email: string, password: string): Promise<AuthUser> {
-    //password = sha256(password);
-
     const authEndpoint = urljoin(Constants.host, "api/user/authenticate");
     return await fetch(authEndpoint, {
       method: "POST",
