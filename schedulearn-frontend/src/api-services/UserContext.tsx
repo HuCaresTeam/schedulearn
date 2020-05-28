@@ -39,7 +39,18 @@ class UserContextManager {
   }
 
   private handleResponse = (response: Response): Promise<unknown> => {
-    return response.json().then((data) => {
+    return response.text().then((textData) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let data: any;
+      try {
+        data = textData.length > 0 ? JSON.parse(textData) : undefined;
+      } catch (er) {
+        const errorMessage = "Invalid response from server.";
+        this.currentErrorSubject.next(errorMessage);
+
+        return Promise.reject(`${errorMessage}. Invalid json: ${textData}.`);
+      }
+
       if (!response.ok) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(response.status) !== -1) {
