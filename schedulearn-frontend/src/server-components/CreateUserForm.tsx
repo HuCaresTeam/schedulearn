@@ -1,6 +1,7 @@
 import React from "react";
 import { CreateUser, CreateUserState } from "src/components/ManagedTeam/CreateUser";
 import UserContext from "src/api-services/UserContext";
+import { BrowserHistory } from "src/api-services/History";
 
 
 export interface JobTitle {
@@ -38,7 +39,7 @@ export default class CreateUserForm extends React.Component<{}, JobTitleState> {
         },
         body: JSON.stringify({ ...user, managingUserId: UserContext.user.id }),
       })
-      .then(() => this.getJobTitles());
+      .then(() => BrowserHistory.push("/"));
   }
 
 

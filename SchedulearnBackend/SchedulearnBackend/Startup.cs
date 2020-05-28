@@ -27,13 +27,16 @@ namespace SchedulearnBackend
             services.AddCors();
             services.AddMemoryCache();
             services.AddDbContext<SchedulearnContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SchedulearnDatabase")));
-            
-            services.AddScoped<UserService>();
-            services.AddScoped<LimitService>();
-            services.AddScoped<TeamService>();
-            services.AddScoped<TopicService>();
-            services.AddScoped<LearningDayService>();
-            services.AddScoped<SuggestionService>();
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
+            services.AddTransient<EmailService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<LimitService>();
+            services.AddTransient<TeamService>();
+            services.AddTransient<TopicService>();
+            services.AddTransient<LearningDayService>();
+            services.AddTransient<SuggestionService>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

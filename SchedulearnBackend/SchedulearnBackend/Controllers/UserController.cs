@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,17 @@ namespace SchedulearnBackend.Controllers
         public async Task<ActionResult<UserWithToken>> Authenticate(AuthenticateModel model)
         {
             return await _userService.Authenticate(model.Email, model.Password);
+        }
+
+        // GET: api/User/00000000-0000-0000-0000-000000000000/unregistered
+        [AllowAnonymous]
+        [HttpGet("{guid}/unregistered")]
+        public async Task<ActionResult<UserWithGuid>> GetUserByGuid(Guid guid)
+        {
+            var user = await _userService.GetUnregisteredUsersByGuidAsync(guid);
+            System.Diagnostics.Debug.WriteLine($"GetUserByGuid: {guid}");
+
+            return new UserWithGuid(user, guid);
         }
 
         // GET: api/User/current
@@ -72,6 +84,16 @@ namespace SchedulearnBackend.Controllers
             System.Diagnostics.Debug.WriteLine("GetUser " + id);
             var user = await _userService.GetUserAsync(id);
 
+            return new UserWithoutPassword(user);
+        }
+
+        // PUT: api/User/00000000-0000-0000-0000-000000000000/register
+        [AllowAnonymous]
+        [HttpPut("{guid}/register")]
+        public async Task<ActionResult<UserWithoutPassword>> PutUserPassword(Guid guid, UserPassword userPassword)
+        {
+            System.Diagnostics.Debug.WriteLine($"PutUserPassword: UserId: {guid}");
+            var user = await _userService.SetUserPassword(guid, userPassword);
             return new UserWithoutPassword(user);
         }
 
