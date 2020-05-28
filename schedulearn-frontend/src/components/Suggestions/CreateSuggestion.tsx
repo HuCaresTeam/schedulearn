@@ -93,7 +93,7 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
           }
         </EventModal>
         
-        <div>Select a team to make a suggestion:</div>
+        <legend className="border-bottom mb-4">Select a team to make a suggestion</legend>
         <ManagedTeamsSelect onTeamChange={this.handleTeamSelect} />
 
         {usersInTeamList}

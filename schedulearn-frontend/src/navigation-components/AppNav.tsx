@@ -52,7 +52,7 @@ export default class AppNav extends React.Component<AppProps> {
           <DropdownButton alignRight id="dropdown-menu-align-right" title="User">
             <Dropdown.Item href="/my-limits">My Limits</Dropdown.Item>
             <Dropdown.Item href="/my-learning-tree">My Learning Tree</Dropdown.Item>
-            <Dropdown.Item href="/my-learning-tree">Suggestions</Dropdown.Item>
+            <Dropdown.Item href="/my-suggestions">Suggestions</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item href="/" onClick={this.logout}>Logout</Dropdown.Item>
           </DropdownButton>
