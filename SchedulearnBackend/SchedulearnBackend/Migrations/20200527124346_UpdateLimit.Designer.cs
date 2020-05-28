@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulearnBackend.DataAccessLayer;
 
 namespace SchedulearnBackend.Migrations
 {
     [DbContext(typeof(SchedulearnContext))]
-    partial class SchedulearnContextModelSnapshot : ModelSnapshot
+    [Migration("20200527124346_UpdateLimit")]
+    partial class UpdateLimit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -533,9 +535,6 @@ namespace SchedulearnBackend.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RegistrationGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -561,7 +560,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 1,
                             Name = "Vadovu",
                             Password = "123",
-                            RegistrationGuid = new Guid("e4e131ee-6a7b-40d6-a6a8-cfbd32997a2a"),
                             Surname = "Vadovas"
                         },
                         new
@@ -571,7 +569,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 2,
                             Name = "Technologiju",
                             Password = "123",
-                            RegistrationGuid = new Guid("5f4bfdaf-8b11-4df1-becf-fd31b1c47f6a"),
                             Surname = "Vadovas",
                             TeamId = 1
                         },
@@ -582,7 +579,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 3,
                             Name = "Finansu",
                             Password = "123",
-                            RegistrationGuid = new Guid("3dcbf76f-45cf-404e-9270-9f947fd68b9b"),
                             Surname = "Vadovas",
                             TeamId = 1
                         },
@@ -593,7 +589,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 4,
                             Name = "Vardenis",
                             Password = "123",
-                            RegistrationGuid = new Guid("41584cd2-08fb-4b9f-8f43-080cb62bc07a"),
                             Surname = "Pavardenis",
                             TeamId = 2
                         },
@@ -604,7 +599,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 4,
                             Name = "Petras",
                             Password = "123",
-                            RegistrationGuid = new Guid("1effd040-aed1-42b4-9379-7cc72f218a56"),
                             Surname = "Petrauskas",
                             TeamId = 2
                         },
@@ -616,7 +610,6 @@ namespace SchedulearnBackend.Migrations
                             LimitId = 3,
                             Name = "Jonas",
                             Password = "123",
-                            RegistrationGuid = new Guid("78b1ea94-52f7-4066-936c-3861d2062305"),
                             Surname = "Jonauskas",
                             TeamId = 2
                         },
@@ -627,7 +620,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 6,
                             Name = "Tomas",
                             Password = "123",
-                            RegistrationGuid = new Guid("cb26fa8c-70c2-4922-ac4c-09dcfc6285f9"),
                             Surname = "Tomauskas",
                             TeamId = 3
                         },
@@ -638,7 +630,6 @@ namespace SchedulearnBackend.Migrations
                             JobTitleId = 7,
                             Name = "John",
                             Password = "123",
-                            RegistrationGuid = new Guid("f23c837c-8992-495c-a092-9f54c2fcdbaf"),
                             Surname = "Cena",
                             TeamId = 3
                         });

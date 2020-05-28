@@ -56,13 +56,10 @@ class UserContextManager {
         if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(response.status) !== -1) {
           this.logout();
         }
-
         const error = (data && data.error) || response.statusText;
         this.currentErrorSubject.next(error);
-
         return Promise.reject(error);
       }
-
       this.currentErrorSubject.next(undefined);
       return data;
     });

@@ -121,12 +121,14 @@ namespace SchedulearnBackend.Services
             return user;
         }
 
-        public async Task<User> ChangeLimitsForUserAsync(int userId, LimitsToApply limits)
+        public async Task<User> ChangeLimitsForUserAsync(int userId, UserLimitsToApply limitsToApply)
         {
-            var limit = await _limitService.GetLimitAsync(limits.LimitId);
+            if (limitsToApply.LimitId.HasValue)
+                await _limitService.GetLimitAsync(limitsToApply.LimitId.Value);
+
             var user = await GetUserAsync(userId);
 
-            user.LimitId = limit.Id;
+            user.LimitId = limitsToApply.LimitId;
             _schedulearnContext.Update(user);
             await _schedulearnContext.SaveChangesAsync();
 

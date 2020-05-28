@@ -1,4 +1,6 @@
-﻿using SchedulearnBackend.DataAccessLayer;
+﻿using Microsoft.EntityFrameworkCore;
+using SchedulearnBackend.Controllers.DTOs;
+using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
 using System;
@@ -17,6 +19,11 @@ namespace SchedulearnBackend.Services
             _schedulearnContext = schedulearnContext;
         }
 
+        public async Task<List<Limit>> AllLimitsAsync()
+        {
+            return await _schedulearnContext.Limits.ToListAsync();
+        }
+
         public async Task<Limit> GetLimitAsync(int id) 
         {
             var limit = await _schedulearnContext.Limits.FindAsync(id);
@@ -30,6 +37,16 @@ namespace SchedulearnBackend.Services
                 limit = user.Team.Limit;
             
             return limit ?? throw new NotFoundException($"Limit in user with id ({userId}) was not found");
+        }
+
+        public async Task<Limit> AddNewLimitAsync(LimitToCreate limitData)
+        {
+            Limit newLimit = limitData.CreateLimit();
+
+            await _schedulearnContext.Limits.AddAsync(newLimit);
+            await _schedulearnContext.SaveChangesAsync();
+
+            return newLimit;
         }
     }
 }
