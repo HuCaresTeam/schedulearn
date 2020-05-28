@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row } from "react-bootstrap";
 
 export interface RegistrationFormState {
   name: string;
@@ -37,43 +38,47 @@ export class RegistrationForm extends React.Component<RegistrationFormProps, Reg
 
   render(): JSX.Element {
     return (
-      <form onSubmit={(e): void => e.preventDefault()} autoComplete="off">
-        <div>
-          <label>
-            Register:
-          </label>
-          <div>
-            <label>
-              Name:
-            </label>
-            <input type="text" placeholder={this.props.name} onChange={this.onNameChange} value={this.state.name} />
-          </div>
-          <div>
-            <label>
-              Surname:
-            </label>
-            <input type="text"
-              placeholder={this.props.surname}
-              onChange={this.onSurnameChange} 
-              value={this.state.surname}
-              autoComplete="off"
-            />
-          </div>
-          <div>
-            <label>
-              Password:
-            </label>
-            <input type="password"
-              placeholder="Password"
-              onChange={this.onPasswordChange} 
-              value={this.state.password}
-              autoComplete="new-password"
-              required={true}
-            />
-          </div>
-        </div>
-        <button type="submit" onClick={this.handleSubmit}>Register</button>
-      </form>
+      <div>
+        <legend className="border-bottom mb-4">Register</legend>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Name</Form.Label>
+            <Col sm="10">
+              <Form.Control type="text"
+                placeholder={this.props.name}
+                onChange={this.onNameChange}
+                value={this.state.name}
+              />
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Surname</Form.Label>
+            <Col sm="10">
+              <Form.Control type="text"
+                placeholder={this.props.surname}
+                onChange={this.onSurnameChange} 
+                value={this.state.surname}
+                autoComplete="off"
+              />
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row}>
+            <Form.Label column sm="2">Password</Form.Label>
+            <Col sm="10">
+              <Form.Control type="password"
+                placeholder="Password"
+                onChange={this.onPasswordChange} 
+                value={this.state.password}
+                autoComplete="new-password"
+                required={true}
+              />
+            </Col>
+          </Form.Group>
+          <Button style={{width: "100px"}}type="submit">Register</Button>
+        </Form>
+      </div>
     );
   }
 }
