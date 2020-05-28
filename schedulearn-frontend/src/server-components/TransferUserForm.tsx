@@ -13,7 +13,8 @@ export interface TransferUserFormState {
 export class TransferUserForm extends React.Component<{}, TransferUserFormState> {
   state: TransferUserFormState = {};
 
-  handleSubmit = (): void => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     console.log(this.state.userId, this.state.newTeamId);
   }
 
