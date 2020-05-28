@@ -36,9 +36,6 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
   }
 
   handleEventSubmit = (topicId: number): void => {
-    if (topicId === undefined)
-      return;
-
     if (this.state.newSuggestion?.suggesteeId === undefined)
       return;
 

@@ -47,9 +47,9 @@ namespace SchedulearnBackend.Services
             if (topic == null)
                 throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(suggestionToCreate.TopicId));
             if (suggester == null)
-                throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(suggestionToCreate.SuggesterId));
+                throw new NotFoundException(Error_UserNotFound.ReplaceArgs(suggestionToCreate.SuggesterId));
             if (suggestee == null)
-                throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(suggestionToCreate.SuggesteeId));
+                throw new NotFoundException(Error_UserNotFound.ReplaceArgs(suggestionToCreate.SuggesteeId));
 
             var newSuggestion = suggestionToCreate.CreateSuggestion();
 

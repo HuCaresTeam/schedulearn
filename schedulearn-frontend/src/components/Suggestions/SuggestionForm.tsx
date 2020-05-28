@@ -42,10 +42,7 @@ export class SuggestionForm extends React.Component<SuggestionFormProps, Suggest
   }
 
   onTopicSelectChange = (topic: TopicListItem): void => {
-    if (topic.parentTopicId !== undefined)
-      this.setState({ topicId: topic.parentTopicId });
-    else
-      throw Error("Topic must be defined!");
+    this.setState({ topicId: topic.id });
   }
 
   render(): JSX.Element {
