@@ -43,6 +43,8 @@ namespace SchedulearnBackend.DataAccessLayer
                 .OnDelete(DeleteBehavior.NoAction);
 
 
+            var defaultPassword = "nFPklLJY0yznpMS5Zdu9pNRJG+ZOaFCbFI+R+huBGFw=";
+
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 1, Title = "CEO" });
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 2, Title = "CTO" });
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 3, Title = "CFO" });
@@ -57,21 +59,21 @@ namespace SchedulearnBackend.DataAccessLayer
 
 
             //CEO team
-            modelbuilder.Entity<User>().HasData(new User() { Id = 1, RegistrationGuid = Guid.Parse("e4e131ee-6a7b-40d6-a6a8-cfbd32997a2a"), Name = "Vadovu", Surname = "Vadovas", Email = "Vadovu.Vadovas@schedulearn.com", JobTitleId = 1, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 1, RegistrationGuid = Guid.Parse("e4e131ee-6a7b-40d6-a6a8-cfbd32997a2a"), Name = "Vadovu", Surname = "Vadovas", Email = "Vadovu.Vadovas@schedulearn.com", JobTitleId = 1, Password = defaultPassword });
             modelbuilder.Entity<Team>().HasData(new Team() { Id = 1, LimitId = 1, ManagerId = 1 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 2, RegistrationGuid = Guid.Parse("5f4bfdaf-8b11-4df1-becf-fd31b1c47f6a"), Name = "Technologiju", Surname = "Vadovas", Email = "Technologiju.Vadovas@schedulearn.com", JobTitleId = 2, TeamId = 1, Password = "123" });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 3, RegistrationGuid = Guid.Parse("3dcbf76f-45cf-404e-9270-9f947fd68b9b"), Name = "Finansu", Surname = "Vadovas", Email = "Finansu.Vadovas@schedulearn.com", JobTitleId = 3, TeamId = 1, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 2, RegistrationGuid = Guid.Parse("5f4bfdaf-8b11-4df1-becf-fd31b1c47f6a"), Name = "Technologiju", Surname = "Vadovas", Email = "Technologiju.Vadovas@schedulearn.com", JobTitleId = 2, TeamId = 1, Password = defaultPassword });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 3, RegistrationGuid = Guid.Parse("3dcbf76f-45cf-404e-9270-9f947fd68b9b"), Name = "Finansu", Surname = "Vadovas", Email = "Finansu.Vadovas@schedulearn.com", JobTitleId = 3, TeamId = 1, Password = defaultPassword });
 
             //CTO team
             modelbuilder.Entity<Team>().HasData(new Team() { Id = 2, LimitId = 2, ManagerId = 2 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 4, RegistrationGuid = Guid.Parse("41584cd2-08fb-4b9f-8f43-080cb62bc07a"), Name = "Vardenis", Surname = "Pavardenis", Email = "Vardenis.Pavardenis@schedulearn.com", JobTitleId = 4, TeamId = 2, Password = "123" });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 5, RegistrationGuid = Guid.Parse("1effd040-aed1-42b4-9379-7cc72f218a56"), Name = "Petras", Surname = "Petrauskas", Email = "Petras.Petrauskas@schedulearn.com", JobTitleId = 4, TeamId = 2, Password = "123" });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 6, RegistrationGuid = Guid.Parse("78b1ea94-52f7-4066-936c-3861d2062305"), Name = "Jonas", Surname = "Jonauskas", Email = "Jonas.Jonauskas@schedulearn.com", JobTitleId = 5, TeamId = 2, LimitId = 3, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 4, RegistrationGuid = Guid.Parse("41584cd2-08fb-4b9f-8f43-080cb62bc07a"), Name = "Vardenis", Surname = "Pavardenis", Email = "Vardenis.Pavardenis@schedulearn.com", JobTitleId = 4, TeamId = 2, Password = defaultPassword });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 5, RegistrationGuid = Guid.Parse("1effd040-aed1-42b4-9379-7cc72f218a56"), Name = "Petras", Surname = "Petrauskas", Email = "Petras.Petrauskas@schedulearn.com", JobTitleId = 4, TeamId = 2, Password = defaultPassword });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 6, RegistrationGuid = Guid.Parse("78b1ea94-52f7-4066-936c-3861d2062305"), Name = "Jonas", Surname = "Jonauskas", Email = "Jonas.Jonauskas@schedulearn.com", JobTitleId = 5, TeamId = 2, LimitId = 3, Password = defaultPassword });
 
             //CFO team
             modelbuilder.Entity<Team>().HasData(new Team() { Id = 3, LimitId = 3, ManagerId = 3 });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 7, RegistrationGuid = Guid.Parse("cb26fa8c-70c2-4922-ac4c-09dcfc6285f9"), Name = "Tomas", Surname = "Tomauskas", Email = "Tomas.Tomauskas@schedulearn.com", JobTitleId = 6, TeamId = 3, Password = "123" });
-            modelbuilder.Entity<User>().HasData(new User() { Id = 8, RegistrationGuid = Guid.Parse("f23c837c-8992-495c-a092-9f54c2fcdbaf"), Name = "John", Surname = "Cena", Email = "John.Cena@schedulearn.com", JobTitleId = 7, TeamId = 3, Password = "123" });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 7, RegistrationGuid = Guid.Parse("cb26fa8c-70c2-4922-ac4c-09dcfc6285f9"), Name = "Tomas", Surname = "Tomauskas", Email = "Tomas.Tomauskas@schedulearn.com", JobTitleId = 6, TeamId = 3, Password = defaultPassword });
+            modelbuilder.Entity<User>().HasData(new User() { Id = 8, RegistrationGuid = Guid.Parse("f23c837c-8992-495c-a092-9f54c2fcdbaf"), Name = "John", Surname = "Cena", Email = "John.Cena@schedulearn.com", JobTitleId = 7, TeamId = 3, Password = defaultPassword });
 
 
             modelbuilder.Entity<Topic>().HasData(new Topic() { Id = 1, Name = "Learning", Description = "Learning description" });
