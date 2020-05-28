@@ -16,7 +16,7 @@ export class TopicAddModal extends React.PureComponent<TopicAddModalProps> {
     return (
       <Modal size="lg" show={this.props.isOpen} onHide={this.props.onRequestClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Topic Add Modal</Modal.Title>
+          <Modal.Title>Add Topic</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TopicAddForm

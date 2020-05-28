@@ -13,7 +13,7 @@ export class EventModal extends React.PureComponent<EventModalProps> {
     return (
       <Modal size="lg" show={this.props.isOpen} onHide={this.props.onRequestClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Event modal</Modal.Title>
+          <Modal.Title>Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>{this.props.children(this.props.isOpen)}</Modal.Body>
       </Modal>
