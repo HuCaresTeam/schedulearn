@@ -4,7 +4,8 @@ import UserContext from "src/api-services/UserContext";
 import { CreateLimits, CreateLimitState } from "src/components/LearningLimits/CreateLimits";
 import ManagedTeamsSelect from "./ManagedTeamsSelect";
 import UsersInTeamList from "./UsersInTeamList";
-import { AssignLimits, Limits } from "src/components/LearningLimits/AssignLimits";
+import { AssignLimits} from "src/components/LearningLimits/AssignLimits";
+import { Limit } from "src/api-services/api-contract/Limit";
 
 // export interface LimitInfo {
 //   name: string;
@@ -16,7 +17,8 @@ import { AssignLimits, Limits } from "src/components/LearningLimits/AssignLimits
 
 
 export interface LimitInfoState {
-  limitInfo?: Limits[];
+  limits?: Limit[];
+  limitId?: number;
   currentTeamId?: number;
   currentUserId?: number;
 }
@@ -31,7 +33,17 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
 
     UserContext
       .fetch("api/Limit")
-      .then((data: Limits[]) => this.setState({ limitInfo: data }));
+      .then((data: Limit[]) => this.setState({ limits: data }));
+  }
+
+  getLimit(): void {
+    if (!UserContext.user)
+      throw new Error("Should never reach Manage Limits view when not logged in");
+
+    UserContext
+      .fetch(`api/user/${this.state.limitId}`)
+      .then((data: Limit[]) => this.setState({ limits: data }));
+    
   }
 
   handleTeamSelect = (teamId: number): void => {
@@ -45,7 +57,7 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
 
   componentDidMount(): void {
     this.getLimits();
-
+    
   }
 
   handleLimitSubmit = (limit: CreateLimitState): void => {
@@ -62,18 +74,54 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
       .then(() => this.getLimits());
   }
 
-  handleLimitUpdate = (limit: LimitInfoState): void => {
+  // handleLimit = (limit: AssignLimitState): void => {
+  //   if (!UserContext.user)
+  //     throw new Error("Should never reach this User Form when not logged in");
+  //   this.setState({ limitId: limit.limitId});
+  //   if(this.state.currentUserId)
+  //   {
+  //     UserContext
+  //       .fetch(`api/User/${this.state.currentUserId}/limits`, {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(limit),
+  //       })
+  //       .then(() => this.getLimits());
+  //   }
+    
+  // }
+
+  handleLimitUpdate = (limitId: number): void => {
     if (!UserContext.user)
       throw new Error("Should never reach this User Form when not logged in");
-    UserContext
-      .fetch("api/limit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(limit),
-      })
-      .then(() => this.getLimits());
+    //console.log(this.state.currentUserId);
+    if(this.state.currentUserId === undefined)
+    {
+      UserContext
+        .fetch(`api/Team/${this.state.currentTeamId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({limitId}),
+        })
+        .then(() => this.getLimits());
+    }
+    else
+    {
+      UserContext
+        .fetch(`api/User/${this.state.currentUserId}/limits`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({limitId}),
+        })
+        .then(() => this.getLimits());
+    }
+    
   }
 
 
@@ -81,7 +129,7 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
     let usersInTeamList;
     if (this.state.currentTeamId)
       usersInTeamList = <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />;
-    if(this.state.limitInfo)
+    if(this.state.limits)
       return (
         
         <React.Fragment>
@@ -93,8 +141,8 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
           {usersInTeamList}
           
           <AssignLimits
-            limits={this.state.limitInfo}
-            // onLimitUpdate={this.handleLimitUpdate}
+            limits={this.state.limits}
+            onLimitUpdate={this.handleLimitUpdate}
           />
         </React.Fragment>
       );

@@ -62,5 +62,6 @@ namespace SchedulearnBackend.Controllers
             return CreatedAtAction(nameof(GetLimit), new { id = newLimit.Id }, newLimit);
         }
 
+
     }
 }
