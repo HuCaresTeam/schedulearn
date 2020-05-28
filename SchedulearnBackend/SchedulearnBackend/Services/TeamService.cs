@@ -45,7 +45,7 @@ namespace SchedulearnBackend.Services
         {
             var team = await GetTeamAsync(teamId);
             var wantedLimit = await _limitService.GetLimitAsync(limits.LimitId);
-
+                
             team.LimitId = wantedLimit.Id;
             _schedulearnContext.Update(team);
             await _schedulearnContext.SaveChangesAsync();

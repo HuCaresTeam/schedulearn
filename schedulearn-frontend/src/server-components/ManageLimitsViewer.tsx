@@ -93,7 +93,7 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
     
   // }
 
-  handleLimitUpdate = (limitId: number): void => {
+  handleLimitUpdate = (limitId: number | undefined): void => {
     if (!UserContext.user)
       throw new Error("Should never reach this User Form when not logged in");
     //console.log(this.state.currentUserId);
@@ -143,6 +143,7 @@ export default class ManageLimitsViewer extends React.Component<{}, LimitInfoSta
           <AssignLimits
             limits={this.state.limits}
             onLimitUpdate={this.handleLimitUpdate}
+            undefinedLimitEnabled={!!this.state.currentUserId}
           />
         </React.Fragment>
       );

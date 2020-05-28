@@ -7,7 +7,8 @@ import { Limit } from "src/api-services/api-contract/Limit";
 
 export interface AssignLimitProps {
   limits: Limit[];
-  onLimitUpdate: (limitId: number) => void;
+  onLimitUpdate: (limitId: number | undefined) => void;
+  undefinedLimitEnabled?: boolean;
 }
 
 // export interface CreateUserState {
@@ -24,24 +25,22 @@ export interface AssignLimitState {
 }
 
 export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitState> {
-  state: AssignLimitState = {
-    limitId: 0,
-    // teamId: 0,
-    // name: "",
-    // surname: "",
-    // email: "",
-    // jobTitleId: 0,
-  }
+  state: AssignLimitState = {}
+  
   public constructor(props: AssignLimitProps) {
     super(props);
   }
 
   handleSubmit = (): void => {
-    if (this.state.limitId)
-      this.props.onLimitUpdate(this.state.limitId);
+    //if (this.state.limitId)
+    this.props.onLimitUpdate(this.state.limitId);
   }
 
   onLimitChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    if (!event.target.value) {
+      this.setState({limitId: undefined});
+      return;
+    }
     const limitId = parseInt(event.target.value);
     this.setState({ limitId });
   }
@@ -51,7 +50,7 @@ export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitS
         <div>
           <div>
             <select id="limits" onChange={this.onLimitChange}>
-              <option value = {"test"} label = "Select limit" selected disabled/>
+              <option value = {undefined} label = "Select limit" selected disabled={!this.props.undefinedLimitEnabled}/>
               {this.props.limits.map((limit): React.ReactNode => {
                 if(limit.name)
                   return (<option value = {limit.id} 
@@ -74,7 +73,7 @@ export class AssignLimits extends React.Component<AssignLimitProps, AssignLimitS
             </select>
           </div>
         </div>
-        <button type="submit" onClick={this.handleSubmit}>Create</button>
+        <button type="submit" onClick={this.handleSubmit} disabled={!this.props.undefinedLimitEnabled && !this.state.limitId}>Create</button>
       </form>
     );
   }
