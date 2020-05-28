@@ -15,11 +15,13 @@ export interface RootTopicTreeState {
   topicId?: number;
   currentTeam?: TeamListItem;
   currentUserId?: number;
+  height: number;
 }
 
 export default class TeamTopicTree extends React.Component<{}, RootTopicTreeState> {
   state: RootTopicTreeState = {
     isModalOpen: false,
+    height: window.innerHeight,
   }
 
   fetchByTeamId(teamId: number): Promise<LearningDayWithUser[]> {
@@ -60,10 +62,20 @@ export default class TeamTopicTree extends React.Component<{}, RootTopicTreeStat
     this.setState({topicId, isModalOpen: true});
   }
 
-  handleModalClose = (event: React.MouseEvent | React.KeyboardEvent): void => {
-    event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
+  handleModalClose = (): void => {
     this.setState({ isModalOpen: false });
+  }
+
+  updateDimensions = (): void => {
+    this.setState({height: window.innerHeight });
+  };
+
+  componentDidMount(): void {
+    window.addEventListener("resize", this.updateDimensions);
+  }
+
+  componentWillUnmount = (): void => {
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   render(): React.ReactNode {      
@@ -77,13 +89,14 @@ export default class TeamTopicTree extends React.Component<{}, RootTopicTreeStat
             <LearningDaysByTopic topicId={this.state.topicId} managerId={this.state.currentTeam?.managerId}/>
           )}
         </EventModal>
-
-        <TeamUserSelector onSelect={this.onSelect}/>
-        <TopicTree 
-          rootTopic={this.state.rootTopic}
-          learnedTopicIds={this.state.learnedTopicIds}
-          onClick={this.onTopicClick}
-        />
+        <div style={{maxHeight: (this.state.height - 100), overflow: "auto"}}>
+          <TeamUserSelector onSelect={this.onSelect}/>
+          <TopicTree 
+            rootTopic={this.state.rootTopic}
+            learnedTopicIds={this.state.learnedTopicIds}
+            onClick={this.onTopicClick}
+          />
+        </div>
       </React.Fragment>
     );
   }
