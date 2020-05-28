@@ -3,6 +3,7 @@ import "./FlatTopicList.scss";
 import { Table } from "react-bootstrap";
 
 export interface FlatTopicListItem {
+  id: number;
   name: string;
   description: string;
 }
@@ -23,7 +24,7 @@ export default class FlatTopicList extends React.Component<FlatTopicListProps, {
         </thead>
         <tbody>
           {this.props.topics.map((topic): React.ReactNode => (
-            <tr key={topic.name}>
+            <tr key={topic.id}>
               <td>{topic.name}</td>
               <td>{topic.description}</td>
             </tr>

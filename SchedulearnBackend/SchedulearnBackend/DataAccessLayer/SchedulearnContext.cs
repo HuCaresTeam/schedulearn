@@ -51,9 +51,9 @@ namespace SchedulearnBackend.DataAccessLayer
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 6, Title = "Accountant" });
             modelbuilder.Entity<JobTitle>().HasData(new JobTitle() { Id = 7, Title = "Financial analyst" });
 
-            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 1, LimitOfConsecutiveLearningDays = 3, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 4 });
-            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 2, LimitOfConsecutiveLearningDays = 2, LimitOfLearningDaysPerMonth = 1, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 3 });
-            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 3, LimitOfConsecutiveLearningDays = 1, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 2, LimitOfLearningDaysPerYear = 2 });
+            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 1, Name = "Programer's limits", LimitOfConsecutiveLearningDays = 3, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 4 });
+            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 2, Name = "Accountant's limits", LimitOfConsecutiveLearningDays = 2, LimitOfLearningDaysPerMonth = 1, LimitOfLearningDaysPerQuarter = 3, LimitOfLearningDaysPerYear = 3 });
+            modelbuilder.Entity<Limit>().HasData(new Limit() { Id = 3, Name = "Financial analyst limits", LimitOfConsecutiveLearningDays = 1, LimitOfLearningDaysPerMonth = 2, LimitOfLearningDaysPerQuarter = 2, LimitOfLearningDaysPerYear = 2 });
 
 
             //CEO team

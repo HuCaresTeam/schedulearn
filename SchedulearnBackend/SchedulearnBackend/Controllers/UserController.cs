@@ -99,7 +99,7 @@ namespace SchedulearnBackend.Controllers
 
         // PUT: api/User/5/limits
         [HttpPut("{id}/limits")]
-        public async Task<ActionResult> PutUserLimits(int id, LimitsToApply limits)
+        public async Task<ActionResult> PutUserLimits(int id, UserLimitsToApply limits)
         {
             System.Diagnostics.Debug.WriteLine($"PutUserLimits: UserId: {id}, LimitId: {limits.LimitId}");
             await _userService.ChangeLimitsForUserAsync(id, limits);
@@ -125,5 +125,6 @@ namespace SchedulearnBackend.Controllers
             var newUserWithoutPassword = new UserWithoutPassword(newUser);
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUserWithoutPassword);
         }
+
     }
 }

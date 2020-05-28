@@ -1,19 +1,18 @@
 import React from "react";
-import { TeamListItem } from "src/components/TeamsList/TeamListSelectItem";
 import UserContext from "src/api-services/UserContext";
-import TeamList from "src/components/TeamsList/TeamList";
+import TeamList, { TeamListItem } from "src/components/TeamsList/TeamList";
 
 interface ManagedTeamsSelectProps {
-  onTeamChange(teamId: number): void;
+  onTeamChange(team: TeamListItem): void;
 }
 
 interface ManagedTeamsSelectState {
-  teamId?: number;
   teams?: TeamListItem[];
 }
 
 export default class ManagedTeamsSelect extends React.Component<ManagedTeamsSelectProps, ManagedTeamsSelectState> {
-  state: ManagedTeamsSelectState = { teamId: 0, teams: [] }
+  state: ManagedTeamsSelectState = { teams: [] }
+
   componentDidMount(): void {
     if (UserContext.user?.id !== undefined) {
       UserContext
@@ -24,22 +23,15 @@ export default class ManagedTeamsSelect extends React.Component<ManagedTeamsSele
     }
   }
 
-  handleTeamClick = (teamId: number): void => {
-    this.setState({ teamId: teamId });
-  }
-
   render(): React.ReactNode {
     if (!this.state.teams) {
       return (
         <p>Loading</p>
       );
     }
-    const teamList = (<TeamList teams={this.state.teams} onChange={this.props.onTeamChange} />);
 
     return (
-      <React.Fragment>
-        {teamList}
-      </React.Fragment>
+      <TeamList teams={this.state.teams} onChange={this.props.onTeamChange} />
     );
   }
 }

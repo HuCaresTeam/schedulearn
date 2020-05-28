@@ -38,23 +38,37 @@ class UserContextManager {
     return this.currentUserSubject.asObservable();
   }
 
-  private handleResponse = (response: Response): Promise<unknown> => {
-    return response.json().then((data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private handleResponse = (response: Response): Promise<any> => {
+    return response.text().then((textData) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let data: any;
+      try {
+        data = textData.length > 0 ? JSON.parse(textData) : undefined;
+      } catch (er) {
+        const errorMessage = "Invalid response from server.";
+        this.currentErrorSubject.next(errorMessage);
+
+        return Promise.reject(`${errorMessage}. Invalid json: ${textData}.`);
+      }
+
       if (!response.ok) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(response.status) !== -1) {
           this.logout();
         }
-
         const error = (data && data.error) || response.statusText;
         this.currentErrorSubject.next(error);
-
         return Promise.reject(error);
       }
-
       this.currentErrorSubject.next(undefined);
       return data;
     });
+  }
+
+  private handleReject = (reason: string): Promise<void> => {
+    this.currentErrorSubject.next("It seems our servers are down right now");
+    return Promise.reject(reason);
   }
 
   public async pingServer(): Promise<unknown> {
@@ -65,23 +79,24 @@ class UserContextManager {
     //password = sha256(password);
 
     const authEndpoint = urljoin(Constants.host, "api/user/authenticate");
-    const response = await fetch(authEndpoint, {
+    return await fetch(authEndpoint, {
       method: "POST",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    });
-
-    const user = (await this.handleResponse(response)) as AuthUser;
-    if (!user)
-      return Promise.reject("User was undefined");
-
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    this.currentUserSubject.next(user);
-
-    return user;
+    })
+      .then(this.handleResponse, this.handleReject)
+      .then((user: AuthUser | undefined) => {
+        if (!user)
+          return Promise.reject("User was undefined");
+        
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        this.currentUserSubject.next(user);
+    
+        return user;
+      });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,7 +124,7 @@ class UserContextManager {
     return fetch(input, {
       ...newInit,
       headers: newHeaders,
-    }).then(this.handleResponse);
+    }).then(this.handleResponse, this.handleReject);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -118,7 +133,7 @@ class UserContextManager {
       input = urljoin(Constants.host, input);
     }
 
-    return fetch(input, init).then(this.handleResponse);
+    return fetch(input, init).then(this.handleResponse, this.handleReject);
   }
 
   public logout(): void {

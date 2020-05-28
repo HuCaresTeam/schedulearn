@@ -39,7 +39,10 @@ export default class AppNav extends React.Component<AppProps> {
             <Nav.Link href="/">Home</Nav.Link>
             <NavDropdown title="My Team" id="team-dropdown">
               <NavDropdown.Item href="/new-user">Create User</NavDropdown.Item>
+              <NavDropdown.Item href="/manage-limits">Manage Limits</NavDropdown.Item>
               <NavDropdown.Item href="/team-calandar">Calandar</NavDropdown.Item>
+              <NavDropdown.Item href="/team-learning-tree">Learning Tree</NavDropdown.Item>
+              <NavDropdown.Item href="/make-suggestions">Make Suggestions</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/topics-by-team">Topics By Team</NavDropdown.Item>
               <NavDropdown.Item href="/members-by-topic">Team members By Topic</NavDropdown.Item>

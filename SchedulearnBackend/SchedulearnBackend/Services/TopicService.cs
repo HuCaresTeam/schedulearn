@@ -81,19 +81,21 @@ namespace SchedulearnBackend.Services
 
         public async Task<List<TeamTopics>> GetTopicsByManager(int managerId)
         {
-            var teamsWithTopics = new List<TeamTopics>();
-
             var baseTeam = await _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefaultAsync();
             if (baseTeam == null)
                 throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
 
-            foreach (Team accessibleTeam in await _teamService.GetAccessibleTeams(baseTeam.Id))
+            var teamTopicTasks = new List<KeyValuePair<Team, Task<List<Topic>>>>();
+            foreach (Team accessibleTeam in await _teamService.GetAllTeamsBelowManager(managerId))
             {
-                var teamTopics = await GetTopicsByTeamAsync(accessibleTeam.Id);
-                teamsWithTopics.Add(new TeamTopics(accessibleTeam, teamTopics));
+                var teamTopicsTask = GetTopicsByTeamAsync(accessibleTeam.Id);
+                teamTopicTasks.Add(KeyValuePair.Create(accessibleTeam, teamTopicsTask));
             }
 
-            return teamsWithTopics;
+            await Task.WhenAll(teamTopicTasks.Select(t => t.Value));
+            var teamTopics = teamTopicTasks.Select(async (teamTopics) => new TeamTopics(teamTopics.Key, await teamTopics.Value));
+
+            return (await Task.WhenAll(teamTopics)).ToList();
         }
     }
 }

@@ -8,6 +8,7 @@ using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.Controllers.DTOs;
 using SchedulearnBackend.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchedulearnBackend.Controllers
 {
@@ -25,6 +26,17 @@ namespace SchedulearnBackend.Controllers
             _schedulearnContext = schedulearnContext;
         }
 
+        // GET: api/Limit
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Limit>>> GetLimits()
+        {
+            System.Diagnostics.Debug.WriteLine("GetLimits");
+
+            return await _schedulearnContext.Limits.ToListAsync();
+        }
+        
+
+
         // GET: api/Limit/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Limit>> GetLimit(int id)
@@ -39,5 +51,17 @@ namespace SchedulearnBackend.Controllers
             System.Diagnostics.Debug.WriteLine($"GetLimitByUser {userId}");
             return await _limitService.GetLimitByUserAsync(userId);
         }
+
+        //POST: api/Limit
+        [HttpPost]
+        public async Task<ActionResult<Limit>> PostLimit(LimitToCreate limitToCreate)
+        {
+            System.Diagnostics.Debug.WriteLine($"PostLimit: Name: {limitToCreate.Name}, Consecutive Learning Days: {limitToCreate.LimitOfConsecutiveLearningDays}, Learning Days Per Month: {limitToCreate.LimitOfLearningDaysPerMonth}, Learning Days Per Quarter: {limitToCreate.LimitOfLearningDaysPerQuarter}, Learning Days Per Year: {limitToCreate.LimitOfLearningDaysPerYear}");
+            var newLimit = await _limitService.AddNewLimitAsync(limitToCreate);
+
+            return CreatedAtAction(nameof(GetLimit), new { id = newLimit.Id }, newLimit);
+        }
+
+
     }
 }
