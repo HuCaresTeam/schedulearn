@@ -93,7 +93,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
   }
 
   handleReject = (learningDayEvent: LearningDayEvent, statusCode: number): void => {
-    // Hanlde Optimistic Lock Conflict
+    // Handle Optimistic Lock Conflict
     if(statusCode === 409) {
       this.openConcurencyResolver(learningDayEvent);
     }
