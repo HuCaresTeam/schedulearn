@@ -51,7 +51,8 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
     };
   }
 
-  handleSubmit = (): void => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     this.props.onEventSubmit({
       id: this.props.learningDayEvent?.id,
       rowVersion: this.props.learningDayEvent?.rowVersion,

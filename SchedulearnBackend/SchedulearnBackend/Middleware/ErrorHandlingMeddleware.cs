@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SchedulearnBackend.UserFriendlyExceptions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.Middleware
 {
@@ -36,6 +39,12 @@ namespace SchedulearnBackend.Middleware
             if (ex is UserFriendlyException friendlyException) {
                 code = friendlyException.StatusCode;
                 msg = ex.Message;
+            }
+
+            if (ex is DbUpdateConcurrencyException)
+            {
+                code = HttpStatusCode.Conflict;
+                msg = Error_ConcurrencyException;
             }
 
             var result = JsonConvert.SerializeObject(new { error = msg });

@@ -123,17 +123,5 @@ namespace SchedulearnBackend.DataAccessLayer
             modelbuilder.Entity<Suggestion>().HasData(new Suggestion() { Id = 2, TopicId = 2, SuggesteeId = 4, SuggesterId = 2, CreationDate = new DateTime(2020, 05, 02, 17, 00, 00) });
 
         }
-
-        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                throw new ConcurrencyException(Error_ConcurrencyException, ex);
-            }
-        }
     }
 }
