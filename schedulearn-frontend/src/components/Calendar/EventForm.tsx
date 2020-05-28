@@ -21,6 +21,7 @@ export interface EventFormProps {
 
 export interface LearningDayEvent {
   id?: number;
+  rowVersion?: string;
   start: Date;
   end: Date;
   title: string;
@@ -50,9 +51,11 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
     };
   }
 
-  handleSubmit = (): void => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     this.props.onEventSubmit({
       id: this.props.learningDayEvent?.id,
+      rowVersion: this.props.learningDayEvent?.rowVersion,
       start: this.state.start,
       end: this.state.end,
       title: this.state.title,
@@ -64,6 +67,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
 
   componentDidUpdate(prevProps: EventFormProps): void {
     if ((this.props.isOpen !== prevProps.isOpen && this.props.isOpen === true) ||
+      this.props.learningDayEvent?.rowVersion !== prevProps.learningDayEvent?.rowVersion ||
       this.props.learningDayEvent?.start !== prevProps.learningDayEvent?.start ||
       this.props.learningDayEvent?.end !== prevProps.learningDayEvent?.end ||
       this.props.learningDayEvent?.userId !== prevProps.learningDayEvent?.userId ||

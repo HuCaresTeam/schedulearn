@@ -5,6 +5,7 @@ using SchedulearnBackend.Extensions;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using static SchedulearnBackend.Properties.Resources;
@@ -72,13 +73,16 @@ namespace SchedulearnBackend.Services
             return newLearningDay;
         }
 
-        public async Task<LearningDay> ModifyLearningDayAsync(int id, ModifyLearningDay learningDayToCreate)
+        public async Task<LearningDay> ModifyLearningDayAsync(int id, ModifyLearningDay learningDayToModify)
         {
             var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
             if (learningDay == null)
                 throw new NotFoundException(Error_LearningDayNotFound.ReplaceArgs(id));
 
-            learningDay.Description = learningDayToCreate.Description;
+            if (!learningDayToModify.ForceWrite ?? true)
+                _schedulearnContext.Entry(learningDay).Property("RowVersion").OriginalValue = learningDayToModify.RowVersion;
+
+            learningDay.Description = learningDayToModify.Description;
             _schedulearnContext.Update(learningDay);
 
             await _schedulearnContext.SaveChangesAsync();

@@ -11,6 +11,7 @@ namespace SchedulearnBackend.Controllers.DTOs
         public LearningDayWithUser(LearningDay learningDay)
         {
             Id = learningDay.Id;
+            RowVersion = learningDay.RowVersion;
             Description = learningDay.Description;
             DateFrom = DateTime.SpecifyKind(learningDay.DateFrom, DateTimeKind.Utc);
             DateTo = DateTime.SpecifyKind(learningDay.DateTo, DateTimeKind.Utc);
@@ -25,6 +26,7 @@ namespace SchedulearnBackend.Controllers.DTOs
         }
 
         public int Id { get; set; }
+        public byte[] RowVersion { get; set; }
         public string Description { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }

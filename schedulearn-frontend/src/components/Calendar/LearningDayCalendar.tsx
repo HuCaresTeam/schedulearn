@@ -24,6 +24,7 @@ type LearningDayCalendarProps = LearningDayCalendarPropsEnabled | LearningDayCal
 
 interface LearningDayCalendarState {
   isEventModalOpen: boolean;
+  isConcurencyModalOpen: boolean;
   isExistingEventOpened: boolean;
   currentEvent?: AtLeast<LearningDayEvent, "start" | "end" | "userId">;
 }
@@ -35,6 +36,7 @@ export interface ColoredLearningDayEvent extends LearningDayEvent {
 export class LearningDayCalendar extends React.Component<LearningDayCalendarProps, LearningDayCalendarState> {
   public state: LearningDayCalendarState = {
     isEventModalOpen: false,
+    isConcurencyModalOpen: false,
     isExistingEventOpened: true,
   }
 

@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulearnBackend.Models;
+using SchedulearnBackend.UserFriendlyExceptions;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.DataAccessLayer
 {
@@ -122,6 +123,5 @@ namespace SchedulearnBackend.DataAccessLayer
             modelbuilder.Entity<Suggestion>().HasData(new Suggestion() { Id = 2, TopicId = 2, SuggesteeId = 4, SuggesterId = 2, CreationDate = new DateTime(2020, 05, 02, 17, 00, 00) });
 
         }
-
     }
 }

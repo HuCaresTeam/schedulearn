@@ -1,5 +1,6 @@
 export interface LearningDayWithUser {
     id?: number;
+    rowVersion?: string;
     description: string;
     dateFrom: string;
     dateTo: string;
