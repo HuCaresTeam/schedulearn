@@ -53,49 +53,46 @@ namespace SchedulearnBackend.Services
             return team;
         }
 
-        public async Task<List<Team>> GetManagedTeams(int managerId)
+        public async Task<List<Team>> GetAllTeamsBelowTeam(int teamId)
         {
-            var baseTeam = _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefault();
-            if (baseTeam == null)
-                throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
-
-            return await GetAccessibleTeams(baseTeam.Id);
+            var baseTeam = await GetTeamAsync(teamId);
+            var teamsBelowManager = await GetAllTeamsBelowManager(baseTeam.ManagerId);
+            return teamsBelowManager.Where(team => team.Id != teamId).ToList();
         }
 
-        public async Task<List<Team>> GetAccessibleTeams(int teamId)
+        public async Task<List<Team>> GetAllTeamsBelowManager(int managerId)
         {
-            var accessibleTeams = new List<Team>();
-            var team = await GetTeamAsync(teamId);
-            if (team == null)
-                throw new NotFoundException($"Team with id {teamId} doesn't exist");
-
-            accessibleTeams.Add(team);
-
-            foreach (User member in team.Members)
-            {
-                if (member.ManagedTeam != null)
-                {
-                    accessibleTeams.AddRange(await GetAccessibleTeams(member.ManagedTeam.Id));
-                }
-            }
-
-            return accessibleTeams;
+            // This may look like string interporlation, but
+            // The interpolated value is converted to a DbParameter and isn't vulnerable to SQL injection
+            // @see: https://docs.microsoft.com/en-us/ef/core/querying/raw-sql#code-try-2
+            return await _schedulearnContext.Teams.FromSqlInterpolated(@$"WITH org AS (
+                SELECT       
+                    team.*,
+                    usr.Id as UserId
+                FROM       
+                    dbo.Teams team
+                    INNER JOIN dbo.Users usr
+                        ON usr.TeamId = team.Id
+                WHERE ManagerId = {managerId}
+                UNION ALL
+                SELECT 
+                    e.*,
+                    eUser.Id as UserId
+                FROM 
+                    dbo.Teams e
+                    INNER JOIN org o 
+                        ON o.UserId = e.ManagerId
+                    INNER JOIN dbo.Users eUser
+                        ON eUser.TeamId = e.Id
+            ) SELECT DISTINCT org.Id, org.LimitId, org.ManagerId FROM org;").ToListAsync();
         }
 
         public async Task<List<TeamMembers>> GetManagedTeamsByTopicAsync(int topicId, int managerId)
         {
-            var teamsByTopic = new List<TeamMembers>();
-
-            var baseTeam = await _schedulearnContext.Teams.Where(t => t.ManagerId == managerId).SingleOrDefaultAsync();
-            if (baseTeam == null)
-                throw new NotFoundException($"User with id {managerId} doesn't have managed teams");
-
-            foreach (Team accessibleTeam in await GetAccessibleTeams(baseTeam.Id))
-            {
-                var memebersWhoLearnedTopic = GetTeamMembersWhoLearnedTopic(topicId, accessibleTeam);
-                if (memebersWhoLearnedTopic.Count != 0)
-                    teamsByTopic.Add(new TeamMembers(accessibleTeam, memebersWhoLearnedTopic));
-            }
+            var accessibleTeams = await GetAllTeamsBelowManager(managerId);
+            var teamsByTopic = accessibleTeams
+                .Select(t => new TeamMembers(t, GetTeamMembersWhoLearnedTopic(topicId, t)))
+                .ToList();
 
             return teamsByTopic;
         }

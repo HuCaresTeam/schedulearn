@@ -147,7 +147,7 @@ namespace SchedulearnBackend.Services
 
         public async Task<IEnumerable<User>> GetAllUsersBelowManager(int managerId)
         {
-            var managedTeams = await _teamService.GetManagedTeams(managerId);
+            var managedTeams = await _teamService.GetAllTeamsBelowManager(managerId);
             var managedUsers = managedTeams.SelectMany((team) => team.Members);
 
             return managedUsers;
