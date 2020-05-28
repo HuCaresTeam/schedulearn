@@ -2,6 +2,7 @@ import React from "react";
 import "./FlatTopicList.scss";
 
 export interface FlatTopicListItem {
+  id: number;
   name: string;
   description: string;
 }
@@ -20,7 +21,7 @@ export default class FlatTopicList extends React.Component<FlatTopicListProps, {
             <th>Description</th>
           </tr>
           {this.props.topics.map((topic): React.ReactNode => (
-            <tr key={topic.name}>
+            <tr key={topic.id}>
               <td>{topic.name}</td>
               <td>{topic.description}</td>
             </tr>

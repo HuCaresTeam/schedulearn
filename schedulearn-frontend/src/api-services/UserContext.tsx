@@ -38,7 +38,8 @@ class UserContextManager {
     return this.currentUserSubject.asObservable();
   }
 
-  private handleResponse = (response: Response): Promise<unknown> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private handleResponse = (response: Response): Promise<any> => {
     return response.text().then((textData) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let data: any;
@@ -65,6 +66,11 @@ class UserContextManager {
     });
   }
 
+  private handleReject = (reason: string): Promise<void> => {
+    this.currentErrorSubject.next("It seems our servers are down right now");
+    return Promise.reject(reason);
+  }
+
   public async pingServer(): Promise<unknown> {
     return await this.fetch("api/user/current");
   };
@@ -73,23 +79,24 @@ class UserContextManager {
     //password = sha256(password);
 
     const authEndpoint = urljoin(Constants.host, "api/user/authenticate");
-    const response = await fetch(authEndpoint, {
+    return await fetch(authEndpoint, {
       method: "POST",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
-    });
-
-    const user = (await this.handleResponse(response)) as AuthUser;
-    if (!user)
-      return Promise.reject("User was undefined");
-
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    this.currentUserSubject.next(user);
-
-    return user;
+    })
+      .then(this.handleResponse, this.handleReject)
+      .then((user: AuthUser | undefined) => {
+        if (!user)
+          return Promise.reject("User was undefined");
+        
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        this.currentUserSubject.next(user);
+    
+        return user;
+      });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -117,7 +124,7 @@ class UserContextManager {
     return fetch(input, {
       ...newInit,
       headers: newHeaders,
-    }).then(this.handleResponse);
+    }).then(this.handleResponse, this.handleReject);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,7 +133,7 @@ class UserContextManager {
       input = urljoin(Constants.host, input);
     }
 
-    return fetch(input, init).then(this.handleResponse);
+    return fetch(input, init).then(this.handleResponse, this.handleReject);
   }
 
   public logout(): void {
