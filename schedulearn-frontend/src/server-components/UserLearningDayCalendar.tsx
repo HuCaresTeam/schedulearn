@@ -86,9 +86,18 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ rowVersion: learningDay.rowVersion, description: learningDay.description, forceWrite }),
-    }).then(() => this.fetchUserLearningDays(), () => this.openConcurencyResolver(learningDayEvent));
+    }).then(
+      () => this.fetchUserLearningDays(), 
+      (reject: {statusCode: number}) => this.handleReject(learningDayEvent, reject.statusCode),
+    );
   }
 
+  handleReject = (learningDayEvent: LearningDayEvent, statusCode: number): void => {
+    // Hanlde Optimistic Lock Conflict
+    if(statusCode === 409) {
+      this.openConcurencyResolver(learningDayEvent);
+    }
+  }
 
   handleEventModify = (learningDayEvent: LearningDayEvent): void => {
     this.modifylearningDay(learningDayEvent, false);

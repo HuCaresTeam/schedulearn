@@ -59,7 +59,7 @@ class UserContextManager {
         }
         const error = (data && data.error) || response.statusText;
         this.currentErrorSubject.next(error);
-        return Promise.reject(error);
+        return Promise.reject({statusCode: response.status, error: error});
       }
       this.currentErrorSubject.next(undefined);
       return data;
