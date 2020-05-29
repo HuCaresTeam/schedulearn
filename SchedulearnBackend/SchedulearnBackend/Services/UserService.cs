@@ -38,7 +38,8 @@ namespace SchedulearnBackend.Services
             _emailService = emailService;
         }
 
-        private string GetHashed(string password) {
+        private string GetHashed(string password)
+        {
             return Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: new byte[0],
@@ -103,7 +104,14 @@ namespace SchedulearnBackend.Services
             User newUser = userData.CreateUser();
             if (manager.ManagedTeam == null)
             {
-                var newTeam = await _teamService.AddNewTeamAsync(new CreateNewTeam() { ManagerId = manager.Id, LimitId = manager.Team.LimitId });
+                var newTeam = await _teamService.AddNewTeamAsync
+                (
+                    new CreateNewTeam()
+                    {
+                        ManagerId = manager.Id,
+                        LimitId = manager.Team?.LimitId ?? manager.LimitId.Value
+                    }
+                );
                 newUser.TeamId = newTeam.Id;
             }
             else
@@ -171,6 +179,14 @@ namespace SchedulearnBackend.Services
             var managedUsers = managedTeams.SelectMany((team) => team.Members);
 
             return managedUsers;
+        }
+
+        public static Limit GetUserLimits(User user)
+        {
+            if (user.Limit != null)
+                return user.Limit;
+
+            return user.Team.Limit;
         }
     }
 }

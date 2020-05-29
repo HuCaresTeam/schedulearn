@@ -53,8 +53,8 @@ class UserContextManager {
       }
 
       if (!response.ok) {
-        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(response.status) !== -1) {
+        // auto logout if 401 Unauthorized
+        if ([HttpStatusCode.Unauthorized].indexOf(response.status) !== -1) {
           this.logout();
         }
         const error = (data && data.error) || response.statusText;
