@@ -5,6 +5,7 @@ export interface CreateNewLearningDay {
   description: string;
   dateFrom: string;
   dateTo: string;
+  timezoneMinutes: number;
 }
 
 export default CreateNewLearningDay;

@@ -107,17 +107,17 @@ namespace SchedulearnBackend.DataAccessLayer
             modelbuilder.Entity<Topic>().HasData(new Topic() { Id = 22, Name = "Debt issuance for public works projects", Description = "Debt issuance for public works projects description", ParentTopicId = 11 });
 
 
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 1, UserId = 4, TopicId = 2, DateFrom = new DateTime(2020, 04, 25, 16, 00, 00), DateTo = new DateTime(2020, 04, 25, 17, 30, 00), Description = "Mokausi Object oriented programming" });
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 2, UserId = 4, TopicId = 4, DateFrom = new DateTime(2020, 04, 26, 12, 00, 00), DateTo = new DateTime(2020, 04, 26, 15, 30, 00), Description = "Mokausi Java" });
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 3, UserId = 4, TopicId = 5, DateFrom = new DateTime(2020, 04, 26, 15, 30, 00), DateTo = new DateTime(2020, 04, 26, 17, 00, 00), Description = "Mokausi C#" });
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 4, UserId = 4, TopicId = 3, DateFrom = new DateTime(2020, 04, 27, 11, 30, 00), DateTo = new DateTime(2020, 04, 27, 14, 30, 00), Description = "Mokausi Procedural programming" });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 1, UserId = 4, TopicId = 2, DateFrom = new DateTime(2020, 04, 25, 16, 00, 00), DateTo = new DateTime(2020, 04, 25, 17, 30, 00), Description = "Mokausi Object oriented programming", TimezoneMinutes = 180});
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 2, UserId = 4, TopicId = 4, DateFrom = new DateTime(2020, 04, 26, 12, 00, 00), DateTo = new DateTime(2020, 04, 26, 15, 30, 00), Description = "Mokausi Java", TimezoneMinutes = 180 });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 3, UserId = 4, TopicId = 5, DateFrom = new DateTime(2020, 04, 26, 15, 30, 00), DateTo = new DateTime(2020, 04, 26, 17, 00, 00), Description = "Mokausi C#", TimezoneMinutes = 180 });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 4, UserId = 4, TopicId = 3, DateFrom = new DateTime(2020, 04, 27, 11, 30, 00), DateTo = new DateTime(2020, 04, 27, 14, 30, 00), Description = "Mokausi Procedural programming", TimezoneMinutes = 180 });
 
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 5, UserId = 5, TopicId = 2, DateFrom = new DateTime(2020, 04, 26, 10, 30, 00), DateTo = new DateTime(2020, 04, 26, 18, 00, 00), Description = "Mokausi Object oriented programming" });
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 6, UserId = 5, TopicId = 5, DateFrom = new DateTime(2020, 04, 27, 13, 00, 00), DateTo = new DateTime(2020, 04, 26, 16, 30, 00), Description = "Mokausi C#" });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 5, UserId = 5, TopicId = 2, DateFrom = new DateTime(2020, 04, 26, 10, 30, 00), DateTo = new DateTime(2020, 04, 26, 18, 00, 00), Description = "Mokausi Object oriented programming", TimezoneMinutes = 180 });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 6, UserId = 5, TopicId = 5, DateFrom = new DateTime(2020, 04, 27, 13, 00, 00), DateTo = new DateTime(2020, 04, 26, 16, 30, 00), Description = "Mokausi C#", TimezoneMinutes = 180 });
 
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 7, UserId = 3, TopicId = 16, DateFrom = new DateTime(2020, 04, 26, 10, 30, 00), DateTo = new DateTime(2020, 04, 26, 13, 00, 00), Description = "Mokausi Capital budgeting" });
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 8, UserId = 3, TopicId = 17, DateFrom = new DateTime(2020, 04, 26, 14, 30, 00), DateTo = new DateTime(2020, 04, 26, 15, 30, 00), Description = "Mokausi Sources of capital" });
-            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 9, UserId = 3, TopicId = 18, DateFrom = new DateTime(2020, 04, 26, 15, 30, 00), DateTo = new DateTime(2020, 04, 26, 17, 00, 00), Description = "Mokausi Dividend policy" });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 7, UserId = 3, TopicId = 16, DateFrom = new DateTime(2020, 04, 26, 10, 30, 00), DateTo = new DateTime(2020, 04, 26, 13, 00, 00), Description = "Mokausi Capital budgeting", TimezoneMinutes = 180 });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 8, UserId = 3, TopicId = 17, DateFrom = new DateTime(2020, 04, 26, 14, 30, 00), DateTo = new DateTime(2020, 04, 26, 15, 30, 00), Description = "Mokausi Sources of capital", TimezoneMinutes = 180 });
+            modelbuilder.Entity<LearningDay>().HasData(new LearningDay() { Id = 9, UserId = 3, TopicId = 18, DateFrom = new DateTime(2020, 04, 26, 15, 30, 00), DateTo = new DateTime(2020, 04, 26, 17, 00, 00), Description = "Mokausi Dividend policy", TimezoneMinutes = 180 });
 
 
             modelbuilder.Entity<Suggestion>().HasData(new Suggestion() { Id = 1, TopicId = 1, SuggesteeId = 4, SuggesterId = 1, CreationDate = new DateTime(2020, 04, 26, 15, 30, 00) });

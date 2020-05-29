@@ -14,8 +14,9 @@ namespace SchedulearnBackend.Models
         public DateTime DateFrom { get; set; }
         [Required]
         public DateTime DateTo { get; set; }
+        [Required]
+        public int TimezoneMinutes { get; set; }
         public string Description { get; set; }
-
         public virtual Topic Topic { get; set; }
         public virtual User User { get; set; }
 
