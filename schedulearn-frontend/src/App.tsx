@@ -28,7 +28,7 @@ import UserTopicTree from "./server-components/UserTopicTree";
 import RegisterUser from "./server-components/RegisterUser";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TeamTopicTree from "./server-components/TeamTopicTree";
-import { TransferUserForm } from "./server-components/TransferUserForm";
+import { TransferUser } from "./server-components/ManagedTeam/TransferUser";
 
 interface AppState {
   currentUser?: AuthUser;
@@ -64,7 +64,7 @@ export default class App extends React.Component<{}, AppState> {
             <PrivateRoute path="/my-learning-tree"><UserTopicTree/></PrivateRoute>
             <PrivateRoute path="/team-learning-tree"><TeamTopicTree/></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
-            <PrivateRoute path="/transfer-user"><TransferUserForm /></PrivateRoute>
+            <PrivateRoute path="/transfer-user"><TransferUser/></PrivateRoute>
             <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
             <PrivateRoute path="/my-limits"><LimitsPage /></PrivateRoute>
             <PrivateRoute path="/my-suggestions"><SuggestionsPage /></PrivateRoute>

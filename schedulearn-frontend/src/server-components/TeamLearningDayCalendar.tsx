@@ -4,6 +4,7 @@ import UserContext from "src/api-services/UserContext";
 import LearningDayWithUser from "src/api-services/api-contract/LearningDayWithUser";
 import { TeamUserSelector } from "./TeamUserSelector";
 import { TeamListItem } from "src/components/TeamsList/TeamList";
+import User from "src/api-services/api-contract/User";
 
 export interface TeamLearningDayCalendarState {
   teamLearningDays?: ColoredLearningDayEvent[];
@@ -33,13 +34,13 @@ export class TeamLearningDayCalendar extends React.Component<{}, TeamLearningDay
     return UserContext.fetch(`api/learningDay/user/${userId}`);
   }
 
-  onSelect = (team?: TeamListItem, userId?: number): void => {
+  onSelect = (team?: TeamListItem, user?: User): void => {
     if (!team) {
       this.setState({ teamLearningDays: undefined });
       return;
     }
 
-    const fetch = userId ? this.fetchByUserId(userId) : this.fetchByTeamId(team.teamId);
+    const fetch = user?.id ? this.fetchByUserId(user?.id) : this.fetchByTeamId(team.teamId);
     fetch.then((learningDays: LearningDayWithUser[]) => {
       const learningDayEvents = learningDays.map(this.learningDayToEvent);
       this.setState({ teamLearningDays: learningDayEvents });

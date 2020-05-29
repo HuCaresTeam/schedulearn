@@ -21,7 +21,7 @@ export interface NestedListProps<TItem extends ListItem<TItem>> {
 interface NestedListState<TItem extends ListItem<TItem>> {
   currentItem: TItem;
   isTopicModalOpen: boolean;
-  isTopicModalDisabled: boolean;
+  isTopicFormDisabled: boolean;
   newTopic?: TopicForm;
   modalVisible: boolean;
   modalDescription: string;
@@ -45,7 +45,7 @@ export class NestedList<TItem extends ListItem<TItem>>
       posX: 0,
       posY: 0,
       isTopicModalOpen: false,
-      isTopicModalDisabled: true,
+      isTopicFormDisabled: true,
       newTopic: { parentTopicId: currentItem.id },
     };
   }
@@ -132,7 +132,7 @@ export class NestedList<TItem extends ListItem<TItem>>
   onNewAddNewTopicClick = (): void => {
     this.setState({
       isTopicModalOpen: true,
-      isTopicModalDisabled: false,
+      isTopicFormDisabled: false,
       newTopic: {
         parentTopicId: this.currentItem.id,
       },
@@ -142,7 +142,7 @@ export class NestedList<TItem extends ListItem<TItem>>
   onTopicAddClose = (): void => {
     this.setState({
       isTopicModalOpen: false,
-      isTopicModalDisabled: true,
+      isTopicFormDisabled: true,
     });
   }
 
@@ -157,7 +157,7 @@ export class NestedList<TItem extends ListItem<TItem>>
   onTopicAddSubmit = (topic: TopicForm): void => {
     this.setState({
       isTopicModalOpen: false,
-      isTopicModalDisabled: true,
+      isTopicFormDisabled: true,
     });
 
     this.tryOnAddOptionSubmit(topic);
@@ -201,7 +201,7 @@ export class NestedList<TItem extends ListItem<TItem>>
           {(isOpen: boolean): React.ReactNode => (
             <TopicAddForm
               isOpen={isOpen}
-              disabled={this.state.isTopicModalDisabled}
+              disabled={this.state.isTopicFormDisabled}
               onEventSubmit={this.onTopicAddSubmit}
               newTopic={this.state.newTopic}
             />

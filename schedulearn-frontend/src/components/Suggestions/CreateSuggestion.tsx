@@ -6,6 +6,7 @@ import UserContext from "src/api-services/UserContext";
 import CreateNewSuggestion from "src/api-services/api-contract/CreateNewSuggestion";
 import { TeamListItem } from "src/components/TeamsList/TeamList";
 import { CustomModal } from "../Modal/CustomModal";
+import User from "src/api-services/api-contract/User";
 
 
 export interface NewSuggestion {
@@ -59,11 +60,11 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
     this.setState({ currentTeamId: team.teamId });
   }
 
-  handleUserSelect = (userId?: number): void => {
+  handleUserSelect = (user?: User): void => {
     this.setState({
       newSuggestion: {
         suggesterId: UserContext.user?.id,
-        suggesteeId: userId,
+        suggesteeId: user?.id,
       },
       isSuggestionModalOpen: true,
     });

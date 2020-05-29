@@ -11,6 +11,8 @@ export interface TeamListItem {
 interface TeamListProps {
   teams: TeamListItem[];
   onChange(team: TeamListItem): void;
+  required?: boolean;
+  defaultItem?: string;
 }
 
 export default class TeamList extends React.Component<TeamListProps, {}>{
@@ -26,9 +28,10 @@ export default class TeamList extends React.Component<TeamListProps, {}>{
 
     return <Form.Control style={{width: "300px", marginBottom: "20px"}}
       as="select"
+      required={this.props.required}
       onChange={this.onChange}
     >
-      <option disabled selected> -- Select a team -- </option>
+      <option disabled selected> {this.props.defaultItem ?? "-- Select a team --"} </option>
       { teamOptionsList };
     </Form.Control>;
   }

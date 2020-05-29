@@ -4,7 +4,9 @@ import TeamList, { TeamListItem } from "src/components/TeamsList/TeamList";
 
 interface ManagedTeamsSelectProps {
   onTeamChange(team: TeamListItem): void;
+  defaultItem?: string;
   hidden?: boolean;
+  required?: boolean;
 }
 
 interface ManagedTeamsSelectState {
@@ -36,7 +38,11 @@ export default class ManagedTeamsSelect extends React.Component<ManagedTeamsSele
     }
     
     return (
-      <TeamList teams={this.state.teams} onChange={this.props.onTeamChange} />
+      <TeamList defaultItem={this.props.defaultItem} 
+        teams={this.state.teams}
+        onChange={this.props.onTeamChange}
+        required={this.props.required}
+      />
     );
   }
 }

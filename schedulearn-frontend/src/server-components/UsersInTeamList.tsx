@@ -2,11 +2,13 @@ import React from "react";
 import UserContext from "src/api-services/UserContext";
 import User from "src/api-services/api-contract/User";
 import { Team } from "src/api-services/api-contract/Team";
-import UserList from "src/components/Calendar/UserList/UserList";
+import UserList from "src/components/UserList/UserList";
 
 interface UsersInTeamListProps {
   teamId: number;
-  onUserChange(userId: number | undefined): void;
+  onUserChange(user: User | undefined): void;
+  required?: boolean;
+  defaultItem?: string;
 }
 
 interface UsersInTeamListState {
@@ -34,7 +36,7 @@ export default class UsersInTeamList extends React.Component<UsersInTeamListProp
 
   render(): React.ReactNode {
     return (
-      <UserList users={this.state.users ?? []} onChange={this.props.onUserChange} />
+      <UserList defaultItem={this.props.defaultItem} users={this.state.users ?? []} onChange={this.props.onUserChange} required={this.props.required} />
     );
   }
 }
