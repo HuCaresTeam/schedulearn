@@ -92,7 +92,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
         <div style={{textAlign: "center"}}>
           <Button style={{width: "150px"}}
             variant="primary"
-            type="submit"
+            type="button"
             onClick={this.handleSubmit}
           >Submit</Button>
         </div>
