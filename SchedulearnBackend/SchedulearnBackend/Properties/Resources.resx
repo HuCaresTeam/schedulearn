@@ -135,6 +135,18 @@
     <value>Learning day with id ({0}) does not exist.</value>
     <comment>0 - learning day id</comment>
   </data>
+  <data name="Error_LimitOfConsecutiveLearningDays" xml:space="preserve">
+    <value>Consecutive learning days limit already used</value>
+  </data>
+  <data name="Error_LimitOfLearningDaysPerMonth" xml:space="preserve">
+    <value>Learning days per month limit already used</value>
+  </data>
+  <data name="Error_LimitOfLearningDaysPerQuarter" xml:space="preserve">
+    <value>Learning days per quarter limit already used</value>
+  </data>
+  <data name="Error_LimitOfLearningDaysPerYear" xml:space="preserve">
+    <value>Learning days per year limit already used</value>
+  </data>
   <data name="Error_TopicNotFound" xml:space="preserve">
     <value>Topic with id ({0}) does not exist</value>
     <comment>0 - topic id</comment>
