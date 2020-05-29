@@ -32,9 +32,7 @@ namespace SchedulearnBackend.Services
         public async Task<Limit> GetLimitByUserAsync(int userId)
         {
             var user = await _schedulearnContext.Users.FindAsync(userId);
-            Limit limit = user.Limit;
-            if (limit == null)
-                limit = user.Team.Limit;
+            var limit = UserService.GetUserLimits(user);
             
             return limit ?? throw new NotFoundException($"Limit in user with id ({userId}) was not found");
         }
