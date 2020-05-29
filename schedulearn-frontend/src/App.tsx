@@ -68,9 +68,9 @@ export default class App extends React.Component<{}, AppState> {
             <PrivateRoute path="/team-calendar"><TeamCalendarPage /></PrivateRoute>
             <PrivateRoute path="/my-limits"><LimitsPage /></PrivateRoute>
             <PrivateRoute path="/my-suggestions"><SuggestionsPage /></PrivateRoute>
-            <PrivateRoute path="/members-by-topic"><UserLearningDaysByTopicView /></PrivateRoute>
+            <PrivateRoute path="/subordinate-learning-days"><UserLearningDaysByTopicView /></PrivateRoute>
             <PrivateRoute path="/teams-by-topic"><TeamsByTopicView /></PrivateRoute>
-            <PrivateRoute path="/topics-by-team"><TopicsByManagerView /></PrivateRoute>
+            <PrivateRoute path="/team-learned-topics"><TopicsByManagerView /></PrivateRoute>
             <PrivateRoute path="/manage-limits"><ManageLimitsPage /></PrivateRoute>
             <PrivateRoute path="/make-suggestions"><NewSuggestion/></PrivateRoute>
           </Switch>

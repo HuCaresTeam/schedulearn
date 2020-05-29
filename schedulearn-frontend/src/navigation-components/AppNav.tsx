@@ -45,9 +45,9 @@ export default class AppNav extends React.Component<AppProps> {
               <NavDropdown.Item href="/team-learning-tree">Learning Tree</NavDropdown.Item>
               <NavDropdown.Item href="/make-suggestions">Make Suggestions</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/topics-by-team">Topics By Team</NavDropdown.Item>
-              <NavDropdown.Item href="/members-by-topic">Team members By Topic</NavDropdown.Item>
-              <NavDropdown.Item href="/teams-by-topic">Teams By Topic</NavDropdown.Item>
+              <NavDropdown.Item href="/subordinate-learning-days">Subordinate Learning Days</NavDropdown.Item>
+              <NavDropdown.Item href="/teams-by-topic">Teams That Learned a Topic</NavDropdown.Item>
+              <NavDropdown.Item href="/team-learned-topics">Team Learned Topics</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <DropdownButton alignRight

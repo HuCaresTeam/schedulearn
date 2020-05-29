@@ -26,7 +26,7 @@ export default class UserLearningDaysByTopicView extends React.Component<{}, Use
 
     return (
       <React.Fragment>
-        <legend className="border-bottom mb-4">People in your team, that have or will learn selected topic</legend>
+        <legend className="border-bottom mb-4">People in your managed teams, that have or will a learn selected topic</legend>
         <ManagedTeamsSelect onTeamChange={this.handleTeamChange}/>
         <TopicList onItemClick={this.handleItemClick} maxHeight={250} displayAddOption={false} />
         {workerList}
