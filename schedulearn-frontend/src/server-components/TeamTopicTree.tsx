@@ -7,6 +7,7 @@ import { TeamUserSelector } from "./TeamUserSelector";
 import LearningDaysByTopic from "./LearningDaysByTopic";
 import { TeamListItem } from "src/components/TeamsList/TeamList";
 import { CustomModal } from "src/components/Modal/CustomModal";
+import User from "src/api-services/api-contract/User";
 
 export interface RootTopicTreeState {
   rootTopic?: Topic;
@@ -32,8 +33,8 @@ export default class TeamTopicTree extends React.Component<{}, RootTopicTreeStat
     return UserContext.fetch(`api/learningDay/user/${userId}`);
   }
 
-  onSelect = (team?: TeamListItem, userId?: number): void => {
-    this.setState({currentTeam: team, currentUserId: userId});
+  onSelect = (team?: TeamListItem, user?: User): void => {
+    this.setState({currentTeam: team, currentUserId: user?.id});
 
     UserContext
       .fetch("api/topic")
@@ -46,7 +47,7 @@ export default class TeamTopicTree extends React.Component<{}, RootTopicTreeStat
       return;
     }
   
-    const fetch = userId ? this.fetchByUserId(userId) : this.fetchByTeamId(team.teamId);
+    const fetch = user?.id ? this.fetchByUserId(user.id) : this.fetchByTeamId(team.teamId);
     fetch.then((learningDays: LearningDayWithUser[]) => {
       let learnedTopicIds = learningDays.map((learningDay) => learningDay.topicId);
       learnedTopicIds = [...new Set(learnedTopicIds)];

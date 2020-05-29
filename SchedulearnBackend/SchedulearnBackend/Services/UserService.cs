@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.Services
 {
@@ -154,6 +155,8 @@ namespace SchedulearnBackend.Services
         {
             var user = await GetUserAsync(userId);
             var team = await _teamService.GetTeamAsync(transfer.NewTeamId);
+            if (team.ManagerId == user.Id)
+                throw new BadRequestException(Error_UserTransferManagerError);
 
             user.TeamId = team.Id;
             _schedulearnContext.Update(user);
