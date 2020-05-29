@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Data.Common;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace SchedulearnBackend
 {
@@ -26,17 +29,49 @@ namespace SchedulearnBackend
         {
             services.AddCors();
             services.AddMemoryCache();
-            services.AddDbContext<SchedulearnContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SchedulearnDatabase")));
+
+            services.AddScoped<DbConnection>((serviceProvider) => 
+            {
+                var dbConnection = new SqlConnection(Configuration.GetConnectionString("SchedulearnDatabase"));
+                dbConnection.Open();
+                return dbConnection;
+            });
+
+            services.AddScoped<DbTransaction>((serviceProvider) =>
+            {
+                var dbConnection = serviceProvider
+                    .GetService<DbConnection>();
+
+                return dbConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+            });
+
+            services.AddScoped<DbContextOptions<SchedulearnContext>>((serviceProvider) =>
+            {
+                var dbConnection = serviceProvider.GetService<DbConnection>();
+                return new DbContextOptionsBuilder<SchedulearnContext>()
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer(dbConnection)
+                    .Options;
+            });
+
+            services.AddScoped<SchedulearnContext>((serviceProvider) =>
+            {
+                var transaction = serviceProvider.GetService<DbTransaction>();
+                var options = serviceProvider.GetService<DbContextOptions<SchedulearnContext>>();
+                var context = new SchedulearnContext(options);
+                context.Database.UseTransaction(transaction);
+                return context;
+            });
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
-            services.AddTransient<EmailService>();
-            services.AddTransient<UserService>();
-            services.AddTransient<LimitService>();
-            services.AddTransient<TeamService>();
-            services.AddTransient<TopicService>();
-            services.AddTransient<LearningDayService>();
-            services.AddTransient<SuggestionService>();
+            services.AddScoped<EmailService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<LimitService>();
+            services.AddScoped<TeamService>();
+            services.AddScoped<TopicService>();
+            services.AddScoped<LearningDayService>();
+            services.AddScoped<SuggestionService>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -77,6 +112,7 @@ namespace SchedulearnBackend
              .AllowCredentials());
 
             app.UseWebSockets();
+            app.UseMiddleware(typeof(TransactionFilter));
 
             app.UseRouting();
             app.UseAuthentication();
