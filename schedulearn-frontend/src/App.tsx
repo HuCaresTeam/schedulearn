@@ -16,7 +16,7 @@ import HomePage from "./pages/HomePage";
 import AppNav from "./navigation-components/AppNav";
 import AppError from "./navigation-components/AppError";
 import NewUserPage from "./pages/NewUserPage";
-import TeamCalandarPage from "./pages/TeamCalandarPage";
+import TeamCalendarPage from "./pages/TeamCalendarPage";
 import LimitsPage from "./pages/LimitsPage";
 import SuggestionsPage from "./pages/SuggestionsPage";
 import UserLearningDaysByTopicView from "./server-components/Views/UserLearningDaysByTopicView";
@@ -65,7 +65,7 @@ export default class App extends React.Component<{}, AppState> {
             <PrivateRoute path="/team-learning-tree"><TeamTopicTree/></PrivateRoute>
             <PrivateRoute path="/new-user"><NewUserPage /></PrivateRoute>
             <PrivateRoute path="/transfer-user"><TransferUser/></PrivateRoute>
-            <PrivateRoute path="/team-calandar"><TeamCalandarPage /></PrivateRoute>
+            <PrivateRoute path="/team-calendar"><TeamCalendarPage /></PrivateRoute>
             <PrivateRoute path="/my-limits"><LimitsPage /></PrivateRoute>
             <PrivateRoute path="/my-suggestions"><SuggestionsPage /></PrivateRoute>
             <PrivateRoute path="/members-by-topic"><UserLearningDaysByTopicView /></PrivateRoute>

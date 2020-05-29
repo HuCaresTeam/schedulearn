@@ -41,7 +41,7 @@ export default class AppNav extends React.Component<AppProps> {
               <NavDropdown.Item href="/new-user">Create User</NavDropdown.Item>
               <NavDropdown.Item href="/transfer-user">Transfer User</NavDropdown.Item>
               <NavDropdown.Item href="/manage-limits">Manage Limits</NavDropdown.Item>
-              <NavDropdown.Item href="/team-calandar">Calandar</NavDropdown.Item>
+              <NavDropdown.Item href="/team-calendar">Calendar</NavDropdown.Item>
               <NavDropdown.Item href="/team-learning-tree">Learning Tree</NavDropdown.Item>
               <NavDropdown.Item href="/make-suggestions">Make Suggestions</NavDropdown.Item>
               <NavDropdown.Divider />
