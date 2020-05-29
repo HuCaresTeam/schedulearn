@@ -32,14 +32,32 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     };
   }
 
+  private getDateWithOffset(date: Date): string {
+    const tzo = -date.getTimezoneOffset(),
+      dif = tzo >= 0 ? "+" : "-";
+    return date.getFullYear() +
+        "-" + this.pad(date.getMonth() + 1) +
+        "-" + this.pad(date.getDate()) +
+        "T" + this.pad(date.getHours()) +
+        ":" + this.pad(date.getMinutes()) +
+        ":" + this.pad(date.getSeconds()) +
+        dif + this.pad(tzo / 60) +
+        ":" + this.pad(tzo % 60);
+  }
+
+  private pad(num: number): string {
+    const norm = Math.floor(Math.abs(num));
+    return (norm < 10 ? "0" : "") + norm;
+  };
+
   private eventToNewLearningDay(learningDay: LearningDayEvent): CreateNewLearningDay {
     return {
       rowVersion: learningDay.rowVersion ?? "",
       userId: learningDay.userId,
       topicId: learningDay.topicId,
       description: learningDay.description,
-      dateFrom: learningDay.start.toISOString(),
-      dateTo: learningDay.end.toISOString(),
+      dateFrom: this.getDateWithOffset(learningDay.start),
+      dateTo: this.getDateWithOffset(learningDay.end),
     };
   }
 

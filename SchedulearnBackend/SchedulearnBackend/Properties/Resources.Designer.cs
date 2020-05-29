@@ -106,6 +106,42 @@ namespace SchedulearnBackend.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consecutive learning days limit already used.
+        /// </summary>
+        internal static string Error_LimitOfConsecutiveLearningDays {
+            get {
+                return ResourceManager.GetString("Error_LimitOfConsecutiveLearningDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learning days per month limit already used.
+        /// </summary>
+        internal static string Error_LimitOfLearningDaysPerMonth {
+            get {
+                return ResourceManager.GetString("Error_LimitOfLearningDaysPerMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learning days per quarter limit already used.
+        /// </summary>
+        internal static string Error_LimitOfLearningDaysPerQuarter {
+            get {
+                return ResourceManager.GetString("Error_LimitOfLearningDaysPerQuarter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learning days per year limit already used.
+        /// </summary>
+        internal static string Error_LimitOfLearningDaysPerYear {
+            get {
+                return ResourceManager.GetString("Error_LimitOfLearningDaysPerYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Topic with id ({0}) does not exist.
         /// </summary>
         internal static string Error_TopicNotFound {

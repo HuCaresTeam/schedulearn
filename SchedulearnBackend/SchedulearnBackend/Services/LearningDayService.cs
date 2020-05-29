@@ -4,6 +4,7 @@ using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Extensions;
 using SchedulearnBackend.Models;
 using SchedulearnBackend.UserFriendlyExceptions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,21 +13,27 @@ using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.Services
 {
+    public enum LimitDirection
+    {
+        Forward = 1,
+        Backward = -1
+    }
+
     public class LearningDayService
     {
         private readonly SchedulearnContext _schedulearnContext;
 
-        public LearningDayService (SchedulearnContext schedulearnContext)
+        public LearningDayService(SchedulearnContext schedulearnContext)
         {
             _schedulearnContext = schedulearnContext;
         }
 
-        public async Task<List<LearningDay>> GetAllLearningDaysAsync() 
+        public async Task<List<LearningDay>> GetAllLearningDaysAsync()
         {
             return await _schedulearnContext.LearningDays.ToListAsync();
         }
 
-        public async Task<LearningDay> GetLearningDayAsync(int id) 
+        public async Task<LearningDay> GetLearningDayAsync(int id)
         {
             var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
             return learningDay ?? throw new NotFoundException($"Learning day with id ({id}) does not exist");
@@ -54,7 +61,7 @@ namespace SchedulearnBackend.Services
                 .ToListAsync();
         }
 
-        public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate) 
+        public async Task<LearningDay> AddNewLearningDayAsync(CreateNewLearningDay learningDayToCreate)
         {
             var user = await _schedulearnContext.Users.FindAsync(learningDayToCreate.UserId);
             if (user == null)
@@ -64,6 +71,8 @@ namespace SchedulearnBackend.Services
             if (topic == null)
                 throw new NotFoundException(Error_TopicNotFound.ReplaceArgs(learningDayToCreate.TopicId));
 
+            CheckLimits(user, learningDayToCreate.DateFrom);
+
             var newLearningDay = learningDayToCreate.CreateLearningDay();
 
             await _schedulearnContext.LearningDays.AddAsync(newLearningDay);
@@ -71,6 +80,87 @@ namespace SchedulearnBackend.Services
             await _schedulearnContext.Entry(newLearningDay).ReloadAsync();
 
             return newLearningDay;
+        }
+
+        private void CheckLimits(User user, DateTime dateTimeFrom)
+        {
+            CheckConsecutiveDaysLimit(user, dateTimeFrom, LimitDirection.Backward);
+            CheckConsecutiveDaysLimit(user, dateTimeFrom, LimitDirection.Forward);
+            CheckMonthLimit(user, dateTimeFrom);
+            CheckQuarterLimit(user, dateTimeFrom);
+            CheckYearLimit(user, dateTimeFrom);
+        }
+
+        private void CheckConsecutiveDaysLimit(User user, DateTime dateTimeFrom, LimitDirection direction)
+        {
+            var dateFrom = dateTimeFrom.Date;
+            var limit = user.Limit != null ? user.Limit.LimitOfConsecutiveLearningDays : user.Team.Limit.LimitOfConsecutiveLearningDays;
+
+            var consecutiveDays = Enumerable.Range(1, limit)
+                .Select(offset => dateFrom.AddDays((int)direction * offset))
+                .ToArray();
+
+            var previousLearningDays = _schedulearnContext.LearningDays
+                .Where(l => l.UserId == user.Id)
+                .Where(l => consecutiveDays.Contains(l.DateFrom.Date))
+                .Select(l => l.DateFrom.Date)
+                .Distinct()
+                .ToList();
+
+            if (previousLearningDays.Count >= limit)
+                throw new LimitUsed(Error_LimitOfConsecutiveLearningDays);
+        }
+
+        private void CheckMonthLimit(User user, DateTime dateTimeFrom)
+        {
+            var currentDateFrom = dateTimeFrom.Date;
+
+            var limit = user.Limit != null ? user.Limit.LimitOfLearningDaysPerMonth : user.Team.Limit.LimitOfLearningDaysPerMonth;
+            var previousLearningDays = _schedulearnContext.LearningDays
+                .Where(l => l.UserId == user.Id)
+                .Where(l => l.DateFrom.Date.Month == currentDateFrom.Month)
+                .Select(l => l.DateFrom.Date)
+                .Distinct()
+                .ToList();
+
+            if (previousLearningDays.Count >= limit)
+                throw new LimitUsed(Error_LimitOfLearningDaysPerQuarter);
+        }
+
+        private void CheckQuarterLimit(User user, DateTime dateTimeFrom)
+        {
+            var currentDateFrom = dateTimeFrom.Date;
+            int quarter = ((currentDateFrom.Month + 2) / 3);
+
+            var dateFrom = new DateTime(currentDateFrom.Year, ((quarter - 1) * 3) + 1, 1);
+            var dateTo = dateFrom.AddMonths(3).AddDays(-1);
+
+            var limit = user.Limit != null ? user.Limit.LimitOfLearningDaysPerQuarter : user.Team.Limit.LimitOfLearningDaysPerQuarter;
+            var previousLearningDays = _schedulearnContext.LearningDays
+                .Where(l => l.UserId == user.Id)
+                .Where(l => l.DateFrom.Date >= dateFrom && l.DateTo.Date <= dateTo)
+                .Select(l => l.DateFrom.Date)
+                .Distinct()
+                .ToList();
+
+            if (previousLearningDays.Count >= limit)
+                throw new LimitUsed(Error_LimitOfLearningDaysPerQuarter);
+        }
+
+        private void CheckYearLimit(User user, DateTime dateTimeFrom)
+        {
+            var currentDateFrom = dateTimeFrom.Date;
+
+            var limit = user.Limit != null ? user.Limit.LimitOfLearningDaysPerYear : user.Team.Limit.LimitOfLearningDaysPerYear;
+            var previousLearningDays = _schedulearnContext.LearningDays
+                .Where(l => l.UserId == user.Id)
+                .Where(l => l.DateFrom.Date.Year == currentDateFrom.Year)
+                .Select(l => l.DateFrom.Date)
+                .Distinct()
+                .ToList();
+
+            if (previousLearningDays.Count >= limit)
+                throw new LimitUsed(Error_LimitOfLearningDaysPerQuarter);
         }
 
         public async Task<LearningDay> ModifyLearningDayAsync(int id, ModifyLearningDay learningDayToModify)

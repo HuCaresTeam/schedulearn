@@ -20,8 +20,8 @@ namespace SchedulearnBackend.Controllers.DTOs
             {
                 UserId = UserId,
                 TopicId = TopicId,
-                DateFrom = DateFrom,
-                DateTo = DateTo,
+                DateFrom = DateFrom.ToUniversalTime(),
+                DateTo = DateTo.ToUniversalTime(),
                 Description = Description
             };
         }
