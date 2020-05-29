@@ -1,4 +1,5 @@
-﻿using SchedulearnBackend.Models;
+﻿using Org.BouncyCastle.Asn1.Cms;
+using SchedulearnBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace SchedulearnBackend.Controllers.DTOs
         public int TopicId { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        public int TimezoneMinutes { get; set; }
         public string Description { get; set; }
 
         public LearningDay CreateLearningDay() 
@@ -20,8 +22,9 @@ namespace SchedulearnBackend.Controllers.DTOs
             {
                 UserId = UserId,
                 TopicId = TopicId,
-                DateFrom = DateFrom.ToUniversalTime(),
-                DateTo = DateTo.ToUniversalTime(),
+                DateFrom = DateFrom,
+                DateTo = DateTo,
+                TimezoneMinutes = TimezoneMinutes,
                 Description = Description
             };
         }
