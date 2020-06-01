@@ -28,8 +28,7 @@ export class SuggestionForm extends React.Component<SuggestionFormProps, Suggest
     };
   }
 
-  handleSubmit = (event: React.MouseEvent<HTMLInputElement, MouseEvent>): void => {
-    event.preventDefault();
+  handleSubmit = (): void => {
     this.props.onEventSubmit(this.state.topicId);
   }
 
@@ -49,9 +48,6 @@ export class SuggestionForm extends React.Component<SuggestionFormProps, Suggest
     return (
       <form className="suggestion-form">
         <div className="suggestion-field suggestion-topic-selector">
-          <label className="suggestion-label">
-            Suggested topic:
-          </label>
           <TopicList
             onItemClick={this.onTopicSelectChange}
             disabled={false}

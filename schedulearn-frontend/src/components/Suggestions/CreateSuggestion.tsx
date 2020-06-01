@@ -5,9 +5,7 @@ import UsersInTeamList from "../../server-components/UsersInTeamList";
 import UserContext from "src/api-services/UserContext";
 import CreateNewSuggestion from "src/api-services/api-contract/CreateNewSuggestion";
 import { TeamListItem } from "src/components/TeamsList/TeamList";
-import { CustomModal } from "../Modal/CustomModal";
 import User from "src/api-services/api-contract/User";
-
 
 export interface NewSuggestion {
   topicId?: number;
@@ -71,34 +69,35 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
   }
 
   render(): JSX.Element {
-    let usersInTeamList;
-    if (this.state.currentTeamId)
-      usersInTeamList = <div>
-        <div>Select a member to make a suggestion:</div>
-        <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />
-      </div>;
+    let usersInTeamList: JSX.Element | undefined;
+    if (this.state.currentTeamId) {
+      usersInTeamList = (
+        <React.Fragment>
+          <div>Select a member to make a suggestion:</div>
+          <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />
+        </React.Fragment>);
+    }
+
+    let suggestionForm: JSX.Element | undefined;
+    if (this.state.isSuggestionModalOpen) {
+      suggestionForm =
+        (<React.Fragment>
+          <div>Suggested topic:</div>
+          <SuggestionForm
+            isOpen={this.state.isSuggestionModalOpen}
+            onEventSubmit={this.handleEventSubmit}
+            suggestion={this.state.newSuggestion}
+            submitText={"Add Suggestion"}
+          />
+        </React.Fragment>);
+    }
 
     return (
       <React.Fragment>
-        <CustomModal
-          title="New suggestion"
-          isOpen={this.state.isSuggestionModalOpen}
-          onRequestClose={this.handleModalClose}
-        >
-          {(isOpen): React.ReactNode => (
-            <SuggestionForm
-              isOpen={isOpen}
-              onEventSubmit={this.handleEventSubmit}
-              suggestion={this.state.newSuggestion}
-              submitText={"Add Suggestion"}
-            />)
-          }
-        </CustomModal>
-        
         <legend className="border-bottom mb-4">Select a team to make a suggestion</legend>
         <ManagedTeamsSelect onTeamChange={this.handleTeamSelect} />
-
         {usersInTeamList}
+        {suggestionForm}
       </React.Fragment>
     );
   }
