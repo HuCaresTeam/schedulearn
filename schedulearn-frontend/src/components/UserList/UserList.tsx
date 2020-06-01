@@ -7,6 +7,7 @@ interface TeamListProps {
   onChange(user: User | undefined): void;
   required?: boolean;
   defaultItem?: string;
+  undefinedUserDisabled?: boolean;
 }
 
 export default class UserList extends React.Component<TeamListProps, {}>{
@@ -26,7 +27,7 @@ export default class UserList extends React.Component<TeamListProps, {}>{
     );
 
     return <Form.Control style={{width: "300px", marginBottom: "20px"}} as="select" onChange={this.handleSelect} required={this.props.required}>
-      <option label={this.props.defaultItem ?? "--Team View--"} selected />
+      <option label={this.props.defaultItem ?? "--Team View--"} selected disabled={this.props.undefinedUserDisabled}/>
       {teamOptionsList};
     </Form.Control>;
   }

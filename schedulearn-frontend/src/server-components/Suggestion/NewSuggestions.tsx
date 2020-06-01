@@ -14,7 +14,8 @@ export default class NewSuggestions extends React.Component {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newSuggestion),
-      });
+      })
+      .then(() => window.location.reload());
   }
 
   render(): JSX.Element {

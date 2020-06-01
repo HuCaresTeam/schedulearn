@@ -9,6 +9,7 @@ interface UsersInTeamListProps {
   onUserChange(user: User | undefined): void;
   required?: boolean;
   defaultItem?: string;
+  undefinedUserDisabled?: boolean;
 }
 
 interface UsersInTeamListState {
@@ -36,7 +37,7 @@ export default class UsersInTeamList extends React.Component<UsersInTeamListProp
 
   render(): React.ReactNode {
     return (
-      <UserList defaultItem={this.props.defaultItem} users={this.state.users ?? []} onChange={this.props.onUserChange} required={this.props.required} />
+      <UserList defaultItem={this.props.defaultItem} users={this.state.users ?? []} onChange={this.props.onUserChange} required={this.props.required} undefinedUserDisabled={this.props.undefinedUserDisabled}/>
     );
   }
 }

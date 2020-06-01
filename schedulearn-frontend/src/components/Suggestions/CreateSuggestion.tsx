@@ -74,7 +74,7 @@ export class CreateSuggestion extends React.Component<CreateSuggestionProps, Cre
       usersInTeamList = (
         <React.Fragment>
           <div>Select a member to make a suggestion:</div>
-          <UsersInTeamList teamId={this.state.currentTeamId} onUserChange={this.handleUserSelect} />
+          <UsersInTeamList teamId={this.state.currentTeamId} undefinedUserDisabled={true} onUserChange={this.handleUserSelect} defaultItem="--Member to Suggest to--"/>
         </React.Fragment>);
     }
 
