@@ -30,8 +30,8 @@ export class TopicTree extends React.Component<TopicTreeProps, TopicTreeState> {
   private _maxHierarchyDepth = 0;
   private _maxHierarchyWidth = 0;
   private _hierarchyWidthArray: number[] = [];
-  private readonly minWidth = 1800;
-  private readonly perNodeWidth = 300;
+  private readonly minWidth = 500;
+  private readonly perNodeWidth = 350;
   private readonly minHeight = 500;
   private readonly perNodeHeight = 85;
 
