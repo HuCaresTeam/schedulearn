@@ -31,7 +31,11 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
     };
   }
 
-  handleSubmit = (): void => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.stopPropagation();
+    event.preventDefault();
+    event.nativeEvent.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
     this.props.onEventSubmit({
       name: this.state.name,
       description: this.state.description,
@@ -58,7 +62,7 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
 
   render(): JSX.Element {
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Group as={Row}>
           <Form.Label column sm="2">
           Name:
@@ -93,7 +97,6 @@ export class TopicAddForm extends React.Component<TopicAddFormProps, TopicAddFor
           <Button style={{width: "150px"}}
             variant="primary"
             type="submit"
-            onClick={this.handleSubmit}
           >Submit</Button>
         </div>
       </Form>

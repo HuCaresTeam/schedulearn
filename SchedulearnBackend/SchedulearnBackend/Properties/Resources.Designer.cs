@@ -97,7 +97,7 @@ namespace SchedulearnBackend.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Learning day with id ({0}) does not exist..
+        ///   Looks up a localized string similar to It seems the learning day you tried to access does not exist or was deleted.
         /// </summary>
         internal static string Error_LearningDayNotFound {
             get {

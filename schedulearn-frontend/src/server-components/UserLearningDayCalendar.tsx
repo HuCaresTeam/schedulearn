@@ -74,6 +74,17 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
     });
   }
 
+  handleEventDelete = (learningDayEvent: LearningDayEvent): void => {
+    UserContext.fetch(`api/learningDay/${learningDayEvent.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      this.fetchUserLearningDays();
+    });
+  }
+
   modifylearningDay = (learningDayEvent: LearningDayEvent, forceWrite: boolean): void => {
     const learningDay = this.eventToNewLearningDay(learningDayEvent);
     if (!learningDayEvent.id || !learningDayEvent.rowVersion) {
@@ -168,6 +179,7 @@ export class UserLearningDayCalendar extends React.Component<{}, LearningDayStat
           learningDayEvents={this.state.userLearningDays}
           handleEventSubmit={this.handleEventSubmit}
           handleEventModify={this.handleEventModify}
+          handleEventDelete={this.handleEventDelete}
           currentUserId={UserContext.user.id}
         />
       </React.Fragment>

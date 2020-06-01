@@ -132,8 +132,7 @@
     <comment>0 - receiver email</comment>
   </data>
   <data name="Error_LearningDayNotFound" xml:space="preserve">
-    <value>Learning day with id ({0}) does not exist.</value>
-    <comment>0 - learning day id</comment>
+    <value>It seems the learning day you tried to access does not exist or was deleted</value>
   </data>
   <data name="Error_LimitOfConsecutiveLearningDays" xml:space="preserve">
     <value>Consecutive learning days limit already used</value>

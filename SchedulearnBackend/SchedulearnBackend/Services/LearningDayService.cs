@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using static SchedulearnBackend.Properties.Resources;
 
@@ -36,7 +37,7 @@ namespace SchedulearnBackend.Services
         public async Task<LearningDay> GetLearningDayAsync(int id)
         {
             var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
-            return learningDay ?? throw new NotFoundException($"Learning day with id ({id}) does not exist");
+            return learningDay ?? throw new NotFoundException(Error_LearningDayNotFound);
         }
 
         public async Task<List<LearningDay>> GetLearningDaysByUserAsync(int userId)
@@ -165,19 +166,25 @@ namespace SchedulearnBackend.Services
 
         public async Task<LearningDay> ModifyLearningDayAsync(int id, ModifyLearningDay learningDayToModify)
         {
-            var learningDay = await _schedulearnContext.LearningDays.FindAsync(id);
-            if (learningDay == null)
-                throw new NotFoundException(Error_LearningDayNotFound.ReplaceArgs(id));
+            var learningDay = await GetLearningDayAsync(id);
 
             if (!learningDayToModify.ForceWrite ?? true)
                 _schedulearnContext.Entry(learningDay).Property("RowVersion").OriginalValue = learningDayToModify.RowVersion;
 
             learningDay.Description = learningDayToModify.Description;
-            _schedulearnContext.Update(learningDay);
 
+            _schedulearnContext.Update(learningDay);
             await _schedulearnContext.SaveChangesAsync();
 
             return learningDay;
+        }
+
+        public async Task DeleteLearningDay(int id)
+        {
+            var dayToDelete = await GetLearningDayAsync(id);
+
+            _schedulearnContext.LearningDays.Remove(dayToDelete);
+            await _schedulearnContext.SaveChangesAsync();
         }
     }
 }

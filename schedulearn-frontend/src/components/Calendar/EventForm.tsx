@@ -13,10 +13,12 @@ export interface EventFormProps {
     topicPickDisabled?: boolean;
     datePickDisabled?: boolean;
     descriptionDisabled?: boolean;
+    deleteButtonDisabled?: boolean;
   };
   learningDayEvent?: AtLeast<LearningDayEvent, "userId">;
   submitText?: string;
   onEventSubmit: (event: LearningDayEvent) => void;
+  onEventDelete: (event: LearningDayEvent) => void;
 }
 
 export interface LearningDayEvent {
@@ -65,6 +67,19 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
     });
   }
 
+  handleDelete = (): void => {
+    this.props.onEventDelete({
+      id: this.props.learningDayEvent?.id,
+      rowVersion: this.props.learningDayEvent?.rowVersion,
+      start: this.state.start,
+      end: this.state.end,
+      title: this.state.title,
+      topicId: this.state.topicId,
+      description: this.state.description,
+      userId: this.state.userId,
+    });
+  }
+
   componentDidUpdate(prevProps: EventFormProps): void {
     if ((this.props.isOpen !== prevProps.isOpen && this.props.isOpen === true) ||
       this.props.learningDayEvent?.rowVersion !== prevProps.learningDayEvent?.rowVersion ||
@@ -100,7 +115,7 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
 
   render(): JSX.Element {
     const disabledForms = this.props.disabledForms;
-    const submitDisabled = disabledForms?.datePickDisabled && disabledForms.descriptionDisabled && disabledForms.topicPickDisabled;
+    const formDisabled = disabledForms?.datePickDisabled && disabledForms.descriptionDisabled && disabledForms.topicPickDisabled;
 
     return (
       <div>
@@ -155,9 +170,14 @@ export class EventForm extends React.Component<EventFormProps, EventFormState> {
             /></Col>
           </Form.Group>
           <div style={{textAlign: "center"}}>
-            {submitDisabled ? undefined :
+            {formDisabled ? undefined :
               <Button style={{width: "150px"}}variant="primary" type="submit" >
                 {this.props.submitText ?? "Submit"}
+              </Button>
+            }
+            {formDisabled || this.props.disabledForms?.deleteButtonDisabled ? undefined :
+              <Button style={{width: "150px"}}variant="danger" type="button" className="ml-4" onClick={this.handleDelete} >
+                Delete
               </Button>
             }
           </div>

@@ -100,5 +100,13 @@ namespace SchedulearnBackend.Controllers
 
             return new LearningDayWithUser(modifiedLearningDay);
         }
+
+        // DELETE: api/LearningDay/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteLearningDay(int id)
+        {
+            await _learningDayService.DeleteLearningDay(id);
+            return NoContent();
+        }
     }
 }

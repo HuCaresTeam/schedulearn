@@ -18,6 +18,7 @@ export interface LearningDayCalendarPropsEnabled extends LearningDayCalendarProp
   currentUserId: number;
   handleEventSubmit: (learningDay: LearningDayEvent) => void;
   handleEventModify: (learningDay: LearningDayEvent) => void;
+  handleEventDelete: (learningDay: LearningDayEvent) => void;
 }
 
 type LearningDayCalendarProps = LearningDayCalendarPropsEnabled | LearningDayCalendarPropsDisabled
@@ -77,6 +78,15 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
     this.setState({ isEventModalOpen: false });
   }
 
+  handleEventDelete = (event: LearningDayEvent): void => {
+    if (this.props.disabled || !event.id)
+      return;
+
+    this.props.handleEventDelete(event);
+
+    this.setState({ isEventModalOpen: false });
+  }
+
   handleModalClose = (): void => {
     this.setState({ isEventModalOpen: false });
   }
@@ -95,6 +105,7 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
       topicPickDisabled: this.props.disabled || this.state.isExistingEventOpened,
       datePickDisabled: this.props.disabled || this.state.isExistingEventOpened,
       descriptionDisabled: this.props.disabled,
+      deleteButtonDisabled: !this.state.isExistingEventOpened,
     };
 
     return (
@@ -108,6 +119,7 @@ export class LearningDayCalendar extends React.Component<LearningDayCalendarProp
             <EventForm
               isOpen={isOpen}
               onEventSubmit={this.handleEventSubmit}
+              onEventDelete={this.handleEventDelete}
               learningDayEvent={this.state.currentEvent}
               disabledForms={disabledForms}
               submitText={this.state.isExistingEventOpened ? "Modify" : "Submit"}
