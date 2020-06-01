@@ -150,6 +150,9 @@
     <value>Topic with id ({0}) does not exist</value>
     <comment>0 - topic id</comment>
   </data>
+  <data name="Error_TopicWithThisNameExists" xml:space="preserve">
+    <value>Topic with this name already exists under this parent.</value>
+  </data>
   <data name="Error_UserNotFound" xml:space="preserve">
     <value>User with id ({0}) does not exist</value>
     <comment>0 - user id</comment>

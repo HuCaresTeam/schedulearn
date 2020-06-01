@@ -20,6 +20,7 @@ export interface TopicListItem extends ListItem<TopicListItem> {
 
 export interface TopicListState {
   rootTopic?: TopicListItem;
+  previousTopicId?: number;
 }
 
 export default class TopicList extends React.Component<TopicListProps, TopicListState> {
@@ -53,6 +54,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
       body: JSON.stringify(topic),
     }).then(() => {
       this.getTopicsFromRoot();
+      this.setState({previousTopicId: topic.parentTopicId});
     });
   }
 
@@ -74,7 +76,7 @@ export default class TopicList extends React.Component<TopicListProps, TopicList
         disabled={this.props.disabled}
         displayAddOption={this.props.displayAddOption ?? true}
         onAddOptionSubmit={this.handleTopicSubmit}
-        selectedItemId={this.props.selectedItemId}
+        selectedItemId={this.props.selectedItemId ?? this.state.previousTopicId}
         maxHeight={this.props.maxHeight}
       />
     );

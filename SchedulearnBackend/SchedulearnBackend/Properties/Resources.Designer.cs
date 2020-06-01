@@ -151,6 +151,15 @@ namespace SchedulearnBackend.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Topic with this name already exists under this parent..
+        /// </summary>
+        internal static string Error_TopicWithThisNameExists {
+            get {
+                return ResourceManager.GetString("Error_TopicWithThisNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with id ({0}) does not exist.
         /// </summary>
         internal static string Error_UserNotFound {

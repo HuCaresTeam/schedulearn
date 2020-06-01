@@ -6,6 +6,7 @@ using SchedulearnBackend.UserFriendlyExceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SchedulearnBackend.Properties.Resources;
 
 namespace SchedulearnBackend.Services
 {
@@ -63,6 +64,9 @@ namespace SchedulearnBackend.Services
             var parentTopic = await GetTopicAsync(topicToCreate.ParentTopicId);
             if (parentTopic == null)
                 throw new NotFoundException($"Parent topic with id ({topicToCreate.ParentTopicId}) does not exist");
+
+            if (_schedulearnContext.Topics.Where(t => t.ParentTopicId == topicToCreate.ParentTopicId && t.Name == topicToCreate.Name).Any())
+                throw new BadRequestException(Error_TopicWithThisNameExists);
 
             var newTopic = topicToCreate.CreateTopic();
 

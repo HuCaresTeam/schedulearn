@@ -18,8 +18,7 @@ export class CreateLimits extends React.Component<CreateLimitProps, CreateLimitS
   state: CreateLimitState = {
     name: "",
   }
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  handleSubmit = (): void => {
     this.props.onLimitSubmit({
       name: this.state.name,
       limitOfConsecutiveLearningDays: this.state.limitOfConsecutiveLearningDays,
