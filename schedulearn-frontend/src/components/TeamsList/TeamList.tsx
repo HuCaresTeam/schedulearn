@@ -6,6 +6,7 @@ export interface TeamListItem {
   managerId: number;
   managerName: string;
   managerSurname: string;
+  managerTitle: string;
 }
 
 interface TeamListProps {
@@ -23,7 +24,7 @@ export default class TeamList extends React.Component<TeamListProps, {}>{
 
   render(): JSX.Element {
     const teamOptionsList = this.props.teams.map((team, index): React.ReactNode =>
-      (<option key={team.teamId} label={`${team.managerName} ${team.managerSurname} team`} value={index}/>),
+      (<option key={team.teamId} label={`${team.managerName} ${team.managerSurname} (${team.managerTitle}) team`} value={index}/>),
     );
 
     return <Form.Control style={{width: "300px", marginBottom: "20px"}}

@@ -46,7 +46,6 @@ export class TopicTree extends React.Component<TopicTreeProps, TopicTreeState> {
   }
 
   private calculateHierarchyWidth(currentIndex: number): void {
-    console.log(currentIndex);
     if (currentIndex >= this._hierarchyWidthArray.length)
       this._hierarchyWidthArray.push(0);
 

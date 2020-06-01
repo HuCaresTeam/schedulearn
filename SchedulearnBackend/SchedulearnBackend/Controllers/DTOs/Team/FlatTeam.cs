@@ -12,6 +12,7 @@ namespace SchedulearnBackend.Controllers.DTOs
         public int ManagerId { get; set; }
         public string ManagerName { get; set; }
         public string ManagerSurname { get; set; }
+        public string ManagerTitle { get; set; }
 
         public FlatTeam(Team accessibleTeam)
         {
@@ -19,6 +20,7 @@ namespace SchedulearnBackend.Controllers.DTOs
             ManagerId = accessibleTeam.Manager.Id;
             ManagerName = accessibleTeam.Manager.Name;
             ManagerSurname = accessibleTeam.Manager.Surname;
+            ManagerTitle = accessibleTeam.Manager.JobTitle.Title;
         }
     }
 }

@@ -23,7 +23,7 @@ export default class UserList extends React.Component<TeamListProps, {}>{
 
   render(): JSX.Element {
     const teamOptionsList = this.props.users.map((user, index): React.ReactNode =>
-      (<option key={user.id} label={`${user.name} ${user.surname}`} value={index} />),
+      (<option key={user.id} label={`${user.name} ${user.surname} (${user.jobTitle.title})`} value={index} />),
     );
 
     return <Form.Control style={{width: "300px", marginBottom: "20px"}} as="select" onChange={this.handleSelect} required={this.props.required}>
