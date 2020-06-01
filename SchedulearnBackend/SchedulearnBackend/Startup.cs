@@ -102,7 +102,9 @@ namespace SchedulearnBackend
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<SchedulearnContext>().Database.Migrate();
+                var options = serviceScope.ServiceProvider.GetService<DbContextOptions<SchedulearnContext>>();
+                var context = new SchedulearnContext(options);
+                context.Database.Migrate();
             }
 
             app.UseCors(builder => builder

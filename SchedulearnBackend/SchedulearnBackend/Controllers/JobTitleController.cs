@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SchedulearnBackend.Controllers.DTOs.NewJobTitle;
 using SchedulearnBackend.DataAccessLayer;
 using SchedulearnBackend.Models;
 
@@ -82,14 +83,16 @@ namespace SchedulearnBackend.Controllers
 
         // POST: api/JobTitle
         [HttpPost]
-        public async Task<ActionResult<JobTitle>> PostJobTitle(JobTitle jobTitle)
+        public async Task<ActionResult<JobTitle>> PostJobTitle(CreateJobTitle jobTitle)
         {
-            System.Diagnostics.Debug.WriteLine("PostJobTitle " + jobTitle.Id + " " + jobTitle.Title);
+            System.Diagnostics.Debug.WriteLine("PostJobTitle " + jobTitle.Title);
 
-            _schedulearnContext.JobTitles.Add(jobTitle);
+            JobTitle newTitle = new JobTitle() { Title = jobTitle.Title };
+
+            _schedulearnContext.JobTitles.Add(newTitle);
             await _schedulearnContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetJobTitle), new { id = jobTitle.Id }, jobTitle);
+            return CreatedAtAction(nameof(GetJobTitle), new { id = newTitle.Id }, newTitle);
         }
 
         // DELETE: api/JobTitle/5

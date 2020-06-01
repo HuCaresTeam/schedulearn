@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import UserContext from "src/api-services/UserContext";
+
 
 export interface JobTitle {
   id: number;
@@ -16,6 +18,7 @@ export interface CreateUserState {
   email: string;
   jobTitleId: number;
   registerAddress: string;
+  newJobTitleName: string;
 }
 
 export class CreateUser extends React.Component<CreateUserProps, CreateUserState> {
@@ -25,6 +28,7 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
     email: "",
     jobTitleId: 0,
     registerAddress: "",
+    newJobTitleName: "",
   }
   public constructor(props: CreateUserProps) {
     super(props);
@@ -38,7 +42,26 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
       email: this.state.email,
       jobTitleId: this.state.jobTitleId,
       registerAddress: "http://localhost:3000/register?id={GUID}",
+      newJobTitleName: this.state.newJobTitleName,
     });
+  }
+
+  handleNewJobTitleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    UserContext
+      .fetch("api/jobtitle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"title": this.state.newJobTitleName}),
+      }).then(() => {
+        this.setState({
+          newJobTitleName: "",
+        });
+        window.location.reload();
+      });
   }
 
   onNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -57,9 +80,22 @@ export class CreateUser extends React.Component<CreateUserProps, CreateUserState
     this.setState({ jobTitleId: parseInt(event.target.value) });
   }
 
+  onNewJobTitleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({ newJobTitleName: event.target.value });
+  }
+
   render(): JSX.Element {
     return (
       <div>
+        <legend className="border-bottom mb-4">Create new job title:</legend>
+        <Form onSubmit={this.handleNewJobTitleSubmit} style={{ width: "50%"}}>
+          <Form.Group>
+            <Form.Label>Job Title</Form.Label>
+            <Form.Control placeholder="Enter new title" onChange={this.onNewJobTitleChange} required/>
+          </Form.Group>
+          <Button variant="primary" type="submit">Create Title</Button>
+        </Form>
+
         <legend className="border-bottom mb-4">Create new user:</legend>
         <Form onSubmit={this.handleSubmit} style={{ width: "50%"}}>
           <Form.Group>
